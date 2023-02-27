@@ -14,6 +14,7 @@
 #include <nanogui/theme.h>
 #include <nanovg.h>
 #include <nanogui/entypo.h>
+#include <stdexcept>
 
 NAMESPACE_BEGIN(nanogui)
 

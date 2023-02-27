@@ -647,7 +647,7 @@ if (NANOGUI_BUILD_PYTHON)
   else()  
     list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/ext/pybind11/tools")
 
-    set(Python_ADDITIONAL_VERSIONS 3.7 3.6 3.5 3.4)
+    set(Python_ADDITIONAL_VERSIONS 3.11 3.10 3.9 3.8 3.7 3.6 3.5 3.4)
     find_package(PythonLibsNew ${NANOGUI_PYTHON_VERSION})
   
     message(STATUS "PYTHON_VALUES: " "${_PYTHON_VALUES}")

@@ -82,12 +82,11 @@ int main(int /* argc */, char ** /* argv */) {
     nanogui::sample::create_context();
 
     /* scoped variables */ {
-        Screen *screen = new Screen(size, "NanoGUI test", false);
-        nanogui::sample::setup_window_params(window, screen);
+        auto screen = std::make_unique<Screen>(size, "NanoGUI test", false);
+        nanogui::sample::setup_window_params(window, screen.get());
 
         bool enabled = true;
-        FormHelper *gui = new FormHelper(screen);
-        //ref<Window> window = 
+        auto gui = std::make_unique<FormHelper>(screen.get());
         gui->addWindow(Vector2i(10, 10), "Form helper example");
         gui->addGroup("Basic types");
         gui->addVariable("bool", bvar);
@@ -128,6 +127,9 @@ int main(int /* argc */, char ** /* argv */) {
         });
 
         nanogui::sample::poll_events();
+
+        // gui object calls delete
+        screen.release();
     }
 
     nanogui::sample::destroy_window(window);
