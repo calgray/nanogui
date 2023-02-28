@@ -81,8 +81,10 @@ int main(int /* argc */, char ** /* argv */) {
     auto window = nanogui::sample::create_window(size.x(), size.y(), "NanoGUI test", true, false, true);
     nanogui::sample::create_context();
 
-    /* scoped variables */ {
+    /* scoped variables */
+    {
         auto screen = std::make_unique<Screen>(size, "NanoGUI test", false);
+        //screen->setBackground(Color(255,0,0,255));
         nanogui::sample::setup_window_params(window, screen.get());
 
         bool enabled = true;
@@ -116,19 +118,19 @@ int main(int /* argc */, char ** /* argv */) {
         screen->performLayout();
 
         nanogui::sample::run([&] {
-          nanogui::sample::clear_frame(screen->background());
+            nanogui::sample::clear_frame(screen->background());
 
-          screen->drawAll();
+            screen->drawAll();
 
-          nanogui::sample::present_frame(window);
+            nanogui::sample::present_frame(window);
 
-          /* Wait for mouse/keyboard or empty refresh events */
-          nanogui::sample::wait_events();
+            /* Wait for mouse/keyboard or empty refresh events */
+            nanogui::sample::wait_events();
         });
 
         nanogui::sample::poll_events();
 
-        // gui object calls delete
+        // gui object calls delete on screen
         screen.release();
     }
 

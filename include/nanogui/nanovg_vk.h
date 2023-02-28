@@ -2,6 +2,7 @@
 
 #include <string.h>
 #include "nanovg.h"
+#include <vulkan/vulkan.h>
 
 enum NVGcreateFlags {
   // Flag indicating if geometry based anti-aliasing is used (may not be needed when using MSAA).

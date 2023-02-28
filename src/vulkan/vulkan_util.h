@@ -1,6 +1,13 @@
 
 #pragma once
 
+#ifndef NANOGUI_SDL2_WINDOW
+#include <GLFW/glfw3.h>
+#else
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_vulkan.h>
+#endif
+
 typedef struct VulkanDevice {
   VkPhysicalDevice gpu;
   VkPhysicalDeviceProperties gpuProperties;
@@ -110,7 +117,7 @@ typedef struct FrameBuffers {
 
 } FrameBuffers;
 
-static VkInstance createVkInstance(bool enable_debug_layer) {
+static VkInstance createVkInstance(bool enable_debug_layer, const std::vector<const char*> window_extensions) {
 
   // initialize the VkApplicationInfo structure
   VkApplicationInfo app_info = {VK_STRUCTURE_TYPE_APPLICATION_INFO};
@@ -123,28 +130,24 @@ static VkInstance createVkInstance(bool enable_debug_layer) {
   static const char *append_extensions[] = {
       VK_EXT_DEBUG_REPORT_EXTENSION_NAME,
   };
-  uint32_t append_extensions_count = sizeof(append_extensions) / sizeof(append_extensions[0]);
-  if (!enable_debug_layer) {
-    append_extensions_count = 0;
+  std::vector<const char*> extensions;
+  for (const char* extension : window_extensions)
+  {
+    extensions.push_back(extension);
   }
-
-  uint32_t extensions_count = 0;
-  const char **glfw_extensions = glfwGetRequiredInstanceExtensions(&extensions_count);
-
-  const char **extensions = (const char **)calloc(extensions_count + append_extensions_count, sizeof(char *));
-
-  for (int i = 0; i < extensions_count; ++i) {
-    extensions[i] = glfw_extensions[i];
-  }
-  for (int i = 0; i < append_extensions_count; ++i) {
-    extensions[extensions_count++] = append_extensions[i];
+  if (enable_debug_layer)
+  {
+    for (const char* extension : append_extensions)
+    {
+      extensions.push_back(extension);
+    }
   }
 
   // initialize the VkInstanceCreateInfo structure
   VkInstanceCreateInfo inst_info = {VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO};
   inst_info.pApplicationInfo = &app_info;
-  inst_info.enabledExtensionCount = extensions_count;
-  inst_info.ppEnabledExtensionNames = extensions;
+  inst_info.enabledExtensionCount = extensions.size();
+  inst_info.ppEnabledExtensionNames = extensions.data();
   if (enable_debug_layer) {
     uint32_t layerCount = 0;
     vkEnumerateInstanceLayerProperties(&layerCount, 0);
@@ -177,8 +180,6 @@ static VkInstance createVkInstance(bool enable_debug_layer) {
   VkInstance inst;
   VkResult res;
   res = vkCreateInstance(&inst_info, NULL, &inst);
-
-  free(extensions);
 
   if (res == VK_ERROR_INCOMPATIBLE_DRIVER) {
     printf("cannot find a compatible Vulkan ICD\n");

@@ -1,6 +1,7 @@
 #include <nanogui/common.h>
 
 #if NANOGUI_VULKAN_BACKEND
+#ifndef NANOGUI_SDL2_WINDOW
 
 #include <nanogui/screen.h>
 #define GLFW_INCLUDE_VULKAN
@@ -128,10 +129,10 @@ void sample::clear_frame(const Color& background)
   assert(res == VK_SUCCESS);
 
   VkClearValue clear_values[2];
-  clear_values[0].color.float32[0] = 0.3f;
-  clear_values[0].color.float32[1] = 0.3f;
-  clear_values[0].color.float32[2] = 0.32f;
-  clear_values[0].color.float32[3] = 1.0f;
+  clear_values[0].color.float32[0] = background.r();
+  clear_values[0].color.float32[1] = background.g();
+  clear_values[0].color.float32[2] = background.b();
+  clear_values[0].color.float32[3] = background.a();
   clear_values[1].depthStencil.depth = 1.0f;
   clear_values[1].depthStencil.stencil = 0;
 
@@ -459,10 +460,16 @@ sample::WindowHandle sample::create_window(int& w, int& h, const std::string& ca
 #endif
   }
 
+  uint32_t extensions_count = 0;
+  const char **glfw_window_extensions = glfwGetRequiredInstanceExtensions(&extensions_count);
+  std::vector<const char*> window_extensions(
+    glfw_window_extensions, glfw_window_extensions + extensions_count
+  );
+
 #ifdef NDEBUG
-  internal::instance = createVkInstance(false);
+  internal::instance = createVkInstance(false, window_extensions);
 #else
-  internal::instance = createVkInstance(true);
+  internal::instance = createVkInstance(true, window_extensions);
   internal::debug_callback = CreateDebugReport(internal::instance);
 #endif
 
@@ -482,6 +489,7 @@ sample::WindowHandle sample::create_window(int& w, int& h, const std::string& ca
   internal::device = createVulkanDevice(gpu);
 
   float pixelRatio = get_pixel_ratio((GLFWwindow*)hw_window);
+  std::cout << "pixelratio" << pixelRatio << std::endl;
 #if defined(_WIN32) || defined(__linux__)
   if (pixelRatio != 1 && !fullscreen)
     glfwSetWindowSize((GLFWwindow*)hw_window, w * pixelRatio, h * pixelRatio);
@@ -562,4 +570,5 @@ void destroy_context()
 
 NAMESPACE_END(nanogui)
 
+#endif //NANOGUI_SDL2_WINDOW
 #endif //NANOGUI_VULKAN_BACKEND
