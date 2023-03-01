@@ -145,6 +145,10 @@ bool process_event(SDL_Event& currentEvent)
         case SDL_WINDOWEVENT_MOVED:
           break;
         case SDL_WINDOWEVENT_RESIZED:
+          screen->resizeCallbackEvent(
+            currentEvent.window.data1,
+            currentEvent.window.data2
+          );
           break;
         case SDL_WINDOWEVENT_SIZE_CHANGED:
           break;
@@ -159,8 +163,14 @@ bool process_event(SDL_Event& currentEvent)
         case SDL_WINDOWEVENT_LEAVE:
           break;
         case SDL_WINDOWEVENT_FOCUS_GAINED:
+          if (screen)
+            std::cout << "focused" << std::endl;
+            screen->focusEvent(true);
           break;
         case SDL_WINDOWEVENT_FOCUS_LOST:
+          if (screen)
+            std::cout << "unfocused" << std::endl;
+            screen->focusEvent(false);
           break;
         case SDL_WINDOWEVENT_CLOSE:
           break;
