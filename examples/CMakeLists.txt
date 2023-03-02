@@ -1,0 +1,12 @@
+cmake_minimum_required (VERSION 2.8.12)
+
+add_executable(example1      example1.cpp)
+add_executable(example2      example2.cpp)
+add_executable(example3      example3.cpp)
+add_executable(example4      example4.cpp)
+add_executable(example_icons example_icons.cpp)
+target_link_libraries(example1      nanogui ${NANOGUI_EXTRA_LIBS})
+target_link_libraries(example2      nanogui ${NANOGUI_EXTRA_LIBS})
+target_link_libraries(example3      nanogui ${NANOGUI_EXTRA_LIBS})
+target_link_libraries(example4      nanogui ${NANOGUI_EXTRA_LIBS})
+target_link_libraries(example_icons nanogui ${NANOGUI_EXTRA_LIBS})

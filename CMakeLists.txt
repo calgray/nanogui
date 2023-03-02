@@ -394,7 +394,7 @@ if (APPLE OR CMAKE_SYSTEM MATCHES "Linux")
   # Include coroutine support for running the mainloop in detached mode
   add_definitions(-DCORO_SJLJ)
   include_directories(ext/coro)
-  list(APPEND LIBNANOGUI_PYTHON_EXTRA_SOURCE ext/coro/coro.c)
+  list(APPEND LIBNANOGUI_PYTHON_EXTRA_SOURCE ${CMAKE_CURRENT_LIST_DIR}/ext/coro/coro.c)
 endif()
 
 if (APPLE)
@@ -516,6 +516,7 @@ add_library(nanogui-obj OBJECT
   ${NANOGUI_BACKEND_SOURCES}
 )
 
+
 # XCode has a serious bug where the XCode project produces an invalid target
 # that will not get linked if it consists only of objects from object libraries,
 # it will not generate any products (executables, libraries). The only work
@@ -541,6 +542,10 @@ else()
     )
   endif()
 endif()
+target_include_directories(nanogui PUBLIC
+  ${CMAKE_CURRENT_LIST_DIR}/ext/nanovg/src
+  ${CMAKE_CURRENT_LIST_DIR}/include/nanogui
+)
 
 if (NANOGUI_BUILD_SHARED)
   set_property(TARGET nanogui-obj PROPERTY POSITION_INDEPENDENT_CODE ON)
@@ -592,190 +597,24 @@ endif()
 
 # Build example application if desired
 if(NANOGUI_BUILD_EDITOR)
-  add_executable(editorl      
-    editor/editor.cpp editor/widgetctor.cpp)
-  target_link_libraries(editorl   nanogui ${NANOGUI_EXTRA_LIBS})
-
+  add_subdirectory(editor/)
   file(COPY resources/icons DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 endif()
 
 if(NANOGUI_BUILD_HONSU)
-  include_directories("ext/cpp-httplib")
-  set(HONSU_OPENSSL_LIBS "")
-
-  if(MSVC)
-    include_directories("c:/Program Files/OpenSSL-Win64/include")
-    link_directories("c:/Program Files/OpenSSL-Win64/lib")
-
-    list(APPEND HONSU_OPENSSL_LIBS libssl libcrypto)
-  elseif (APPLE)  
-    include_directories("/usr/local/opt/openssl/include")
-    link_directories("/usr/local/opt/openssl/lib")
-    list(APPEND HONSU_OPENSSL_LIBS ssl crypto)
-  else ()
-    find_package(OpenSSL REQUIRED)
-
-    message("OpenSSL include dir: ${OPENSSL_INCLUDE_DIR}")
-    message("OpenSSL libraries: ${OPENSSL_LIBRARIES}")
-
-    list(APPEND HONSU_OPENSSL_LIBS ${OPENSSL_LIBRARIES})
-  endif()
-  add_executable(honsu 
-    honsu/honsu_main.cpp )
-
-  if (MSVC)
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
-  endif()
-  target_link_libraries(honsu nanogui ${NANOGUI_EXTRA_LIBS} ${HONSU_OPENSSL_LIBS})
-  set_property(TARGET honsu PROPERTY VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
-
+  add_subdirectory(honsu/)
   # file(COPY resources/icons DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
   file(COPY resources/ca-bundle.crt DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 endif()
 
 if(NANOGUI_BUILD_EXAMPLE)
-  add_executable(example1      examples/example1.cpp)
-  add_executable(example2      examples/example2.cpp)
-  add_executable(example3      examples/example3.cpp)
-  add_executable(example4      examples/example4.cpp)
-  add_executable(example_icons examples/example_icons.cpp)
-  target_link_libraries(example1      nanogui ${NANOGUI_EXTRA_LIBS})
-  target_link_libraries(example2      nanogui ${NANOGUI_EXTRA_LIBS})
-  target_link_libraries(example3      nanogui ${NANOGUI_EXTRA_LIBS})
-  target_link_libraries(example4      nanogui ${NANOGUI_EXTRA_LIBS})
-  target_link_libraries(example_icons nanogui ${NANOGUI_EXTRA_LIBS})
-
+  add_subdirectory(examples/)
   # Copy icons for example application
   file(COPY resources/icons DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 endif()
 
 if (NANOGUI_BUILD_PYTHON)
-  message(STATUS "NanoGUI: building with Python plugin")
-  # Detect Python
-
-  if (NOT ${NANOGUI_PYTHON_VERSION} EQUAL "")
-    message(STATUS "NanoGUI: building with Python plugin, manual options set")
-  else()  
-    list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/ext/pybind11/tools")
-
-    set(Python_ADDITIONAL_VERSIONS 3.11 3.10 3.9 3.8 3.7 3.6 3.5 3.4)
-    find_package(PythonLibsNew ${NANOGUI_PYTHON_VERSION})
-  
-    message(STATUS "PYTHON_VALUES: " "${_PYTHON_VALUES}")
-
-    if (NOT PYTHONLIBS_FOUND)
-      # Python not found -- disable the plugin
-      # set(NANOGUI_BUILD_PYTHON OFF CACHE BOOL "Build a Python plugin for NanoGUI?" FORCE)
-      message(WARNING "NanoGUI: not building the Python plugin!")
-    else()
-      set(PYTHON_INCLUDE_DIRS ${PYTHON_INCLUDE_DIR})
-    endif()    
-  endif()
-  # Try to autodetect Python (can be overridden manually if needed)
-
-  include_directories(${PYTHON_INCLUDE_DIRS})
-  message(STATUS "Python include dir: " ${PYTHON_INCLUDE_DIR})
-  message(STATUS "Python library: " ${PYTHON_LIBRARIES})
-
-  # Need PIC code in libnanogui even when compiled as a static library
-  set_target_properties(nanogui-obj PROPERTIES POSITION_INDEPENDENT_CODE ON)
-  
-  set(PYTHON_BACKEND_SOURCES "")  
-  if (NANOGUI_WINDOW STREQUAL "GLFW")
-    set_target_properties(glfw_objects PROPERTIES POSITION_INDEPENDENT_CODE ON)
-  endif()  
-
-  if (NANOGUI_GL_BACKEND)  
-    set_target_properties(glfw_objects PROPERTIES POSITION_INDEPENDENT_CODE ON)
-
-    list(APPEND PYTHON_BACKEND_SOURCES 
-         python/glcanvas.cpp 
-         python/glutil.cpp)
-  endif()
- 
-
-  include_directories("ext/pybind11/include" ${PYTHON_INCLUDE_DIRS})
-  add_library(nanogui-python-obj OBJECT
-    python/main.cpp
-    python/constants_ui.cpp
-    python/constants_entypo.cpp
-    python/widget.cpp
-    python/layout.cpp
-    python/basics.cpp
-    python/button.cpp
-    python/tabs.cpp
-    python/textbox.cpp
-    python/theme.cpp
-    
-    python/formhelper.cpp
-    python/misc.cpp
-
-    python/nanovg.cpp
-    python/python.h python/py_doc.h
-    ${PYTHON_BACKEND_SOURCES}
-    ${LIBNANOGUI_PYTHON_EXTRA_SOURCE})
-
-  add_library(nanogui-python SHARED $<TARGET_OBJECTS:nanogui-python-obj>)
-  set_property(TARGET nanogui-python-obj PROPERTY POSITION_INDEPENDENT_CODE ON)
-  set_target_properties(nanogui-python PROPERTIES OUTPUT_NAME "nanogui")
-  target_link_libraries(nanogui-python nanogui ${NANOGUI_EXTRA_LIBS} ${Python_LIBRARIES})
-
-  # Quench warnings on GCC
-  if (CMAKE_COMPILER_IS_GNUCC)
-    set_property(TARGET nanogui-python-obj APPEND PROPERTY COMPILE_OPTIONS "-Wno-unused-variable")
-  endif()
-
-  set_target_properties(nanogui-python PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/python)
-  # The prefix and extension are provided by FindPythonLibsNew.cmake
-  set_target_properties(nanogui-python PROPERTIES PREFIX "${PYTHON_MODULE_PREFIX}")
-  set_target_properties(nanogui-python PROPERTIES SUFFIX "${PYTHON_MODULE_EXTENSION}")
-
-  if (WIN32)
-    # Set output path
-    set_target_properties(nanogui-python PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_RELEASE "Release/python")
-    set_target_properties(nanogui-python PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_DEBUG "Debug/python")
-    set_target_properties(nanogui-python PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_MINSIZEREL "MinSizeRel/python")
-    set_target_properties(nanogui-python PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_RELWITHDEBINFO "RelWithDebInfo/python")
-    set_target_properties(nanogui-python PROPERTIES RUNTIME_OUTPUT_DIRECTORY_RELEASE "Release/python")
-    set_target_properties(nanogui-python PROPERTIES RUNTIME_OUTPUT_DIRECTORY_DEBUG "Debug/python")
-    set_target_properties(nanogui-python PROPERTIES RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "MinSizeRel/python")
-    set_target_properties(nanogui-python PROPERTIES RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "RelWithDebInfo/python")
-
-    # Link against the Python shared library
-    target_link_libraries(nanogui-python ${PYTHON_LIBRARY})
-
-    if (MSVC)
-      # Optimize for size, /bigobj is needed for due to the heavy template metaprogramming in pybind11
-      set_property(TARGET nanogui-python-obj APPEND PROPERTY COMPILE_OPTIONS
-        "/bigobj" "$<$<CONFIG:Release>:/Os>" "$<$<CONFIG:MinSizeRel>:/Os>"
-        "$<$<CONFIG:RelWithDebInfo>:/Os>")
-    endif()
-  elseif(UNIX)
-    # Optimize for size
-    if (U_CMAKE_BUILD_TYPE MATCHES REL)
-      set_property(TARGET nanogui-python-obj APPEND PROPERTY COMPILE_OPTIONS "-Os")
-    endif()
-
-    # Strip unnecessary sections of the binary on Linux/Mac OS
-    if(APPLE)
-      set_target_properties(nanogui-python PROPERTIES MACOSX_RPATH ".")
-      set_target_properties(nanogui-python PROPERTIES LINK_FLAGS "-undefined dynamic_lookup ")
-
-      if (NOT ${U_CMAKE_BUILD_TYPE} MATCHES DEB)
-        add_custom_command(TARGET nanogui-python POST_BUILD COMMAND strip -u -r $<TARGET_FILE:nanogui-python>)
-      endif()
-    else()
-      if (NOT ${U_CMAKE_BUILD_TYPE} MATCHES DEB)
-        add_custom_command(TARGET nanogui-python POST_BUILD COMMAND strip $<TARGET_FILE:nanogui-python>)
-      endif()
-    endif()
-  endif()
-
-  if (NANOGUI_INSTALL)
-    install(TARGETS nanogui-python
-            LIBRARY DESTINATION lib
-            ARCHIVE DESTINATION lib)
-  endif()
+  add_subdirectory(python/)
 endif()
 
 get_directory_property(NANOGUI_HAS_PARENT PARENT_DIRECTORY)
