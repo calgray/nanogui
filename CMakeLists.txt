@@ -118,26 +118,6 @@ macro(CHECK_CXX_COMPILER_AND_LINKER_FLAGS _RESULT _CXX_FLAGS _LINKER_FLAGS)
   set(CMAKE_REQUIRED_LIBRARIES "")
 endmacro()
 
-# Compile GLFW
-if (NANOGUI_WINDOW STREQUAL "GLFW")
-  set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL " " FORCE)
-  set(GLFW_BUILD_TESTS OFF CACHE BOOL " " FORCE)
-  set(GLFW_BUILD_DOCS OFF CACHE BOOL " " FORCE)
-  set(GLFW_BUILD_INSTALL OFF CACHE BOOL " " FORCE)
-  set(GLFW_INSTALL OFF CACHE BOOL " " FORCE)
-  set(GLFW_USE_CHDIR OFF CACHE BOOL " " FORCE)
-  set(BUILD_SHARED_LIBS ${NANOGUI_BUILD_SHARED} CACHE BOOL " " FORCE)
-
-  # Two targets have now been defined: `glfw_objects`, which will be merged into
-  # NanoGUI at the end, and `glfw`.  The `glfw` target is the library itself
-  # (e.g., libglfw.so), but can be skipped as we do not need to link against it
-  # (because we merge `glfw_objects` into NanoGUI).  Skipping is required for
-  # XCode, but preferable for all build systems (reduces build artifacts).
-  add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/ext/glfw" "ext_build/glfw")
-
-  set_target_properties(glfw PROPERTIES EXCLUDE_FROM_ALL 1 EXCLUDE_FROM_DEFAULT_BUILD 1)
-endif()
-
 if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   # Quench annoying deprecation warnings when compiling GLFW on OSX
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-deprecated-declarations")
@@ -355,8 +335,7 @@ endif()
 include_directories(include ${CMAKE_CURRENT_BINARY_DIR})
 
 if (NANOGUI_GL_BACKEND OR NANOGUI_WINDOW STREQUAL "GLFW")
-  #find_package(glfw REQUIRED)
-  include_directories(ext/glfw/include)
+  find_package(glfw3 REQUIRED)
 endif()
 
 # Run simple cmake converter to put font files into the data segment
@@ -527,10 +506,10 @@ if (CMAKE_GENERATOR STREQUAL Xcode)
   set(XCODE_DUMMY ${CMAKE_CURRENT_BINARY_DIR}/xcode_dummy.cpp)
   file(WRITE ${XCODE_DUMMY} "")
   target_sources(nanogui PRIVATE ${XCODE_DUMMY})
-  target_sources(nanogui PRIVATE $<TARGET_OBJECTS:glfw_objects>)
+  target_link_libraries(nanogui PRIVATE glfw)
 else()
   if (NANOGUI_GL_BACKEND OR NANOGUI_WINDOW STREQUAL "GLFW")
-    target_sources(nanogui PRIVATE $<TARGET_OBJECTS:glfw_objects>)
+    target_link_libraries(nanogui PRIVATE glfw)
   endif()
 endif()
 
