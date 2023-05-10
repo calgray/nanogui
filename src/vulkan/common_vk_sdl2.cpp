@@ -5,12 +5,16 @@
 
 #include <nanogui/screen.h>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_vulkan.h>
 #include <cstdio>
 #include <iostream>
 #include <map>
 
+#ifndef NANOVG_VULKAN_IMPLEMENTATION
 #define NANOVG_VULKAN_IMPLEMENTATION
-#include <nanogui/nanovg_vk.h>
+#endif
+
+#include <nanovg_vk.h>
 #include "vulkan_util.h"
 
 // #if defined(_WIN32)
@@ -719,7 +723,7 @@ void sample::create_context()
   flags |= NVG_DEBUG;
 #endif
 
-  __nanogui_context = nvgCreateVk(create_info, NVG_ANTIALIAS | NVG_STENCIL_STROKES);
+  __nanogui_context = nvgCreateVk(create_info, NVG_ANTIALIAS | NVG_STENCIL_STROKES, internal::queue);
   if (__nanogui_context == nullptr)
     throw std::runtime_error("Could not initialize NanoVG!");
 }

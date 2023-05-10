@@ -288,7 +288,7 @@ void ThemeBuilder::colorPicker(Widget& parent, std::string name)
 
   color_pickers[name] = &cp;
 
-  auto& breset = wrapper.button(Caption{ "" }, Icon{ ENTYPO_ICON_BACK });
+  auto& breset = wrapper.button(Caption{ "" }, Icon{ entypo::ICON_BACK });
   breset.setTooltip("Reset to NanoGUI Default?");
     //val is going to change with the color picker since the theme member
     //variable passed here is a reference(? ), save the values now and create a
@@ -333,7 +333,7 @@ void numberPicker(Widget& parent, Theme* dynamicTheme, std::string name)
 
   number_pickers[name] = &box;
 
-  auto& reset = wrapper.button(Caption{ "" }, Icon{ ENTYPO_ICON_BACK });
+  auto& reset = wrapper.button(Caption{ "" }, Icon{ entypo::ICON_BACK });
   reset.setTooltip("Reset to NanoGUI Default?");
   auto reset_cb = [&] () {
     box.setValue(val);

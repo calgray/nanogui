@@ -106,8 +106,8 @@ WidgetFactory& WidgetFactory::instance()
     _mainf_->registerCreator("string_property", [](Widget* parent) { return new TextBox(parent); });
     auto buttons = new DummyFactory("buttons");
     buttons->func("button", [](Widget* w) { return w->add<Button>(); })
-      .func("toolbutton", [](Widget* w) { return w->add<ToolButton>(ENTYPO_ICON_ROCKET); })
-      .func("togglebutton", [](Widget* w) { return w->add<ToggleButton>(ENTYPO_ICON_ROCKET); });
+      .func("toolbutton", [](Widget* w) { return w->add<ToolButton>(entypo::ICON_ROCKET); })
+      .func("togglebutton", [](Widget* w) { return w->add<ToggleButton>(entypo::ICON_ROCKET); });
     _mainf_->registerFactory(buttons);
 
     auto windows = new DummyFactory("windows");

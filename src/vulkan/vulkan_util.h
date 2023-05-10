@@ -1,13 +1,6 @@
 
 #pragma once
 
-#ifndef NANOGUI_SDL2_WINDOW
-#include <GLFW/glfw3.h>
-#else
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_vulkan.h>
-#endif
-
 typedef struct VulkanDevice {
   VkPhysicalDevice gpu;
   VkPhysicalDeviceProperties gpuProperties;

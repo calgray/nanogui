@@ -25,8 +25,8 @@ TreeView::TreeView( Widget* parent, bool clip,
   mDrawBack( drawBack ),
   mImageLeftOfIcon( true )
 {
-  mIcons[IconCollapsed] = ENTYPO_ICON_PLUS_CIRCLED;
-  mIcons[IconExpanded] = ENTYPO_ICON_MINUS_CIRCLED;
+  mIcons[IconCollapsed] = entypo::ICON_PLUS_CIRCLED;
+  mIcons[IconExpanded] = entypo::ICON_MINUS_CIRCLED;
 
   if ( scrollBarVertical )
   {

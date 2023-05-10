@@ -20,7 +20,7 @@ SearchBox::SearchBox(Widget* parent)
 
   /*auto& btn = */ button(Caption{ "" }, 
                      WidgetId{ "#cancel_btn"},
-                     Icon{ ENTYPO_ICON_CANCEL_CIRCLED },
+                     Icon{ entypo::ICON_CANCEL_CIRCLED },
                      HoveredTextColor{ Color(0xff0000ff) },
                      DrawFlags{ Button::DrawIcon },
                      ButtonCallback{ [this] { clearText();} });
@@ -62,7 +62,7 @@ void SearchBox::draw(NVGcontext* ctx) {
   nvgFontFace(ctx, "icons");
   nvgFillColor(ctx, nvgRGBA(255, 255, 255, 64));
   nvgTextAlign(ctx, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
-  nvgText(ctx, mPos.x() + mSize.y()*0.55f, mPos.y() + mSize.y()*0.55f, utf8(ENTYPO_ICON_SEARCH).data(), nullptr);
+  nvgText(ctx, mPos.x() + mSize.y()*0.55f, mPos.y() + mSize.y()*0.55f, utf8(entypo::ICON_SEARCH).data(), nullptr);
 
   TextBox::draw(ctx);
 }

@@ -41,7 +41,7 @@ TextArea& TextArea::header(const std::string &text)
 
 TextArea& TextArea::bulletLine(const std::string &text)
 {
-  appendIcon(ENTYPO_ICON_MINUS);
+  appendIcon(entypo::ICON_MINUS);
   append(std::string(" ") + text + "\n");
   return *this;
 }

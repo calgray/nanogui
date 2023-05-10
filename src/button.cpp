@@ -27,13 +27,13 @@ UpDownButton::UpDownButton(Widget* parent)
   : Widget(parent,
            WidgetBoxLayout{ Orientation::Horizontal, Alignment::Fill, 2, 2})
 {
-  mDown = &toolbutton(Icon{ ENTYPO_ICON_LEFT_1 }, ButtonFlags{ Button::NormalButton },
+  mDown = &toolbutton(Icon{ entypo::ICON_LEFT }, ButtonFlags{ Button::NormalButton },
     ButtonCallback{ [&] {
       if (mCallback) mCallback(false); 
       mActivateTime = getTimeFromStart() + mActivateInterval;
     }
   });
-  mUp = &toolbutton(Icon{ ENTYPO_ICON_RIGHT_1 }, ButtonFlags{ Button::NormalButton },
+  mUp = &toolbutton(Icon{ entypo::ICON_RIGHT }, ButtonFlags{ Button::NormalButton },
     ButtonCallback{ [&] {
       if (mCallback) mCallback(true); 
       mActivateTime = getTimeFromStart() + mActivateInterval;

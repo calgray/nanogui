@@ -1271,7 +1271,6 @@ static int vknvg_renderCreateTexture(void *uptr, int type, int w, int h, int ima
   }
 
   // Proper layout transition so texture can be read from shader
-
   VkCommandBufferAllocateInfo cbAI{};
   cbAI.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
   cbAI.commandPool = vk->createInfo.cmdPool;
@@ -1555,7 +1554,7 @@ error:
 }
 
 static void vknvg_renderTriangles(void *uptr, NVGpaint *paint, NVGcompositeOperationState compositeOperation, NVGscissor *scissor,
-                                  const NVGvertex *verts, int nverts) {
+                                  const NVGvertex *verts, int nverts, float fringe) {
   VKNVGcontext *vk = (VKNVGcontext *)uptr;
 
   VKNVGcall *call = vknvg_allocCall(vk);
@@ -1581,7 +1580,7 @@ static void vknvg_renderTriangles(void *uptr, NVGpaint *paint, NVGcompositeOpera
   if (call->uniformOffset == -1)
     goto error;
   frag = vknvg_fragUniformPtr(vk, call->uniformOffset);
-  vknvg_convertPaint(vk, frag, paint, scissor, 1.0f, 1.0f, -1.0f);
+  vknvg_convertPaint(vk, frag, paint, scissor, 1.0f, fringe, -1.0f);
   frag->type = NSVG_SHADER_IMG;
 
   return;
