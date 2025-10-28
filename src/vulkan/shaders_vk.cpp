@@ -1,6 +1,7 @@
 #include <nanovg.h>
 #include <memory>
 #include <string.h>
+#include <cstdint>
 
 #if NANOGUI_VULKAN_BACKEND
 

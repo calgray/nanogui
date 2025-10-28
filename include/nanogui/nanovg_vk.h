@@ -692,9 +692,10 @@ static VKNVGPipeline *vknvg_createPipeline(VKNVGcontext *vk, VKNVGCreatePipeline
   vp.viewportCount = 1;
   vp.scissorCount = 1;
 
-  VkDynamicState dynamicStateEnables[VK_DYNAMIC_STATE_RANGE_SIZE] = {
-      VK_DYNAMIC_STATE_VIEWPORT,
-      VK_DYNAMIC_STATE_SCISSOR};
+  VkDynamicState dynamicStateEnables[2] = {
+    VK_DYNAMIC_STATE_VIEWPORT,
+    VK_DYNAMIC_STATE_SCISSOR
+  };
 
   VkPipelineDynamicStateCreateInfo dynamicState = {VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO};
   dynamicState.dynamicStateCount = 2;
