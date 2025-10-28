@@ -18,7 +18,7 @@ else()
 endif()
 
 option(NANOGUI_BUILD_EXAMPLE "Build NanoGUI glfw example application?" ON)
-option(NANOGUI_VULKAN_BACKEND  "Use Vulkan backend?" OFF)
+option(NANOGUI_VULKAN_BACKEND  "Use Vulkan backend?" ON)
 option(NANOGUI_GL_BACKEND    "Use OpenGL backend?" OFF)
 option(NANOGUI_DX11_BACKEND  "Use DX11 backend?" OFF)
 option(NANOGUI_DX12_BACKEND  "Use DX12 backend?" OFF)
@@ -56,6 +56,9 @@ if (NANOGUI_DX11_BACKEND OR NANOGUI_GL_BACKEND OR NANOGUI_DX12_BACKEND OR NANOGU
   endif()
   if (NANOGUI_WINDOW STREQUAL "SDL")
     add_definitions(-DNANOGUI_SDL2_WINDOW=1)
+  endif()
+  if (NANOGUI_WINDOW STREQUAL "GLFW")
+    add_definitions(-DNANOGUI_GLFW_WINDOW=1)
   endif()
 
   set(BACKENDS_SELECTED_SIZE "")
@@ -281,9 +284,9 @@ list(APPEND NANOGUI_EXTRA_INCS "${CMAKE_CURRENT_SOURCE_DIR}/ext/nanovg/src")
 if (NANOGUI_GL_BACKEND OR NANOGUI_WINDOW STREQUAL "GLFW")
   list(APPEND NANOGUI_EXTRA_INCS "${CMAKE_CURRENT_SOURCE_DIR}/ext/glfw/include")
 elseif (NANOGUI_DX11_BACKEND)
-  add_definitions(-DNANOVG_D3D11)  
+  add_definitions(-DNANOVG_D3D11)
 elseif (NANOGUI_DX11_BACKEND)
-  add_definitions(-DNANOVG_D3D12)  
+  add_definitions(-DNANOVG_D3D12)
 endif()
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "BSD")
@@ -544,7 +547,7 @@ else()
 endif()
 target_include_directories(nanogui PUBLIC
   ${CMAKE_CURRENT_LIST_DIR}/ext/nanovg/src
-  ${CMAKE_CURRENT_LIST_DIR}/include/nanogui
+  ${CMAKE_CURRENT_LIST_DIR}/include
 )
 
 if (NANOGUI_BUILD_SHARED)

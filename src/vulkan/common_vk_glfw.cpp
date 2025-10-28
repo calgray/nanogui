@@ -1,7 +1,7 @@
 #include <nanogui/common.h>
 
 #if NANOGUI_VULKAN_BACKEND
-#ifndef NANOGUI_SDL2_WINDOW
+#ifdef NANOGUI_GLFW_WINDOW
 
 #include <nanogui/screen.h>
 #define GLFW_INCLUDE_VULKAN
@@ -570,5 +570,5 @@ void destroy_context()
 
 NAMESPACE_END(nanogui)
 
-#endif //NANOGUI_SDL2_WINDOW
+#endif //NANOGUI_GLFW_WINDOW
 #endif //NANOGUI_VULKAN_BACKEND

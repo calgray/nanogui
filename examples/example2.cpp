@@ -11,6 +11,8 @@
     BSD-style license that can be found in the LICENSE.txt file.
 */
 
+#define NANOVG_VULKAN_IMPLEMENTATION 1
+
 #include <iostream>
 
 #include <nanogui/screen.h>
@@ -58,6 +60,8 @@
 #include <nanogui/editproperties.h>
 #include <nanogui/formhelper.h>
 
+#include <nanogui/nanovg_vk.h>
+
 using namespace nanogui;
 
 enum test_enum {
@@ -76,6 +80,9 @@ Color colval(0.5f, 0.5f, 0.7f, 1.f);
 
 int main(int /* argc */, char ** /* argv */) {
     nanogui::init();
+
+    VKNVGCreateInfo create_info = { 0 };
+    nvgCreateVk(create_info, NVG_ANTIALIAS | NVG_STENCIL_STROKES);
 
     Vector2i size{ 1600, 900 };
     auto window = nanogui::sample::create_window(size.x(), size.y(), "NanoGUI test", true, false, true);

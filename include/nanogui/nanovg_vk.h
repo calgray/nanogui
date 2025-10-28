@@ -27,8 +27,8 @@ typedef struct VKNVGCreateInfo {
 #ifdef __cplusplus
 extern "C" {
 #endif
-NVGcontext *nvgCreateVk(VKNVGCreateInfo createInfo, int flags);
-void nvgDeleteVk(NVGcontext *ctx);
+extern NVGcontext *nvgCreateVk(VKNVGCreateInfo createInfo, int flags);
+extern void nvgDeleteVk(NVGcontext *ctx);
 
 #ifdef __cplusplus
 }
@@ -1116,13 +1116,13 @@ static void vknvg_triangles(VKNVGcontext *vk, VKNVGcall *call) {
   vkCmdDraw(cmdBuffer, call->triangleCount, 1, 0, 0);
 }
 ///==================================================================================================================
-extern void vknvg_create_vertshader(uint32_t*& data, uint32_t& dataSize);
-extern void vknvg_create_fragshader(uint32_t*& data, uint32_t& dataSize);
-extern void vknvg_create_fragshader_aa(uint32_t*& data, uint32_t& dataSize);
+extern NVG_EXPORT void vknvg_create_vertshader(uint32_t*& data, uint32_t& dataSize);
+extern NVG_EXPORT void vknvg_create_fragshader(uint32_t*& data, uint32_t& dataSize);
+extern NVG_EXPORT void vknvg_create_fragshader_aa(uint32_t*& data, uint32_t& dataSize);
 
-extern void vknvg_destroy_vertshader(uint32_t* data);
-extern void vknvg_destroy_fragshader(uint32_t* data);
-extern void vknvg_destroy_fragshader_aa(uint32_t* data);
+extern NVG_EXPORT void vknvg_destroy_vertshader(uint32_t* data);
+extern NVG_EXPORT void vknvg_destroy_fragshader(uint32_t* data);
+extern NVG_EXPORT void vknvg_destroy_fragshader_aa(uint32_t* data);
 
 
 static int vknvg_renderCreate(void *uptr) {
