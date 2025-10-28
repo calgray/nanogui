@@ -19,7 +19,7 @@ endif()
 
 option(NANOGUI_BUILD_EXAMPLE "Build NanoGUI glfw example application?" ON)
 option(NANOGUI_VULKAN_BACKEND  "Use Vulkan backend?" OFF)
-option(NANOGUI_GLFW_BACKEND  "Use OpenGL backend?" OFF)
+option(NANOGUI_GL_BACKEND  "Use OpenGL backend?" OFF)
 option(NANOGUI_DX11_BACKEND  "Use DX11 backend?" OFF)
 option(NANOGUI_DX12_BACKEND  "Use DX12 backend?" OFF)
 OPTION(NANOGUI_BGFX_BACKEND  "Use BGFX backend?" OFF)
@@ -34,9 +34,9 @@ option(NANOGUI_VULKAN_NOSDK  "Build vulkan with headers from ext folder. Travis-
 set(NANOGUI_PYTHON_VERSION "" CACHE STRING "Python version to use for compiling the Python plugin")
 
 # Check that we select backend and only one backend
-if (NANOGUI_DX11_BACKEND OR NANOGUI_GLFW_BACKEND OR NANOGUI_DX12_BACKEND OR NANOGUI_VULKAN_BACKEND)  
+if (NANOGUI_DX11_BACKEND OR NANOGUI_GL_BACKEND OR NANOGUI_DX12_BACKEND OR NANOGUI_VULKAN_BACKEND)  
   set(BACKENDS_SELECTED "")
-  if (NANOGUI_GLFW_BACKEND) 
+  if (NANOGUI_GL_BACKEND) 
     add_definitions(-DNANOGUI_OPENGL_BACKEND=1)
     list(APPEND BACKENDS_SELECTED "OpenGl") 
   endif()
@@ -57,18 +57,18 @@ if (NANOGUI_DX11_BACKEND OR NANOGUI_GLFW_BACKEND OR NANOGUI_DX12_BACKEND OR NANO
   list(LENGTH BACKENDS_SELECTED BACKENDS_SELECTED_SIZE)
   if (NOT ${BACKENDS_SELECTED_SIZE} EQUAL "1")
     message(FATAL_ERROR "Multiple backends selected! "
-      "Select one of backends: opengl(NANOGUI_GLFW_BACKEND), dx11(NANOGUI_DX11_BACKEND), dx12(NANOGUI_DX12_BACKEND), vulkan(NANOGUI_VULKAN_BACKEND)"
+      "Select one of backends: opengl(NANOGUI_GL_BACKEND), dx11(NANOGUI_DX11_BACKEND), dx12(NANOGUI_DX12_BACKEND), vulkan(NANOGUI_VULKAN_BACKEND)"
       "Current selected: ${BACKENDS_SELECTED}"
       "Remove CMakeCache.txt that apply changes"
     )	
   endif()    
 else()
   message(FATAL_ERROR "No backends selected! "
-     "Select one of backends: opengl(NANOGUI_GLFW_BACKEND), dx11(NANOGUI_DX11_BACKEND), dx12(NANOGUI_DX12_BACKEND), vulkan(NANOGUI_VULKAN_BACKEND)"
+     "Select one of backends: opengl(NANOGUI_GL_BACKEND), dx11(NANOGUI_DX11_BACKEND), dx12(NANOGUI_DX12_BACKEND), vulkan(NANOGUI_VULKAN_BACKEND)"
   )	  
 endif()
 
-if (NANOGUI_GLFW_BACKEND OR NANOGUI_VULKAN_BACKEND)  
+if (NANOGUI_GL_BACKEND OR NANOGUI_VULKAN_BACKEND)  
   if (NOT IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/ext/glfw/src")
     message(FATAL_ERROR "The NanoGUI dependency repositories (GLFW, etc.) are missing! "
       "You probably did not clone the project with --recursive. It is possible to recover "
@@ -110,7 +110,7 @@ macro(CHECK_CXX_COMPILER_AND_LINKER_FLAGS _RESULT _CXX_FLAGS _LINKER_FLAGS)
 endmacro()
 
 # Compile GLFW
-if (NANOGUI_GLFW_BACKEND OR NANOGUI_VULKAN_BACKEND)
+if (NANOGUI_GL_BACKEND OR NANOGUI_VULKAN_BACKEND)
   set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL " " FORCE)
   set(GLFW_BUILD_TESTS OFF CACHE BOOL " " FORCE)
   set(GLFW_BUILD_DOCS OFF CACHE BOOL " " FORCE)
@@ -275,7 +275,7 @@ endif()
 
 list(APPEND NANOGUI_EXTRA_INCS "${CMAKE_CURRENT_SOURCE_DIR}/ext/nanovg/src")
 
-if (NANOGUI_GLFW_BACKEND OR NANOGUI_VULKAN_BACKEND)
+if (NANOGUI_GL_BACKEND OR NANOGUI_VULKAN_BACKEND)
   list(APPEND NANOGUI_EXTRA_INCS "${CMAKE_CURRENT_SOURCE_DIR}/ext/glfw/include")
 elseif (NANOGUI_DX11_BACKEND)
   add_definitions(-DNANOVG_D3D11)  
@@ -293,7 +293,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "BSD")
 endif()
 
 # Required core libraries on various platforms
-if (NANOGUI_GLFW_BACKEND)
+if (NANOGUI_GL_BACKEND)
   if (WIN32)
     list(APPEND NANOGUI_EXTRA_LIBS opengl32)
   elseif (APPLE)
@@ -342,7 +342,7 @@ endif()
 
 include_directories(ext/nanovg/src include ${CMAKE_CURRENT_BINARY_DIR})
 
-if (NANOGUI_GLFW_BACKEND OR NANOGUI_VULKAN_BACKEND)
+if (NANOGUI_GL_BACKEND OR NANOGUI_VULKAN_BACKEND)
   include_directories(ext/glfw/include)
 endif()
 
@@ -395,7 +395,7 @@ endif()
 add_definitions(${NANOGUI_EXTRA_DEFS})
 set(NANOGUI_BACKEND_SOURCES "")
 
-if (NANOGUI_GLFW_BACKEND)
+if (NANOGUI_GL_BACKEND)
   list(APPEND NANOGUI_BACKEND_SOURCES  
     include/nanogui/glcanvas.h src/glfw/glcanvas_glfw.cpp
     include/nanogui/glutil.h src/glfw/glutil_glfw.cpp
@@ -519,7 +519,7 @@ if (CMAKE_GENERATOR STREQUAL Xcode)
     $<TARGET_OBJECTS:glfw_objects>
   )
 else()
-  if (NANOGUI_GLFW_BACKEND OR NANOGUI_VULKAN_BACKEND)
+  if (NANOGUI_GL_BACKEND OR NANOGUI_VULKAN_BACKEND)
     add_library(nanogui ${NANOGUI_LIBRARY_TYPE}
       $<TARGET_OBJECTS:nanogui-obj>
       $<TARGET_OBJECTS:glfw_objects>
@@ -556,7 +556,7 @@ if (NANOGUI_INSTALL)
           FILES_MATCHING PATTERN "*.h")
 endif()
 
-if (NANOGUI_BUILD_SHARED AND NANOGUI_GLFW_BACKEND)
+if (NANOGUI_BUILD_SHARED AND NANOGUI_GL_BACKEND)
   # When GLFW is merged into the NanoGUI library, this flag must be specified
   set_property(TARGET nanogui-obj APPEND PROPERTY COMPILE_DEFINITIONS "_GLFW_BUILD_DLL;NVG_SHARED")
 endif()
@@ -674,7 +674,7 @@ if (NANOGUI_BUILD_PYTHON)
     set_target_properties(glfw_objects PROPERTIES POSITION_INDEPENDENT_CODE ON)
   endif()  
 
-  if (NANOGUI_GLFW_BACKEND)  
+  if (NANOGUI_GL_BACKEND)  
     set_target_properties(glfw_objects PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
     list(APPEND PYTHON_BACKEND_SOURCES 
