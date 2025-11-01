@@ -1554,7 +1554,7 @@ error:
 }
 
 static void vknvg_renderTriangles(void *uptr, NVGpaint *paint, NVGcompositeOperationState compositeOperation, NVGscissor *scissor,
-                                  const NVGvertex *verts, int nverts) {
+                                  const NVGvertex *verts, int nverts, float) {
   VKNVGcontext *vk = (VKNVGcontext *)uptr;
 
   VKNVGcall *call = vknvg_allocCall(vk);
