@@ -120,13 +120,7 @@ if (NANOGUI_GL_BACKEND OR NANOGUI_VULKAN_BACKEND)
   set(GLFW_USE_CHDIR OFF CACHE BOOL " " FORCE)
   set(BUILD_SHARED_LIBS ${NANOGUI_BUILD_SHARED} CACHE BOOL " " FORCE)
 
-  # Two targets have now been defined: `glfw_objects`, which will be merged into
-  # NanoGUI at the end, and `glfw`.  The `glfw` target is the library itself
-  # (e.g., libglfw.so), but can be skipped as we do not need to link against it
-  # (because we merge `glfw_objects` into NanoGUI).  Skipping is required for
-  # XCode, but preferable for all build systems (reduces build artifacts).
-  add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/ext/glfw" "ext_build/glfw")
-
+  add_subdirectory(ext/glfw)
   set_target_properties(glfw PROPERTIES EXCLUDE_FROM_ALL 1 EXCLUDE_FROM_DEFAULT_BUILD 1)
 elseif (NANOGUI_DX11_BACKEND)
 
@@ -275,6 +269,7 @@ if (NANOGUI_USE_GLAD)
 endif()
 
 if (NANOGUI_NANOVG_NOSDK)
+  set(NANOVG_BUILD_EXAMPLES OFF CACHE BOOL " " FORCE)
   add_subdirectory(ext/nanovg)
   include_directories(ext/nanovg/src)
 else()
