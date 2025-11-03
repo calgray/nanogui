@@ -46,13 +46,13 @@ Vector2i Label::preferredSize(NVGcontext *ctx) const {
   }
 
   nvgFontFaceSize(ctx, mFont.c_str(), fontSize());
-  if (mFixedSize.x() > 0 || mTextWidthBreak) 
+  if (mFixedSize.x() > 0 || mTextWidthBreak)
   {
-    const_cast<Label*>(this)->mTextRealSize = nvgTextBoxBounds(ctx, 0, 0, 
-                                                               mTextWidthBreak ? mTextWidthBreak : mFixedSize.x(), 
+    const_cast<Label*>(this)->mTextRealSize = nvgTextBoxBounds(ctx, 0, 0,
+                                                               mTextWidthBreak ? mTextWidthBreak : mFixedSize.x(),
                                                                mCaption.c_str()).cast<int>();
     return mFixedSize.fillZero(mTextRealSize);
-  } 
+  }
   else if (mTextWrapped)
   {
     const_cast<Label*>(this)->mTextRealSize = nvgTextBoxBounds(ctx, 0, 0,
@@ -60,7 +60,7 @@ Vector2i Label::preferredSize(NVGcontext *ctx) const {
                                                                mCaption.c_str()).cast<int>();
     return mTextRealSize;
   }
-  else 
+  else
   {
     nvgTextAlign(ctx, NVG_ALIGN_LEFT | NVG_ALIGN_TOP);
     Vector2f tsize = nvgTextBounds(ctx, 0, 0, mCaption.c_str()) + Vector2f(2, 0);
@@ -70,7 +70,7 @@ Vector2i Label::preferredSize(NVGcontext *ctx) const {
   }
 }
 
-void Label::draw(NVGcontext *ctx) 
+void Label::draw(NVGcontext *ctx)
 {
     if (mBackgroundColor.w() > 0)
     {
@@ -82,7 +82,7 @@ void Label::draw(NVGcontext *ctx)
     }
 
     nvgFontFaceSize(ctx, mFont.c_str(), fontSize());
-    const Color& color = enabled() 
+    const Color& color = enabled()
                             ? mColor.notW(mTheme->mTextColor)
                             : mDisabledColor.notW(mTheme->mLabelTextDisabledColor);
 
@@ -108,7 +108,7 @@ void Label::draw(NVGcontext *ctx)
 
     nvgTextAlign(ctx, NVG_ALIGN_LEFT | NVG_ALIGN_TOP);
     if (mFixedSize.x() > 0 || mTextWidthBreak > 0)
-      nvgTextBox(ctx, mPos.x() + opos.x(), mPos.y() + opos.y(), 
+      nvgTextBox(ctx, mPos.x() + opos.x(), mPos.y() + opos.y(),
                  mTextWidthBreak > 0 ? mTextWidthBreak : mFixedSize.x(), mCaption.c_str(), nullptr);
     else if (mTextWrapped)
       nvgTextBox(ctx, mPos.x() + mTextOffset.x(), mPos.y() + mTextOffset.y(),

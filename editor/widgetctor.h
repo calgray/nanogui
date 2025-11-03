@@ -11,7 +11,7 @@ public:
   using Button::set;
   template<typename... Args>
   WidgetCtor(Widget* parent, const Args&... args)
-    : Button(parent) { set<WidgetCtor, Args...>(args...); }  
+    : Button(parent) { set<WidgetCtor, Args...>(args...); }
 
   std::string mWtype;
 };

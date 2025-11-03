@@ -381,7 +381,7 @@ void TreeViewItem::setNodeId(NodeId id)
   auto oldId = mNodeId;
   mNodeId = id;
   auto bn = baseNode();
-  if (bn) 
+  if (bn)
     bn->swapChildId(oldId, id);
 }
 

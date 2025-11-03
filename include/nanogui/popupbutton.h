@@ -33,7 +33,7 @@ template<class FF=Popup> struct PopupWidget : public PopupBase { template<typena
  *     which affects all subclasses of this Widget.  Subclasses must explicitly
  *     set a different value if needed (e.g., in their constructor).
  */
-class NANOGUI_EXPORT PopupButton : public Button 
+class NANOGUI_EXPORT PopupButton : public Button
 {
 public:
     RTTI_CLASS_UID(PopupButton)

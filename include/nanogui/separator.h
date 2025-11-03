@@ -29,7 +29,7 @@ NAMESPACE_BEGIN(nanogui)
 
 DECLSETTER(LineWidth, int)
 
-class NANOGUI_EXPORT UpdateHandler : public Widget 
+class NANOGUI_EXPORT UpdateHandler : public Widget
 {
   std::function<void(Widget*)> handler = nullptr;
 public:
@@ -70,7 +70,7 @@ public:
   }
 };
 
-class NANOGUI_EXPORT Line : public Widget 
+class NANOGUI_EXPORT Line : public Widget
 {
 public:
     RTTI_CLASS_UID(Line)
@@ -132,8 +132,8 @@ public:
     : SplitLine(parent) { set<SplitLine, Args...>(args...); }
 };
 
-namespace elm { 
-  using Line = Element<Line>; 
+namespace elm {
+  using Line = Element<Line>;
   using SplitLine = Element<SplitLine>;
 }
 

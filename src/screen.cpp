@@ -24,8 +24,8 @@ NAMESPACE_BEGIN(nanogui)
 
 RTTI_IMPLEMENT_INFO(Screen, Object)
 
-namespace elm 
-{ 
+namespace elm
+{
   Screen* active_scr = nullptr;
   Screen* active_screen() { return active_scr; }
 
@@ -76,13 +76,13 @@ void Screen::_setupStartParams()
       mCursors[i] = createStandardCursor(i);
 }
 
-void Screen::drawAll() 
+void Screen::drawAll()
 {
   drawContents();
   drawWidgets();
 }
 
-Screen::~Screen() 
+Screen::~Screen()
 {
   for (int i = 0; i < (int)Cursor::CursorCount; ++i) {
     if (mCursors[i])
@@ -217,7 +217,7 @@ void Screen::drawWidgets() {
           tooltip->draw(nvgContext());
           nvgRestore(nvgContext());
         }
-        else if (widget && !widget->tooltip().empty()) 
+        else if (widget && !widget->tooltip().empty())
         {
             int tooltipWidth = 150;
 
@@ -387,7 +387,7 @@ void resolveTabSequence(Widget* w, std::vector<Widget*>& arr)
   }
 }
 
-bool Screen::keyCallbackEvent(int key, int scancode, int action, int mods) 
+bool Screen::keyCallbackEvent(int key, int scancode, int action, int mods)
 {
     mLastInteraction = getTimeFromStart();
 
@@ -397,16 +397,16 @@ bool Screen::keyCallbackEvent(int key, int scancode, int action, int mods)
 
     if (theme()->keyboardNavigation && !resolved)
     {
-      if (isKeyboardActionPress(action) || isKeyboardActionRepeat(action)) 
+      if (isKeyboardActionPress(action) || isKeyboardActionRepeat(action))
       {
         Widget* selected = getCurrentSelection();
         bool kbup = isKeyboardKey(key, kbkey::up);
         bool kbdown = isKeyboardKey(key, kbkey::down);
-        if (kbup || kbdown) 
+        if (kbup || kbdown)
         {
           std::vector<Widget*> tabSequence;
           resolveTabSequence(selected->window(), tabSequence);
-          
+
           Widget* focusRequested = nullptr;
           if (kbdown)
           {

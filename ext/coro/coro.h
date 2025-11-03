@@ -422,4 +422,3 @@ void coro_destroy (coro_context *ctx);
 #endif
 
 #endif
-

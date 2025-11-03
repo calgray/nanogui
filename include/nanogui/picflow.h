@@ -49,7 +49,7 @@ public:
 private:
     int mTexture;
     int mDownTexture;
-    std::string mPath; 
+    std::string mPath;
     std::string mText;
 };
 
@@ -109,16 +109,16 @@ public:
 protected:
 
     virtual int getItemAt(int xpos, int ypos) const;
- 
-    void _drawpair( NVGcontext* ctx, 
-                         const PickflowItem& pDesk, 
-                         float transparent=1.f, 
+
+    void _drawpair( NVGcontext* ctx,
+                         const PickflowItem& pDesk,
+                         float transparent=1.f,
                          bool drawMirror=true );
 
     void _updaterects(NVGcontext* ctx);
     void _updatepos();
     Vector4i _correctRect( NVGcontext* ctx, int texture, const Vector4i& rectangle );
-    void _drawimg( NVGcontext* painter, int txs, 
+    void _drawimg( NVGcontext* painter, int txs,
                    const Vector4f& rectabgle, Color* colors );
     Vector4i _getDownRect( const Vector4f& rectangle );
     void _updatetxs( NVGcontext* painter );

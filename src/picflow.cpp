@@ -22,7 +22,7 @@ void PickflowItem::setTextureId( const std::string& pathTo )
 
 void PickflowItem::updateTextures( NVGcontext* /*ctx*/ )
 {
-    mDownTexture = mTexture; 
+    mDownTexture = mTexture;
 }
 
 Picflow::Picflow( Widget* parent)
@@ -37,7 +37,7 @@ uint32_t Picflow::addItem( int texture, const std::string& text, void* object )
 {
   mImages.push_back({});
   auto& descr = mImages.back();
-	descr.setTextureId( texture ); 
+	descr.setTextureId( texture );
 	descr.setText( text );
 
 	descr.mRectangle = Vector4i( 0, 0, 0, 0 );
@@ -156,12 +156,12 @@ void Picflow::_drawimg( NVGcontext* ctx, int txs, const Vector4f& r, Color* colo
   else
   {
     nvgBeginPath(ctx);
-    nvgRoundedRect(ctx, mPos.x() + r.x(), mPos.y() + r.y(), 
-                        r.width(), r.height(), 
+    nvgRoundedRect(ctx, mPos.x() + r.x(), mPos.y() + r.y(),
+                        r.width(), r.height(),
                         mTheme->mButtonCornerRadius - 1);
 
     NVGpaint bg = nvgLinearGradient(ctx, mPos.x() + r.x(), mPos.y() + r.y(),
-                                         mPos.x() + r.width(), mPos.y() + r.height(), 
+                                         mPos.x() + r.width(), mPos.y() + r.height(),
                                          Color(0xff0000ff), Color(0x00ff00ff));
 
     nvgFillPaint(ctx, bg);
@@ -355,7 +355,7 @@ bool Picflow::keyboardEvent(int key, int scancode, int action, int modifiers)
 		mLastTimeKey = getTimeFromStart();
 		return true;
 	}
-  
+
 	if (isKeyboardKey(key, kbkey::space) && isKeyboardActionPress(action) && (curTime - mLastTimeKey > 20))
 	{
 		mLastTimeKey = getTimeFromStart();

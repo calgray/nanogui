@@ -79,10 +79,10 @@ public:
   using Widget::set;
   template<typename... Args>
   VStack(Widget* parent, int margin, int spacing, const Args&... args)
-    : VStack(parent) 
+    : VStack(parent)
   {
     withLayout<BoxLayout>(Orientation::Vertical, Alignment::Fill, margin, spacing);
-    set<VStack, Args...>(args...); 
+    set<VStack, Args...>(args...);
   }
 };
 namespace elm { using VStack = Element<VStack>; }
@@ -125,7 +125,7 @@ public:
 };
 namespace elm { using HLayer = Element<HLayer>; }
 
-class NANOGUI_EXPORT Window : public Widget 
+class NANOGUI_EXPORT Window : public Widget
 {
 public:
   RTTI_CLASS_UID(Window)
@@ -242,8 +242,8 @@ protected:
     bool mModal;
     bool mCanResize = true;
     bool mBringToFront = true;
-    enum DragType { dragNone=0, dragHeader=1, dragBody, 
-                                dragLeft, dragRight, 
+    enum DragType { dragNone=0, dragHeader=1, dragBody,
+                                dragLeft, dragRight,
                                 dragTop, dragBottom,
                                 dragRbCorner, dragLtCorner,
                                 dragLbCorner, dragRtCorner};
@@ -278,9 +278,9 @@ public:
     PROPSETTER(GlobWindowActive, setGlobActiveWindow)
 };
 
-namespace elm 
-{ 
-  using Window = Element<Window>; 
+namespace elm
+{
+  using Window = Element<Window>;
   struct BeginWindow { template<typename... Args> BeginWindow(const Args&... args) { new ::nanogui::Window(nullptr, GlobWindowActive{ true }, args...); } };
   struct NANOGUI_EXPORT EndWindow { EndWindow(); };
   NANOGUI_EXPORT ::nanogui::Widget* get_active_widget();
@@ -318,7 +318,7 @@ public:
     Vector2i preferredSize(NVGcontext *ctx) const override;
 
     bool keyboardEvent(int key, int scancode, int action, int mods) override;
-    bool focusEvent(bool focused) override; 
+    bool focusEvent(bool focused) override;
 
     void setHighlightHeader(bool v) { setDrawFlag(DrawHeaderUnselect, v); }
     Vector4i getWidgetsArea() override;
@@ -327,7 +327,7 @@ protected:
 
   void requestPerformLayout() override;
   bool isClickInsideCollapseArea(const Vector2i& clkPnt) override;
-  
+
 public:
   PROPSETTER(PanelHighlightHeader, setHighlightHeader)
 

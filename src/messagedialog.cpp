@@ -28,23 +28,23 @@ MessageDialog::MessageDialog(Widget* parent, Orientation orient)
   widget(WidgetId{ "#panel_header" },
          WidgetBoxLayout{ Orientation::Horizontal, Alignment::Middle, 10, 15 },
          elm::Label {
-           WidgetId{ "#icon" }, 
-           Caption{ utf8(mTheme->mMessageInformationIcon).data() }, CaptionFont{ "icons" }, 
+           WidgetId{ "#icon" },
+           Caption{ utf8(mTheme->mMessageInformationIcon).data() }, CaptionFont{ "icons" },
            FontSize{ 50 }
          },
          elm::Label{ WidgetId{ "#message" }, FixedWidth{ 200 }});
 
   widget(WidgetId{ "#panel_buttons" },
          WidgetBoxLayout{ Orientation::Horizontal, Alignment::Middle, 0, 15},
-         Element<Button>{ 
+         Element<Button>{
            WidgetId{ "#alt_button"} , Caption{ "Ok" }, Icon{ mTheme->mMessageAltButtonIcon },
            ButtonCallback{ [&] { if (mCallback) mCallback(1); dispose(); }}, IsVisible{ false }
          },
-         Element<Button>{ 
+         Element<Button>{
            WidgetId{ "#button" }, Caption{ "Cancel" }, Icon{ mTheme->mMessagePrimaryButtonIcon },
            ButtonCallback{ [&] { if (mCallback) mCallback(0); dispose(); }}
          });
- 
+
 }
 
 Label *MessageDialog::messageLabel() { return findWidget<Label>("#message"); }
@@ -59,7 +59,7 @@ void MessageDialog::setMessage(const std::string& message)
 void MessageDialog::setDialogType(int type)
 {
   int icon = 0;
-  switch ((Type)type) 
+  switch ((Type)type)
   {
     case Type::Information: icon = mTheme->mMessageInformationIcon; break;
     case Type::Question: icon = mTheme->mMessageQuestionIcon; break;
@@ -130,7 +130,7 @@ void InAppNotification::draw(NVGcontext* ctx)
   }
 
   Window::draw(ctx);
-  
+
   if (mState == Expand)
   {
     if (position().y() > parent()->size().y() - size().y())

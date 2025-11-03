@@ -3,7 +3,7 @@
   The widget drawing code is based on the NanoVG demo application
   by Mikko Mononen.
   Api redesigned by dalerank <dalerankn8@gmail.com
-  
+
   All rights reserved. Use of this source code is governed by a
   BSD-style license that can be found in the LICENSE.txt file.
 */
@@ -14,7 +14,7 @@
 
 NAMESPACE_BEGIN(nanogui)
 
-namespace kbkey 
+namespace kbkey
 {
   extern const char* right;
   extern const char* left;

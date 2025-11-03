@@ -50,7 +50,7 @@ void LedMatrix::drawLEDs(NVGcontext* ctx)
   float hside = height() / mRowCount;
 
   float side = std::min(wside, hside);
-  
+
   if (mCacheDirty)
   {
     mCacheDirty = false;
@@ -78,7 +78,7 @@ void LedMatrix::drawLEDs(NVGcontext* ctx)
 
         float x = mPos.x() + side / 2;
         float y = mPos.y() + side / 2;
-        
+
         nvgEllipse(ctx, x + col * side, y + row * side, side / 2, side / 2);
       }
       nvgFill(ctx);

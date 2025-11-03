@@ -31,7 +31,7 @@ enum class Alignment : uint8_t {
 };
 
 /// !
-enum class TextAlignment { 
+enum class TextAlignment {
   Auto = 0, ///<
   Left,     ///<
   Center,   ///<
@@ -86,7 +86,7 @@ public:
     void setId(int id) { mId = id; }
 
     int getId() const { return mId; }
-       
+
 protected:
     /// Default destructor (exists for inheritance).
     virtual ~Layout() { }

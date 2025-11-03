@@ -135,7 +135,7 @@ PYBIND11_MODULE(nanogui, m) {
 
                     Screen screen({ 1600, 900 }, "NanoGUI Python", false);
                     nanogui::sample::setup_window_params(window, &screen);
-                    
+
                     nanogui::sample::run([&] {
                       nanogui::sample::clear_frame(screen.background());
 
@@ -147,7 +147,7 @@ PYBIND11_MODULE(nanogui, m) {
                       nanogui::sample::wait_events();
                     }, handle->refresh);
                 });
-            
+
             return handle;
         } else {
             py::gil_scoped_release release;
@@ -211,7 +211,7 @@ PYBIND11_MODULE(nanogui, m) {
         .value("Middle", Alignment::Middle)
         .value("Maximum", Alignment::Maximum)
         .value("Fill", Alignment::Fill);
-    
+
     py::enum_<TextAlignment>(m, "TextAlignment", D(TextAlignment))
       .value("Auto", TextAlignment::Auto)
       .value("Left", TextAlignment::Left)

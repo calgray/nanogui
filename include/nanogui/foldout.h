@@ -28,7 +28,7 @@ public:
     std::string name;
     std::string caption;
   };
-  
+
   explicit Foldout(Widget* parent);
 
   using Widget::set;

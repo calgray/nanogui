@@ -81,7 +81,7 @@ protected:
   Color mBackgroundColor;
   Color mDarkLedColor;
   std::vector<std::vector<int>> colorTable;
-  
+
   std::map<int, std::vector<int>> mCache;
   bool mCacheDirty = true;
 

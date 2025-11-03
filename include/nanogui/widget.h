@@ -561,12 +561,12 @@ public:
     void setDebugDraw(bool en) { mDebugDraw = en; }
     template<typename FF, typename none = void> void set() {}
 
-    template<typename FF, typename First, typename... Args> void set(const ElementBase& h, const Args&... args) 
+    template<typename FF, typename First, typename... Args> void set(const ElementBase& h, const Args&... args)
     { this->addChild(h.w);  ((FF*)this)->template set<FF, Args...>(args...); }
 
-    template<typename FF, typename First, typename... Args> void set(const TooltipBase& h, const Args&... args) 
+    template<typename FF, typename First, typename... Args> void set(const TooltipBase& h, const Args&... args)
     { this->setTooltip(h.w);  ((FF*)this)->template set<FF, Args...>(args...); }
-    
+
     template<typename WidgetClass, typename... Args>
     WidgetClass& wdg(const Args&... args) { auto widget = new WidgetClass(this, args...); return *widget; }
     template<typename LayoutClass, typename... Args>
@@ -611,7 +611,7 @@ public:
     template<typename Scalar, typename... Args>NumberPicker<Scalar>& numpicker(const Args&... args) { return wdg<NumberPicker<Scalar>>(args...); }
     template<typename... Args>Frame& frame(const Args&... args) { return wdg<Frame>(args...); }
     template<typename... Args>Line& line(const Args&... args) { return wdg<Line>(args...); }
-    
+
 public:
     PROPSETTER(FixedHeight, setFixedHeight)
     PROPSETTER(FixedWidth, setFixedWidth)

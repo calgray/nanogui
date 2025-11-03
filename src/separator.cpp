@@ -41,7 +41,7 @@ void Line::performLayout(NVGcontext *ctx)
 {
   Vector2i psize = parent() ? parent()->size() : Vector2i{ 1, 1 };
   Vector2i pref = preferredSize(ctx);
-  
+
   if (haveDrawFlag(Line::Horizontal))
     pref.x() = mRelSize.x() > 0 ? mRelSize.x() * psize.x() : psize.x();
   else

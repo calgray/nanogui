@@ -28,7 +28,7 @@ DECLSETTER(ImagePamelCallback, std::function<void(int)>)
  *
  * \brief Image panel widget which shows a number of square-shaped icons.
  */
-class NANOGUI_EXPORT ImagePanel : public Widget 
+class NANOGUI_EXPORT ImagePanel : public Widget
 {
 public:
    using Images = IntStringPairs;

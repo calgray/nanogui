@@ -52,7 +52,7 @@ void ProgressBar::draw(NVGcontext* ctx) {
     nvgFill(ctx);
 }
 
-void ProgressBar::save(Json::value &s) const 
+void ProgressBar::save(Json::value &s) const
 {
     Widget::save(s);
     auto obj = s.get_obj();

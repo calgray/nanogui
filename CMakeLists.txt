@@ -39,23 +39,23 @@ option(NANOGUI_NANOVG_NOSDK  "Build nanovg with headers from ext folder" True)
 set(NANOGUI_PYTHON_VERSION "" CACHE STRING "Python version to use for compiling the Python plugin")
 
 # Check that we select backend and only one backend
-if (NANOGUI_DX11_BACKEND OR NANOGUI_GL_BACKEND OR NANOGUI_DX12_BACKEND OR NANOGUI_VULKAN_BACKEND)  
+if (NANOGUI_DX11_BACKEND OR NANOGUI_GL_BACKEND OR NANOGUI_DX12_BACKEND OR NANOGUI_VULKAN_BACKEND)
   set(BACKENDS_SELECTED "")
-  if (NANOGUI_GL_BACKEND) 
+  if (NANOGUI_GL_BACKEND)
     add_definitions(-DNANOGUI_OPENGL_BACKEND=1)
-    list(APPEND BACKENDS_SELECTED "OpenGl") 
+    list(APPEND BACKENDS_SELECTED "OpenGl")
   endif()
-  if (NANOGUI_DX11_BACKEND) 
+  if (NANOGUI_DX11_BACKEND)
     add_definitions(-DNANOGUI_DX11_BACKEND=1)
-    list(APPEND BACKENDS_SELECTED "DX11") 
+    list(APPEND BACKENDS_SELECTED "DX11")
   endif()
-  if (NANOGUI_DX12_BACKEND) 
+  if (NANOGUI_DX12_BACKEND)
     add_definitions(-DNANOGUI_DX12_BACKEND=1)
-    list(APPEND BACKENDS_SELECTED "DX12") 
-  endif() 
-  if (NANOGUI_VULKAN_BACKEND) 
+    list(APPEND BACKENDS_SELECTED "DX12")
+  endif()
+  if (NANOGUI_VULKAN_BACKEND)
     add_definitions(-DNANOGUI_VULKAN_BACKEND=1)
-    list(APPEND BACKENDS_SELECTED "Vulkan") 
+    list(APPEND BACKENDS_SELECTED "Vulkan")
   endif()
 
   set(BACKENDS_SELECTED_SIZE "")
@@ -65,17 +65,17 @@ if (NANOGUI_DX11_BACKEND OR NANOGUI_GL_BACKEND OR NANOGUI_DX12_BACKEND OR NANOGU
       "Select one of backends: opengl(NANOGUI_GL_BACKEND), dx11(NANOGUI_DX11_BACKEND), dx12(NANOGUI_DX12_BACKEND), vulkan(NANOGUI_VULKAN_BACKEND)"
       "Current selected: ${BACKENDS_SELECTED}"
       "Remove CMakeCache.txt that apply changes"
-    )	
-  endif()    
+    )
+  endif()
 else()
   message(FATAL_ERROR "No backends selected! "
      "Select one of backends: opengl(NANOGUI_GL_BACKEND), dx11(NANOGUI_DX11_BACKEND), dx12(NANOGUI_DX12_BACKEND), vulkan(NANOGUI_VULKAN_BACKEND)"
-  )	  
+  )
 endif()
 
 # Required libraries, flags, and include files for compiling and linking against nanogui (all targets)
 set(NANOGUI_EXTRA_LIBS "")
-set(NANOGUI_EXTRA_DEFS "") 
+set(NANOGUI_EXTRA_DEFS "")
 set(NANOGUI_EXTRA_INCS "")
 
 # Platform-dependent files for libnanogui
@@ -108,7 +108,7 @@ endmacro()
 
 # Python support: add NANOGUI_PYTHON flag to all targets
 if (NANOGUI_BUILD_PYTHON)
-  list(APPEND NANOGUI_EXTRA_DEFS -DNANOGUI_PYTHON) 
+  list(APPEND NANOGUI_EXTRA_DEFS -DNANOGUI_PYTHON)
 endif()
 
 # Shared library mode: add dllimport/dllexport flags to all symbols
@@ -206,7 +206,7 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   string (REGEX REPLACE ".*clang version ([0-9]+\\.[0-9]+).*" "\\1" CLANG_VERSION_STRING ${clang_full_version_string})
   if (CLANG_VERSION_STRING VERSION_GREATER 3.7)
     message(STATUS "NanoGUI: using libc++ because clang greater 3.7")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++") 
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
   else ()
     CHECK_CXX_COMPILER_AND_LINKER_FLAGS(HAS_LIBCPP "-stdlib=libc++" "-stdlib=libc++")
     if (HAS_LIBCPP)
@@ -224,7 +224,7 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     else()
       message(STATUS "NanoGUI: NOT using libc++.")
     endif()
-  endif()  
+  endif()
 endif()
 
 if (NANOGUI_USE_GLAD)
@@ -310,7 +310,7 @@ elseif (NANOGUI_VULKAN_BACKEND)
   endif()
   message( "Vulkan include header found: ${Vulkan_INCLUDE_DIR}")
   include_directories(${Vulkan_INCLUDE_DIR})
-  list(APPEND NANOGUI_EXTRA_LIBS ${Vulkan_LIBRARY}) 
+  list(APPEND NANOGUI_EXTRA_LIBS ${Vulkan_LIBRARY})
 elseif (NANOGUI_DX11_BACKEND)
   list(APPEND NANOGUI_EXTRA_LIBS d3d11 dxguid)
 elseif (NANOGUI_DX12_BACKEND)
@@ -409,7 +409,7 @@ add_definitions(${NANOGUI_EXTRA_DEFS})
 set(NANOGUI_BACKEND_SOURCES "")
 
 if (NANOGUI_GL_BACKEND)
-  list(APPEND NANOGUI_BACKEND_SOURCES  
+  list(APPEND NANOGUI_BACKEND_SOURCES
     include/nanogui/glcanvas.h src/glfw/glcanvas_glfw.cpp
     include/nanogui/glutil.h src/glfw/glutil_glfw.cpp
 
@@ -418,29 +418,29 @@ if (NANOGUI_GL_BACKEND)
     src/glfw/gpu_glfw.cpp
   )
 elseif (NANOGUI_VULKAN_BACKEND)
-  list (APPEND NANOGUI_BACKEND_SOURCES 
-    include/nanogui/nanovg_vk.h 
-    src/vulkan/vulkan_util.h 
+  list (APPEND NANOGUI_BACKEND_SOURCES
+    include/nanogui/nanovg_vk.h
+    src/vulkan/vulkan_util.h
     src/vulkan/common_vk.cpp
     src/vulkan/shaders_vk.cpp
     src/vulkan/gpu_vk.cpp
-  ) 
+  )
 elseif (NANOGUI_DX11_BACKEND)
   list(APPEND NANOGUI_BACKEND_SOURCES
-    src/dx11/common_dx11.h src/dx11/common_dx11.cpp 
+    src/dx11/common_dx11.h src/dx11/common_dx11.cpp
     src/dx11/gpu_dx11.cpp
   )
 elseif (NANOGUI_DX12_BACKEND)
   list(APPEND NANOGUI_BACKEND_SOURCES
-    src/dx12/common_dx12.h src/dx12/common_dx12.cpp 
+    src/dx12/common_dx12.h src/dx12/common_dx12.cpp
     src/dx12/gpu_dx12.cpp
-	
+
   	include/nanogui/nanovg_d3d12.h  src/dx12/nanovg_d3d12.cpp
   	src/dx12/nanovg_dx12_utils.cpp
   	src/dx12/nanovg_dx12_render.cpp
   	src/dx12/nanovg_dx12_alloc.cpp
   	src/dx12/nanovg_dx12_res.cpp
-      
+
   	src/dx12/dx12_dyn_imports.h src/dx12/dx12_dyn_imports.cpp
     src/dx12/dx12_subset.h src/dx12/dx12_subset.cpp
   	src/dx12/dx12_subset_resource.h src/dx12/dx12_subset_resource.cpp
@@ -596,7 +596,7 @@ endif()
 
 # Build example application if desired
 if(NANOGUI_BUILD_EDITOR)
-  add_executable(editorl      
+  add_executable(editorl
     editor/editor.cpp editor/widgetctor.cpp)
   target_link_libraries(editorl   nanogui ${NANOGUI_EXTRA_LIBS})
 
@@ -612,7 +612,7 @@ if(NANOGUI_BUILD_HONSU)
     link_directories("c:/Program Files/OpenSSL-Win64/lib")
 
     list(APPEND HONSU_OPENSSL_LIBS libssl libcrypto)
-  elseif (APPLE)  
+  elseif (APPLE)
     include_directories("/usr/local/opt/openssl/include")
     link_directories("/usr/local/opt/openssl/lib")
     list(APPEND HONSU_OPENSSL_LIBS ssl crypto)
@@ -624,7 +624,7 @@ if(NANOGUI_BUILD_HONSU)
 
     list(APPEND HONSU_OPENSSL_LIBS ${OPENSSL_LIBRARIES})
   endif()
-  add_executable(honsu 
+  add_executable(honsu
     honsu/honsu_main.cpp )
 
   if (MSVC)
@@ -659,12 +659,12 @@ if (NANOGUI_BUILD_PYTHON)
 
   if (NOT ${NANOGUI_PYTHON_VERSION} EQUAL "")
     message(STATUS "NanoGUI: building with Python plugin, manual options set")
-  else()  
+  else()
     list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/ext/pybind11/tools")
 
     set(Python_ADDITIONAL_VERSIONS 3.7 3.6 3.5 3.4)
     find_package(PythonLibsNew ${NANOGUI_PYTHON_VERSION})
-  
+
     message(STATUS "PYTHON_VALUES: " "${_PYTHON_VALUES}")
 
     if (NOT PYTHONLIBS_FOUND)
@@ -673,7 +673,7 @@ if (NANOGUI_BUILD_PYTHON)
       message(WARNING "NanoGUI: not building the Python plugin!")
     else()
       set(PYTHON_INCLUDE_DIRS ${PYTHON_INCLUDE_DIR})
-    endif()    
+    endif()
   endif()
   # Try to autodetect Python (can be overridden manually if needed)
 
@@ -683,20 +683,20 @@ if (NANOGUI_BUILD_PYTHON)
 
   # Need PIC code in libnanogui even when compiled as a static library
   set_target_properties(nanogui-obj PROPERTIES POSITION_INDEPENDENT_CODE ON)
-  
-  set(PYTHON_BACKEND_SOURCES "")  
+
+  set(PYTHON_BACKEND_SOURCES "")
   if (NANOGUI_VULKAN_BACKEND AND NANOGUI_GLFW_NOSDK)
     set_target_properties(glfw_objects PROPERTIES POSITION_INDEPENDENT_CODE ON)
-  endif()  
+  endif()
 
   if (NANOGUI_GL_BACKEND AND NANOGUI_GLFW_NOSDK)
     set_target_properties(glfw_objects PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
-    list(APPEND PYTHON_BACKEND_SOURCES 
-         python/glcanvas.cpp 
+    list(APPEND PYTHON_BACKEND_SOURCES
+         python/glcanvas.cpp
          python/glutil.cpp)
   endif()
- 
+
 
   include_directories("ext/pybind11/include" ${PYTHON_INCLUDE_DIRS})
   add_library(nanogui-python-obj OBJECT
@@ -710,7 +710,7 @@ if (NANOGUI_BUILD_PYTHON)
     python/tabs.cpp
     python/textbox.cpp
     python/theme.cpp
-    
+
     python/formhelper.cpp
     python/misc.cpp
 

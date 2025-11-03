@@ -11,7 +11,7 @@ RTTI_IMPLEMENT_INFO(ListboxItem, Button)
 RTTI_IMPLEMENT_INFO(Listbox, Widget)
 
 ListboxItem::ListboxItem(Widget* parent, const std::string& str)
-  : Button(parent) 
+  : Button(parent)
 {
   setCaption(str);
 }

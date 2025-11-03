@@ -309,4 +309,3 @@ bool ColorWheel::load(Json::value &save) {
 }
 
 NAMESPACE_END(nanogui)
-

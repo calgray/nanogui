@@ -84,7 +84,7 @@ void Graph::draw(NVGcontext *ctx) {
     nvgStroke(ctx);
 }
 
-void Graph::save(Json::value &s) const 
+void Graph::save(Json::value &s) const
 {
     Widget::save(s);
     auto obj = s.get_obj();
@@ -100,11 +100,11 @@ void Graph::save(Json::value &s) const
     s = Json::value(obj);
 }
 
-bool Graph::load(Json::value &save) 
+bool Graph::load(Json::value &save)
 {
     Widget::load(save);
     json s{ save.get_obj() };
-    
+
     mCaption = s.get<std::string>("caption");
     mHeader = s.get<std::string>("header");
     mFooter = s.get<std::string>("footer");
@@ -112,7 +112,7 @@ bool Graph::load(Json::value &save)
     mForegroundColor = s.get<Color>("foregroundColor");
     mTextColor = s.get<Color>("textColor");
     mValues = s.get<decltype(mValues)>("values");
-    
+
     return true;
 }
 

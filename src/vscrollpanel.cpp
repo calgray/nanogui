@@ -135,7 +135,7 @@ void VScrollPanel::draw(NVGcontext *ctx) {
         ctx, mPos.x() + mSize.x() - 12 + 1, mPos.y() + 4 + 1, 8,
         mSize.y() - 8, 3, 4, Color(0, 32), Color(0, 92));
     nvgBeginPath(ctx);
-    nvgRoundedRect(ctx, mPos.x() + mSize.x() - 12, mPos.y() + 4, 
+    nvgRoundedRect(ctx, mPos.x() + mSize.x() - 12, mPos.y() + 4,
                    8, mSize.y() - 8, 3);
     nvgFillPaint(ctx, paint);
     nvgFill(ctx);
@@ -168,7 +168,7 @@ void VScrollPanel::draw(NVGcontext *ctx) {
     Widget::draw(ctx);
 }
 
-void VScrollPanel::save(Json::value &s) const 
+void VScrollPanel::save(Json::value &s) const
 {
   Widget::save(s);
   auto obj = s.get_obj();
@@ -178,7 +178,7 @@ void VScrollPanel::save(Json::value &s) const
   s = Json::value(obj);
 }
 
-bool VScrollPanel::load(Json::value &save) 
+bool VScrollPanel::load(Json::value &save)
 {
   Widget::load(save);
   json s{ save.get_obj() };

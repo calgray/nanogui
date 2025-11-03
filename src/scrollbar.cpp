@@ -178,7 +178,7 @@ void ScrollBar::draw(NVGcontext *ctx) {
   }
 }
 
-void ScrollBar::save(Json::value &s) const 
+void ScrollBar::save(Json::value &s) const
 {
     Widget::save(s);
     auto obj = s.get_obj();
@@ -189,7 +189,7 @@ void ScrollBar::save(Json::value &s) const
     s = Json::value(obj);
 }
 
-bool ScrollBar::load(Json::value &save) 
+bool ScrollBar::load(Json::value &save)
 {
     Widget::load(save);
     json s{ save.get_obj() };

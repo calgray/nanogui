@@ -26,7 +26,7 @@ bool Splitter::mouseDragEvent(const Vector2i &, const Vector2i &rel,
     {
       Widget* prevElem = *(it - 1);
       Vector2i ws = prevElem->size();
-      ws += (mOrientation == Orientation::Horizontal) 
+      ws += (mOrientation == Orientation::Horizontal)
                              ? Vector2i{0, rel.y()}
                              : Vector2i{rel.x(), 0};
 

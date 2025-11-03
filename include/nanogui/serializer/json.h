@@ -329,23 +329,23 @@ GET(object, *u_.object_)
 GET(int64_t, u_.int64_)
 
 //specific case that convert int64 to double
-template <> inline const double &value::get<double>() const {                                                                      
-  PICOJSON_ASSERT("type mismatch! call is<type>() before get<type>()" && is<double>());          
+template <> inline const double &value::get<double>() const {
+  PICOJSON_ASSERT("type mismatch! call is<type>() before get<type>()" && is<double>());
   if (type_ == int64_type)
   {
     const_cast<value *>(this)->type_ = number_type;
     const_cast<value *>(this)->u_.number_ = u_.int64_;
   }
-  return u_.number_;                                                                                                                    
-}                                                                                                                                
-template <> inline double &value::get<double>() {                                                                                
-  PICOJSON_ASSERT("type mismatch! call is<type>() before get<type>()" && is<double>());        
+  return u_.number_;
+}
+template <> inline double &value::get<double>() {
+  PICOJSON_ASSERT("type mismatch! call is<type>() before get<type>()" && is<double>());
   if (type_ == int64_type)
   {
     const_cast<value *>(this)->type_ = number_type;
     const_cast<value *>(this)->u_.number_ = u_.int64_;
   }
-  return u_.number_;                                                                                                                                             
+  return u_.number_;
 }
 
 #define SET(ctype, jtype, setter)                                                                                                  \
@@ -438,10 +438,10 @@ inline void value::update(std::function<bool(Json::value& v)> f)
 {
   int i = 0;
   Json::value* info = &get(i++);
-  while (!info->is<Json::null>()) { 
-    bool next = f(*info); 
-    if (!next) break; 
-    info = &get(i++); 
+  while (!info->is<Json::null>()) {
+    bool next = f(*info);
+    if (!next) break;
+    info = &get(i++);
   }
 }
 

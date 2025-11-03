@@ -20,7 +20,7 @@ RTTI_IMPLEMENT_INFO(Slider, Widget)
 
 Slider::Slider(Widget *parent)
     : Widget(parent), mRange(0.f, 1.f),
-      mHighlightedRange(0.f, 0.f) 
+      mHighlightedRange(0.f, 0.f)
 {
   mValue = 0.f;
   mHighlightColor = Color(255, 80, 80, 70);
@@ -65,7 +65,7 @@ bool Slider::mouseButtonEvent(const Vector2i &p, int /* button */, bool down, in
     return true;
 }
 
-void Slider::draw(NVGcontext* ctx) 
+void Slider::draw(NVGcontext* ctx)
 {
     Vector2f center = mPos.cast<float>() + mSize.cast<float>() * 0.5f;
     float kr = (int) (mSize.y() * 0.4f), kshadow = 3;
@@ -86,7 +86,7 @@ void Slider::draw(NVGcontext* ctx)
     nvgFillPaint(ctx, bg);
     nvgFill(ctx);
 
-    if (mHighlightedRange.second != mHighlightedRange.first) 
+    if (mHighlightedRange.second != mHighlightedRange.first)
     {
         nvgBeginPath(ctx);
         nvgRoundedRect(ctx, startX + mHighlightedRange.first * mSize.x(),
@@ -159,7 +159,7 @@ bool Slider::load(Json::value &save) {
   Widget::load(save);
   json s{ save.get_obj() };
 
-  mValue = s.get<float>("value"); 
+  mValue = s.get<float>("value");
   auto r = save.get("range");
   mRange = { r.get_float("min"), r.get_float("max") };
   auto hr = save.get("highlightedRange");

@@ -66,7 +66,7 @@ using namespace nanogui;
 // add a button to the wrapper with a fixed size
 // `icon` should be the defined constant in nanogui/entypo.h
 // the button label will be the string that represents this
-#define ADD_BUTTON(icon) wrapper->button(Caption{ #icon }, Icon{ icon }, FixedWidth{btn_width}, IconAlignment{IconAlign::Left} );      
+#define ADD_BUTTON(icon) wrapper->button(Caption{ #icon }, Icon{ icon }, FixedWidth{btn_width}, IconAlignment{IconAlign::Left} );
 
 int main(int /* argc */, char ** /* argv */) {
     nanogui::init();

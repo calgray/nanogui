@@ -162,7 +162,7 @@ void sample::clear_frame(const Color& background)
   vkCmdSetScissor(internal::cmd_buffer, 0, 1, &scissor);
 }
 
-void sample::present_frame(void* window) 
+void sample::present_frame(void* window)
 {
   VkResult res;
 
@@ -383,7 +383,7 @@ void sample::set_window_topmost(WindowHandle w, bool top, bool always)
 {
 #ifdef _WIN32
   HWND realw = glfwGetWin32Window((GLFWwindow*)w);
-  
+
   ShowWindow(realw, TRUE);
   SetForegroundWindow(realw);
   RECT rect;
@@ -405,7 +405,7 @@ void sample::set_window_topmost(WindowHandle w, bool top, bool always)
 #endif
 }
 
-Vector2i sample::get_window_pos(WindowHandle w) 
+Vector2i sample::get_window_pos(WindowHandle w)
 {
   Vector2i pos;
   glfwGetWindowPos((GLFWwindow*)w, &pos.x(), &pos.y());
@@ -519,9 +519,9 @@ intptr_t __nanogui_create_cursor(int shape) { return (intptr_t)glfwCreateStandar
 
 void sample::frame_loop(std::function<void()> &f) {
   while (is_main_loop_active())
-  { 
+  {
     f();
-  }; 
+  };
 }
 
 void sample::create_context()

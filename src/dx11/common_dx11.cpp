@@ -76,7 +76,7 @@ void dx11SetDrawCallback(const std::function<void()> &f) { drawCallback = f; }
 void sample::set_window_topmost(WindowHandle w, bool top, bool always)
 {
   HWND realw = (HWND)w;
-  
+
   ShowWindow(realw, TRUE);
   SetForegroundWindow(realw);
   RECT rect;
@@ -882,7 +882,7 @@ sample::WindowHandle sample::create_window(int& w, int& h, const std::string& ca
   if (fullscreen) {
     //???
   }
-  else 
+  else
   {
     rcWin.left = 0;
     rcWin.right = w;

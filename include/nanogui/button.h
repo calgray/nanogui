@@ -32,7 +32,7 @@ DECLSETTER(ButtonPushed, bool)
 DECLSETTER(InactiveColor, Color)
 DECLSETTER(HoveredTextColor, Color)
 
-class NANOGUI_EXPORT Button : public Widget 
+class NANOGUI_EXPORT Button : public Widget
 {
 public:
     //property(ButtonCallback, std::function<void()>, setCallback)
@@ -133,7 +133,7 @@ public:
 
     /// Sets whether or not this Button is currently pushed.
     void setPushed(bool pushed) { mPushed = pushed; }
-   
+
     BoolObservable observable() { return mPushed; }
     void setObservable(BoolObservable value) { mPushed = value; }
 
@@ -151,7 +151,7 @@ public:
 
     /// Set the change callback (for toggle buttons).
     void setChangeCallback(const std::function<void(Button*)> &callback) { mChangeCallback = callback; }
-    
+
     /// Set the button group (for radio buttons).
     void setButtonGroup(const std::vector<Button *> &buttonGroup) { mButtonGroup = buttonGroup; }
 
@@ -283,7 +283,7 @@ public:
   RTTI_CLASS_UID(RadioButton)
   RTTI_DECLARE_INFO(RadioButton)
 
-  explicit RadioButton(Widget* parent) 
+  explicit RadioButton(Widget* parent)
     : Button(parent, ButtonFlags{ Button::RadioButton }) {}
 
   using Button::set;

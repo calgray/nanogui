@@ -56,16 +56,16 @@ struct json {
   inline operator Json::value() const { return Json::value(obj); }
 
   template<typename T> std::vector<T> get_array(const _s& n, std::function<T (const _v&)> conv) const {
-    auto it = obj.find(n); 
+    auto it = obj.find(n);
     if (it == obj.end())
       return{};
 
     std::vector<T> ret;
     int i = 0;
     Json::value e = it->second.get(i);
-    while (!e.is<Json::null>()) { 
+    while (!e.is<Json::null>()) {
       ret.push_back(conv(e));
-      e = it->second.get(i++); 
+      e = it->second.get(i++);
     }
     return ret;
   }

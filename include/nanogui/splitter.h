@@ -1,6 +1,6 @@
 /*
 NanoGUI was developed by Wenzel Jakob <wenzel.jakob@epfl.ch> and
-dalerank <dalerankn8@gmail.com> The widget drawing code is based 
+dalerank <dalerankn8@gmail.com> The widget drawing code is based
 on the NanoVG demo application by Mikko Mononen.
 
 All rights reserved. Use of this source code is governed by a
@@ -20,7 +20,7 @@ NAMESPACE_BEGIN(nanogui)
 
 DECLSETTER(SplitterDir, Orientation)
 
-class NANOGUI_EXPORT Splitter : public Widget 
+class NANOGUI_EXPORT Splitter : public Widget
 {
 public:
   RTTI_CLASS_UID(Splitter)

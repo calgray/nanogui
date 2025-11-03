@@ -9,7 +9,7 @@
 
 NAMESPACE_BEGIN(nanogui)
 
-namespace 
+namespace
 {
 static std::map<unsigned int, const Color*> _colors;
 

@@ -49,13 +49,13 @@ void Frame::draw(NVGcontext *ctx)
   float cr = mCornerRadius > 0 ? mCornerRadius : theme()->mWindowCornerRadius;
   float bs = mBorderSize > 0 ? mBorderSize : theme()->windowBorderSize;
 
-  //Body  
+  //Body
   nvgBeginPath(ctx);
   nvgRoundedRect(ctx, mPos, size(), cr);
   nvgFillColor(ctx, mBackgroundColor.notW(mTheme->mWindowFillFocused));
   nvgFill(ctx);
 
-  //Border  
+  //Border
   nvgBeginPath(ctx);
   nvgStrokeWidth(ctx, bs);
   nvgRoundedRect(ctx, mPos, size(), cr);
@@ -117,11 +117,11 @@ ContextMenu& Window::submenu(const std::string& caption, const std::string& id)
 
 const Vector2i& Window::size() const { return mCollapsed ? mCollapsedSize : mSize; }
 
-Vector2i Window::preferredSize(NVGcontext *ctx) const 
+Vector2i Window::preferredSize(NVGcontext *ctx) const
 {
   if (mButtonPanel)
     mButtonPanel->setVisible(false);
-  
+
   Vector2i result = Widget::preferredSize(ctx);
   if (mButtonPanel)
     mButtonPanel->setVisible(true);
@@ -197,7 +197,7 @@ void Window::afterDraw(NVGcontext *ctx)
   Widget::afterDraw(ctx);
 }
 
-void Window::draw(NVGcontext *ctx) 
+void Window::draw(NVGcontext *ctx)
 {
   int cr = theme()->mWindowCornerRadius;
   int hh = getHeaderHeight();
@@ -225,7 +225,7 @@ void Window::draw(NVGcontext *ctx)
     nvgRoundedRect(ctx, mPos, { width(), realH }, cr);
 
     nvgStrokeWidth(ctx, theme()->windowBorderSize);
-    nvgStrokeColor(ctx, mMouseFocus ? mTheme->windowBorderColorFocused  
+    nvgStrokeColor(ctx, mMouseFocus ? mTheme->windowBorderColorFocused
                                     : mTheme->windowBorderColorUnfocused);
     nvgStroke(ctx);
     nvgRestore(ctx);
@@ -278,7 +278,7 @@ void Window::draw(NVGcontext *ctx)
     nvgLineTo(ctx, mPos.x() + mSize.x() - 0.5f, mPos.y() + hh - 1.5);
     nvgStrokeColor(ctx, mTheme->mWindowHeaderSepBot);
     nvgStroke(ctx);
- 
+
     if (haveDrawFlag(DrawTitle))
     {
       nvgFontSize(ctx, mFontSize ? mFontSize : theme()->mWindowFontSize);
@@ -319,7 +319,7 @@ void Window::draw(NVGcontext *ctx)
 
     if (mFixedSize == Vector2i::Zero())
     {
-      bool inCorner = mMouseFocus && isTriangleContainsPoint(mSize, mSize - Vector2i(15, ds), 
+      bool inCorner = mMouseFocus && isTriangleContainsPoint(mSize, mSize - Vector2i(15, ds),
                                                              mSize - Vector2i(ds, 15), mMousePos - mPos);
       nvgBeginPath(ctx);
       nvgMoveTo(ctx, mPos.x() + mSize.x() - 15, mPos.y() + mSize.y() - 2);
@@ -356,19 +356,19 @@ bool Window::mouseMotionEvent(const Vector2i &p, const Vector2i &rel, int button
       mCursor = Cursor::HResize;
     else if (innerPos.y() < dragw || innerPos.y() > height() - dragw)
       mCursor = Cursor::VResize;
-  } 
+  }
 
   return Widget::mouseMotionEvent(p, rel, button, modifiers);
 }
 
 bool Window::mouseDragEvent(const Vector2i &, const Vector2i &rel,
-                            int buttons, int /* modifiers */) 
+                            int buttons, int /* modifiers */)
 {
   if (!isDraggable())
     return false;
   bool edgeResize = canEdgeResize();
 
-  if ((mDrag == dragHeader || mDrag == dragBody) && isMouseButtonLeftMod(buttons)) 
+  if ((mDrag == dragHeader || mDrag == dragBody) && isMouseButtonLeftMod(buttons))
   {
     mPos += rel;
     if (theme()->windowMoveInParent)
@@ -377,7 +377,7 @@ bool Window::mouseDragEvent(const Vector2i &, const Vector2i &rel,
       mPos = mPos.cwiseMin(parent()->size() - size());
     }
     return true;
-  } 
+  }
   else if (edgeResize && mDrag == dragTop)
   {
     mPos.y() += rel.y();
@@ -404,7 +404,7 @@ bool Window::mouseDragEvent(const Vector2i &, const Vector2i &rel,
     mNeedPerformUpdate = true;
     return true;
   }
-  else if (mDrag == dragRbCorner && isMouseButtonLeftMod(buttons)) 
+  else if (mDrag == dragRbCorner && isMouseButtonLeftMod(buttons))
   {
     mSize += rel;
     mMousePos += rel;
@@ -450,12 +450,12 @@ void Window::changeCollapsed(bool newstate)
   mCollapsedSize = { width(), getHeaderHeight() };
 }
 
-bool Window::mouseButtonEvent(const Vector2i &p, int button, bool down, int modifiers) 
+bool Window::mouseButtonEvent(const Vector2i &p, int button, bool down, int modifiers)
 {
     if (Widget::mouseButtonEvent(p, button, down, modifiers))
         return true;
 
-    if (isMouseButtonLeft(button) && mEnabled) 
+    if (isMouseButtonLeft(button) && mEnabled)
     {
       Vector2i clkPnt = p - mPos - Vector2i(5,5);
       if (down && isClickInsideCollapseArea(clkPnt))
@@ -464,8 +464,8 @@ bool Window::mouseButtonEvent(const Vector2i &p, int button, bool down, int modi
         return true;
       }
     }
-    
-    if (isMouseButtonLeft(button) && mEnabled) 
+
+    if (isMouseButtonLeft(button) && mEnabled)
     {
       bool moveByHeader = mMoveByHeaderOnly < 0 ? theme()->windowMoveFromTitlebarOnly : (mMoveByHeaderOnly > 0);
       int hh = moveByHeader ? getHeaderHeight() : height();
@@ -519,12 +519,12 @@ bool Window::inFocusChain() const
     != mFocusChain.end();
 }
 
-int Window::getHeaderHeight() const 
-{ 
+int Window::getHeaderHeight() const
+{
   if (!haveDrawFlag(DrawHeader))
     return 0;
-  return mHeaderHeight > 0 
-                  ? mHeaderHeight 
+  return mHeaderHeight > 0
+                  ? mHeaderHeight
                   : (theme()->mWindowHeaderHeight + *theme()->framePaddingTop);
 }
 
@@ -599,10 +599,10 @@ void Panel::requestPerformLayout()
   screen()->needPerformLayout(wp ? wp : mParent);
 }
 
-int Panel::getHeaderHeight() const 
-{ 
-  return mHeaderHeight 
-              ? mHeaderHeight 
+int Panel::getHeaderHeight() const
+{
+  return mHeaderHeight
+              ? mHeaderHeight
               : (theme()->mPanelHeaderHeight + *theme()->framePaddingTop);
 }
 
@@ -691,12 +691,12 @@ Vector4i Panel::getWidgetsArea()
   return area;
 }
 
-void Panel::performLayout(NVGcontext *ctx) 
+void Panel::performLayout(NVGcontext *ctx)
 {
   Window::performLayout(ctx);
 }
 
-Vector2i Panel::preferredSize(NVGcontext *ctx) const 
+Vector2i Panel::preferredSize(NVGcontext *ctx) const
 {
   return Window::preferredSize(ctx);
 }

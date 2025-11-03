@@ -75,7 +75,7 @@ b->setCallback([] { cout << "pushed!" << endl; });
 //or declarative syntax
 
 elm::Button{ Caption{ "Plain button"},
-             ButtonCallback{[] { cout << "pushed!" << endl; }} 
+             ButtonCallback{[] { cout << "pushed!" << endl; }}
 };
 ```
 
@@ -106,16 +106,16 @@ slider->setCallback([textBox](float value) {
 
 //or declarative syntax
 /* Create an empty panel with a horizontal layout */
-elm::Widget{ 
+elm::Widget{
   WidgetBoxLayout{ BoxLayout::Horizontal, BoxLayout::Middle, 0, 20 },
   Children{},
   elm::Slider{ InitialValue{0.5f}, FixedWidth{80},
-               SliderCallback{ [&](float value) { 
+               SliderCallback{ [&](float value) {
                  if (auto t = TextBox::find("#tbx")
                    t.setValue(std::to_string(value * 100);
                 }}
   },
-  elm::TextBox{ FixedSize{60, 25}, TextValue{"50"}, 
+  elm::TextBox{ FixedSize{60, 25}, TextValue{"50"},
                 UnitsText{"%"}, WidgetId{ "#tbx" }
   }
 }

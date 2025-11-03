@@ -203,7 +203,7 @@ ContextMenu& ContextMenu::item(const std::string& name, const std::function<void
   return *this;
 }
 
-ContextMenu& ContextMenu::item(const std::string& name, const std::function<void(bool)>& cb, 
+ContextMenu& ContextMenu::item(const std::string& name, const std::function<void(bool)>& cb,
                                const std::function<void(bool&, bool&)>& condition, int icon)
 {
   item(name, cb, icon);
@@ -376,7 +376,7 @@ bool ContextMenu::mouseButtonEvent(const Vector2i& p, int button, bool down, int
     return true;
 }
 
-void ContextMenu::draw(NVGcontext* ctx) 
+void ContextMenu::draw(NVGcontext* ctx)
 {
   if (mUpdateLayout)
   {

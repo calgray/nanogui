@@ -30,7 +30,7 @@ NAMESPACE_BEGIN(nanogui)
  */
 DECLSETTER(SwitchboxAlign, int)
 
-class NANOGUI_EXPORT SwitchBox : public CheckBox 
+class NANOGUI_EXPORT SwitchBox : public CheckBox
 {
 public:
   RTTI_CLASS_UID(SwitchBox)

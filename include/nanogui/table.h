@@ -284,4 +284,3 @@ private:
 };
 
 NAMESPACE_END(nanogui)
-

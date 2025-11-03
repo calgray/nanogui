@@ -44,7 +44,7 @@ public:
 
     using Window::set;
     template<typename... Args>
-    MessageDialog(Widget* parent, const Args&... args) 
+    MessageDialog(Widget* parent, const Args&... args)
       : MessageDialog(parent, Orientation::Vertical)
     { set<MessageDialog, Args...>(args...); }
 

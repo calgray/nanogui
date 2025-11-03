@@ -63,7 +63,7 @@ int TextBox::fontSize() const
   return mFontSize > 0 ? mFontSize : mTheme->mTextBoxFontSize;
 }
 
-Vector2i TextBox::preferredSize(NVGcontext *ctx) const 
+Vector2i TextBox::preferredSize(NVGcontext *ctx) const
 {
     Vector2i size(0, fontSize() * 1.4f);
 
@@ -106,13 +106,13 @@ void TextBox::createBoxGradient(NVGcontext* ctx, NVGpaint& fg, const Color& c1, 
                            cr, 4, c1, c2);
 }
 
-void TextBox::draw(NVGcontext* ctx) 
+void TextBox::draw(NVGcontext* ctx)
 {
     int cornerRadius = getCornerRadius();
     NVGpaint fg1;
     createBoxGradient(ctx, fg1,
-                      mBackgroundHoverColor.notW(theme()->textBoxFocusedColorIn), 
-                      mBackgroundHoverColor.notW(theme()->textBoxFocusedColorOut), 
+                      mBackgroundHoverColor.notW(theme()->textBoxFocusedColorIn),
+                      mBackgroundHoverColor.notW(theme()->textBoxFocusedColorOut),
                       cornerRadius);
 
     //background fill
@@ -123,7 +123,7 @@ void TextBox::draw(NVGcontext* ctx)
     if (mEditable && focused())
     {
       if (!mValidFormat)
-        createBoxGradient(ctx, fg1, 
+        createBoxGradient(ctx, fg1,
                           theme()->textBoxInvalidFormatColorIn, theme()->textBoxInvalidFormatColorOut,
                           cornerRadius);
     }
@@ -133,9 +133,9 @@ void TextBox::draw(NVGcontext* ctx)
     }
     else
     {
-      createBoxGradient(ctx, fg1, 
-                        mBackgrodunColor.notW(theme()->textBoxUnfocusedColorIn), 
-                        mBackgrodunColor.notW(theme()->textBoxUnfocusedColorOut), 
+      createBoxGradient(ctx, fg1,
+                        mBackgrodunColor.notW(theme()->textBoxUnfocusedColorIn),
+                        mBackgrodunColor.notW(theme()->textBoxUnfocusedColorOut),
                         cornerRadius);
     }
 
@@ -148,8 +148,8 @@ void TextBox::draw(NVGcontext* ctx)
     nvgBeginPath(ctx);
     float bs = mBorderSize > 0 ? mBorderSize : theme()->textBoxBorderSize;
     nvgStrokeWidth(ctx, bs );
-    nvgRoundedRect(ctx, mPos.x() + (-bs/2+0.5f), mPos.y() + (-bs/2+0.5f), 
-                        mSize.x() + (bs/2+0.5f), mSize.y() + (bs/2+0.5f), 
+    nvgRoundedRect(ctx, mPos.x() + (-bs/2+0.5f), mPos.y() + (-bs/2+0.5f),
+                        mSize.x() + (bs/2+0.5f), mSize.y() + (bs/2+0.5f),
                         cornerRadius - 0.5f);
     nvgStrokeColor(ctx, mBorderColor.notW(theme()->textBoxBorderColor));
     nvgStroke(ctx);
@@ -326,7 +326,7 @@ void TextBox::draw(NVGcontext* ctx)
     Widget::draw(ctx);
 }
 
-bool TextBox::mouseButtonEvent(const Vector2i &p, int button, bool down, int modifiers) 
+bool TextBox::mouseButtonEvent(const Vector2i &p, int button, bool down, int modifiers)
 {
     if (isMouseButtonLeft(button) && down && !mFocused) {
         if (!mSpinnable || spinArea(p) == SpinArea::None) /* not on scrolling arrows */
@@ -443,15 +443,15 @@ bool TextBox::focusEvent(bool focused) {
     return true;
 }
 
-bool TextBox::keyboardEvent(int key, int scancode, int action, int modifiers) 
+bool TextBox::keyboardEvent(int key, int scancode, int action, int modifiers)
 {
   if (!focused())
     return false;
 
-  if (mEditable) 
+  if (mEditable)
   {
     if (isKeyboardActionPress(action) || isKeyboardActionRepeat(action)) {
-        if (isKeyboardKey(key, "LEFT")) 
+        if (isKeyboardKey(key, "LEFT"))
         {
             if (isKeyboardModifierShift(modifiers)) {
                 if (mSelectionPos == -1)
@@ -463,7 +463,7 @@ bool TextBox::keyboardEvent(int key, int scancode, int action, int modifiers)
             if (mCursorPos > 0)
                 mCursorPos--;
         }
-        else if (isKeyboardKey(key, "RGHT")) 
+        else if (isKeyboardKey(key, "RGHT"))
         {
             if (isKeyboardModifierShift(modifiers)) {
                 if (mSelectionPos == -1)
@@ -474,8 +474,8 @@ bool TextBox::keyboardEvent(int key, int scancode, int action, int modifiers)
 
             if (mCursorPos < (int) mValueTemp.length())
                 mCursorPos++;
-        } 
-        else if (isKeyboardKey(key, "HOME")) 
+        }
+        else if (isKeyboardKey(key, "HOME"))
         {
             if (isKeyboardModifierShift(modifiers)) {
                 if (mSelectionPos == -1)
@@ -485,8 +485,8 @@ bool TextBox::keyboardEvent(int key, int scancode, int action, int modifiers)
             }
 
             mCursorPos = 0;
-        } 
-        else if (isKeyboardKey(key, "KEND")) 
+        }
+        else if (isKeyboardKey(key, "KEND"))
         {
             if (isKeyboardModifierShift(modifiers)) {
                 if (mSelectionPos == -1)
@@ -496,8 +496,8 @@ bool TextBox::keyboardEvent(int key, int scancode, int action, int modifiers)
             }
 
             mCursorPos = (int) mValueTemp.size();
-        } 
-        else if (isKeyboardKey(key, "BACK")) 
+        }
+        else if (isKeyboardKey(key, "BACK"))
         {
             if (!deleteSelection()) {
                 if (mCursorPos > 0) {
@@ -508,8 +508,8 @@ bool TextBox::keyboardEvent(int key, int scancode, int action, int modifiers)
                       mEditCallback(mValueTemp, true);
                 }
             }
-        } 
-        else if (isKeyboardKey(key, "KDEL")) 
+        }
+        else if (isKeyboardKey(key, "KDEL"))
         {
             if (!deleteSelection()) {
               if (mCursorPos < (int)mValueTemp.length())
@@ -519,8 +519,8 @@ bool TextBox::keyboardEvent(int key, int scancode, int action, int modifiers)
                   mEditCallback(mValueTemp, true);
               }
             }
-        } 
-        else if (isKeyboardKey(key, "ENTR")) 
+        }
+        else if (isKeyboardKey(key, "ENTR"))
         {
             if (!mCommitted)
                 focusEvent(false);
@@ -529,22 +529,22 @@ bool TextBox::keyboardEvent(int key, int scancode, int action, int modifiers)
               mComitCallback(this);
               return true;
             }
-        } 
-        else if (isKeyboardKey(key, "KEYA") && isKeyboardModifierCtrl(modifiers)) 
+        }
+        else if (isKeyboardKey(key, "KEYA") && isKeyboardModifierCtrl(modifiers))
         {
             mCursorPos = (int) mValueTemp.length();
             mSelectionPos = 0;
-        } 
-        else if (isKeyboardKey(key, "KEYX") && isKeyboardModifierCtrl(modifiers)) 
+        }
+        else if (isKeyboardKey(key, "KEYX") && isKeyboardModifierCtrl(modifiers))
         {
             copySelection();
             deleteSelection();
-        } 
-        else if (isKeyboardKey(key, "KEYC") && isKeyboardModifierCtrl(modifiers)) 
+        }
+        else if (isKeyboardKey(key, "KEYC") && isKeyboardModifierCtrl(modifiers))
         {
             copySelection();
-        } 
-        else if (isKeyboardKey(key, "KEYV") && isKeyboardModifierCtrl(modifiers)) 
+        }
+        else if (isKeyboardKey(key, "KEYV") && isKeyboardModifierCtrl(modifiers))
         {
             deleteSelection();
             pasteFromClipboard();
@@ -736,7 +736,7 @@ void TextBox::save(Json::value &s) const
   s = Json::value(obj);
 }
 
-bool TextBox::load(Json::value &save) 
+bool TextBox::load(Json::value &save)
 {
   Widget::load(save);
   json s{ save.get_obj() };

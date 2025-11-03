@@ -238,7 +238,7 @@ const char* dx12GetClipboardString(HWND window)
 void sample::set_window_topmost(WindowHandle w, bool top, bool always)
 {
   HWND realw = (HWND)w;
-  
+
   ShowWindow(realw, TRUE);
   SetForegroundWindow(realw);
   RECT rect;
@@ -335,7 +335,7 @@ uint32_t key2fourcc(int key)
     RET_KEYCODE(VK_BACKSPACE, "BACK")
     RET_KEYCODE(VK_EXECUTE, "ENTR")
     RET_KEYCODE(VK_ESCAPE, "ESCP")
-    RET_KEYCODE(VK_SPACE,  "SPCE")    
+    RET_KEYCODE(VK_SPACE,  "SPCE")
 #undef RET_KEYCODE
   default: return FOURCC("UNKN");
   }}
@@ -555,7 +555,7 @@ void init() {
   hInstance = GetModuleHandle(NULL);
   if (!MyRegisterClass(hInstance))
     throw std::runtime_error("Could not initialize window!");
-  QueryPerformanceCounter((LARGE_INTEGER*)&dx12startTime);  
+  QueryPerformanceCounter((LARGE_INTEGER*)&dx12startTime);
   QueryPerformanceFrequency((LARGE_INTEGER*)&dx12timeFreq);
 }
 
@@ -685,16 +685,16 @@ sample::WindowHandle sample::create_window(int& w, int& h, const std::string& ca
 }
 
 void sample::present_frame(void* window)
-{ 
+{
     pDX12.fr_end();
 }
 
-void sample::clear_frame(const Color& background) 
+void sample::clear_frame(const Color& background)
 {
   if (!pDX12.isRunning)
     return;
 
-  pDX12.fr_start(); 
+  pDX12.fr_start();
 }
 
 void sample::create_context() {

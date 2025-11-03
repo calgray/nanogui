@@ -211,17 +211,17 @@ public:
   }
   inline static const RttiClass* staticRttiClass_const() { return IntBox<Scalar>::staticRttiClass(); }
   inline RttiClass* rttiClass() const override { return IntBox<Scalar>::staticRttiClass(); }
-  inline IntBox<Scalar>* cast(Object*v) 
-  { 
-    if (v && v->isKindOf(IntBox<Scalar>::staticRttiClass()))  
-      return static_cast<IntBox<Scalar>*>(v);  
-    return nullptr; 
-  }
-  inline const IntBox<Scalar>* cast(const Object*v) 
+  inline IntBox<Scalar>* cast(Object*v)
   {
-    if (v && v->isKindOf(IntBox<Scalar>::staticRttiClass_const()))  
-      return static_cast<const IntBox<Scalar>*>(v);  
-    return nullptr; 
+    if (v && v->isKindOf(IntBox<Scalar>::staticRttiClass()))
+      return static_cast<IntBox<Scalar>*>(v);
+    return nullptr;
+  }
+  inline const IntBox<Scalar>* cast(const Object*v)
+  {
+    if (v && v->isKindOf(IntBox<Scalar>::staticRttiClass_const()))
+      return static_cast<const IntBox<Scalar>*>(v);
+    return nullptr;
   }
 
     explicit IntBox(Widget *parent, Scalar value = (Scalar) 0) : TextBox(parent, std::string("")) {
@@ -552,7 +552,7 @@ public:
     box.setRelativeSize(0.5f, 0);
   }
 
-  void setSplit(float split) 
+  void setSplit(float split)
   {
     if (auto w = find<Label>())
       w->setRelativeSize({ split, 0 });

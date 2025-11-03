@@ -18,18 +18,18 @@ NAMESPACE_BEGIN(nanogui)
 
 RTTI_IMPLEMENT_INFO(ComboBox, PopupButton)
 
-ComboBox::ComboBox(Widget *parent) 
-  : PopupButton(parent), mSelectedIndex(0) 
+ComboBox::ComboBox(Widget *parent)
+  : PopupButton(parent), mSelectedIndex(0)
 {}
 
 ComboBox::ComboBox(Widget *parent, const std::vector<std::string> &items)
-    : PopupButton(parent), mSelectedIndex(0) 
+    : PopupButton(parent), mSelectedIndex(0)
 {
     setItems(items);
 }
 
 ComboBox::ComboBox(Widget *parent, const std::vector<std::string> &items, const std::vector<std::string> &itemsShort)
-    : PopupButton(parent), mSelectedIndex(0) 
+    : PopupButton(parent), mSelectedIndex(0)
 {
     setItems(items, itemsShort);
 }
@@ -42,7 +42,7 @@ void ComboBox::updatePopup()
     setItems(mItems, mItemsShort);
 }
 
-void ComboBox::setSelectedIndex(int idx) 
+void ComboBox::setSelectedIndex(int idx)
 {
   if (mItemsShort.empty())
     return;
@@ -73,7 +73,7 @@ void ComboBox::resolveClickItem(int index)
     mStrCallback(mItems[index]);
 }
 
-void ComboBox::setItems(const std::vector<std::string> &items, const std::vector<std::string> &itemsShort) 
+void ComboBox::setItems(const std::vector<std::string> &items, const std::vector<std::string> &itemsShort)
 {
   assert(items.size() == itemsShort.size());
   mItems = items;
@@ -98,9 +98,9 @@ void ComboBox::setItems(const std::vector<std::string> &items, const std::vector
   setSelectedIndex(mSelectedIndex);
 }
 
-bool ComboBox::scrollEvent(const Vector2i &p, const Vector2f &rel) 
+bool ComboBox::scrollEvent(const Vector2i &p, const Vector2f &rel)
 {
-  if (rel.y() < 0) 
+  if (rel.y() < 0)
   {
     setSelectedIndex(std::min(mSelectedIndex+1, (int)(items().size()-1)));
     if (mCallback)
@@ -108,8 +108,8 @@ bool ComboBox::scrollEvent(const Vector2i &p, const Vector2f &rel)
     if (mStrCallback)
       mStrCallback(mItems[mSelectedIndex]);
     return true;
-  } 
-  else if (rel.y() > 0) 
+  }
+  else if (rel.y() > 0)
   {
     setSelectedIndex(std::max(mSelectedIndex-1, 0));
     if (mCallback)

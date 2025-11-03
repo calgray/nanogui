@@ -909,7 +909,7 @@ static void vknvg_setUniforms(VKNVGcontext *vk, VkDescriptorSet descSet, int uni
     vkUpdateDescriptorSets(device, 2, writes, 0, nullptr);
   }
 
-  
+
 }
 
 static void vknvg_fill(VKNVGcontext *vk, VKNVGcall *call) {

@@ -34,8 +34,8 @@ void TextArea::setText(const std::string &text)
 }
 
 TextArea& TextArea::header(const std::string &text)
-{ 
-  append(text + "\n"); 
+{
+  append(text + "\n");
   return *this;
 }
 
@@ -70,7 +70,7 @@ void TextArea::appendIcon(int icon)
   mNeedUpdate = true;
 }
 
-void TextArea::append(const std::string &text) 
+void TextArea::append(const std::string &text)
 {
     NVGcontext *ctx = screen()->nvgContext();
 
@@ -92,7 +92,7 @@ void TextArea::append(const std::string &text)
 
         m_offset.x() += width;
         m_max_size = std::max(m_max_size, m_offset);
-        if (*str == '\n') 
+        if (*str == '\n')
         {
             m_offset = Vector2i(mIndentWidth, m_offset.y() + fontSize());
             m_max_size = m_max_size.cwiseMax(m_offset);
@@ -102,24 +102,24 @@ void TextArea::append(const std::string &text)
     mNeedUpdate = true;
 }
 
-void TextArea::clear() 
+void TextArea::clear()
 {
     m_blocks.clear();
     m_offset = m_max_size = Vector2i(0, 0);
     m_selection_start = m_selection_end = Vector2i(-1, -1);
 }
 
-bool TextArea::keyboardEvent(int key, int scancode, int action, int modifiers) 
+bool TextArea::keyboardEvent(int key, int scancode, int action, int modifiers)
 {
   if (!focused())
     return false;
 
   const Vector2i nonePos(-1, -1);
-    if (m_selectable && focused()) 
+    if (m_selectable && focused())
     {
-        if (isKeyboardKey(key, "KEYC") 
-            && isKeyboardModifierCtrl(modifiers) 
-            && isKeyboardActionPress(action) 
+        if (isKeyboardKey(key, "KEYC")
+            && isKeyboardModifierCtrl(modifiers)
+            && isKeyboardActionPress(action)
             && m_selection_start != nonePos && m_selection_end != nonePos)
         {
             Vector2i start = m_selection_start, end = m_selection_end;
@@ -129,7 +129,7 @@ bool TextArea::keyboardEvent(int key, int scancode, int action, int modifiers)
             std::string str;
             const int max_glyphs = 1024;
             NVGglyphPosition glyphs[max_glyphs + 1];
-            for (int i = start.x(); i <= end.x(); ++i) 
+            for (int i = start.x(); i <= end.x(); ++i)
             {
                 if (i > start.x() && m_blocks[i].offset.y() != m_blocks[i-1].offset.y())
                     str += '\n';
@@ -153,19 +153,19 @@ bool TextArea::keyboardEvent(int key, int scancode, int action, int modifiers)
             return true;
         }
     }
-  
+
   return Widget::keyboardEvent(key, scancode, action, modifiers);
 }
 
 Vector2i TextArea::preferredSize(NVGcontext *) const { return m_max_size + m_padding * 2; }
 
-void TextArea::draw(NVGcontext *ctx) 
+void TextArea::draw(NVGcontext *ctx)
 {
     VScrollPanel *vscroll = VScrollPanel::cast(mParent);
 
     auto start_it = m_blocks.begin();
     auto end_it = m_blocks.end();
-    if (vscroll) 
+    if (vscroll)
     {
       int window_offset = -position().y();
       int window_size = vscroll->size().y();
@@ -184,7 +184,7 @@ void TextArea::draw(NVGcontext *ctx)
           [](int value, const Block &block) { return value < block.offset.y(); }
       );
     }
-    
+
     if (mNeedUpdate)
     {
       auto scr = screen();
@@ -192,7 +192,7 @@ void TextArea::draw(NVGcontext *ctx)
       mNeedUpdate = false;
     }
 
-    if (m_background_color.w() != 0.f) 
+    if (m_background_color.w() != 0.f)
     {
         nvgFillColor(ctx, m_background_color);
         nvgBeginPath(ctx);
@@ -202,7 +202,7 @@ void TextArea::draw(NVGcontext *ctx)
 
     Vector2i selection_end = blockToPosition(m_selection_end);
     selection_end += mPos + m_padding;
-    if (m_selection_end != Vector2i(-1)) 
+    if (m_selection_end != Vector2i(-1))
     {
       int transp = 255;
       if (theme()->textAreaBlinkCursor)
@@ -220,23 +220,23 @@ void TextArea::draw(NVGcontext *ctx)
     selection_start += mPos + m_padding;
     bool flip = false;
     if (selection_start.y() > selection_end.y() ||
-        (selection_start.y() == selection_end.y() && selection_start.x() > selection_end.x())) 
+        (selection_start.y() == selection_end.y() && selection_start.x() > selection_end.x()))
     {
         std::swap(selection_start, selection_end);
         flip = true;
     }
-    
-    if (m_selection_end != Vector2i(-1) && m_selection_end != Vector2i(-1)) 
+
+    if (m_selection_end != Vector2i(-1) && m_selection_end != Vector2i(-1))
     {
         nvgBeginPath(ctx);
         nvgFillColor(ctx, m_selection_color);
-        if (selection_end.y() == selection_start.y()) 
+        if (selection_end.y() == selection_start.y())
         {
             nvgRect(ctx, selection_start.x(), selection_start.y(),
                     selection_end.x() - selection_start.x(),
                     fontSize());
-        } 
-        else 
+        }
+        else
         {
             nvgRect(ctx, selection_start.x(), selection_start.y(),
                     m_blocks[flip ? m_selection_end.x() : m_selection_start.x()].width -
@@ -252,7 +252,7 @@ void TextArea::draw(NVGcontext *ctx)
     nvgFontSize(ctx, fontSize());
     nvgTextAlign(ctx, NVG_ALIGN_LEFT | NVG_ALIGN_TOP);
 
-    for (auto it = start_it; it != end_it; ++it) 
+    for (auto it = start_it; it != end_it; ++it)
     {
         const Block &block = *it;
         Color color = block.color;
@@ -262,7 +262,7 @@ void TextArea::draw(NVGcontext *ctx)
         Vector2i offset = block.offset + mPos + m_padding;
 
         if (m_selection_end != Vector2i(-1) && m_selection_end != Vector2i(-1) &&
-            offset.y() > selection_start.y() && offset.y() < selection_end.y()) 
+            offset.y() > selection_start.y() && offset.y() < selection_end.y())
         {
             nvgFillColor(ctx, m_selection_color);
             nvgBeginPath(ctx);
@@ -293,7 +293,7 @@ void TextArea::draw(NVGcontext *ctx)
     }
 }
 
-bool TextArea::mouseButtonEvent(const Vector2i &p, int button, bool down, int /* modifiers */) 
+bool TextArea::mouseButtonEvent(const Vector2i &p, int button, bool down, int /* modifiers */)
 {
     if (down && isMouseButtonLeft(button) && m_selectable)
     {
@@ -305,9 +305,9 @@ bool TextArea::mouseButtonEvent(const Vector2i &p, int button, bool down, int /*
     return false;
 }
 
-bool TextArea::mouseDragEvent(const Vector2i &p, const Vector2i &/* rel */, int /* button */, int /* modifiers */) 
+bool TextArea::mouseDragEvent(const Vector2i &p, const Vector2i &/* rel */, int /* button */, int /* modifiers */)
 {
-    if (m_selection_start != Vector2i(-1) && m_selectable) 
+    if (m_selection_start != Vector2i(-1) && m_selectable)
     {
         m_selection_end = positionToBlock(p - mPos - m_padding);
         return true;
@@ -315,7 +315,7 @@ bool TextArea::mouseDragEvent(const Vector2i &p, const Vector2i &/* rel */, int 
     return false;
 }
 
-Vector2i TextArea::positionToBlock(const Vector2i &pos) const 
+Vector2i TextArea::positionToBlock(const Vector2i &pos) const
 {
     NVGcontext *ctx = const_cast<TextArea*>(this)->screen()->nvgContext();
     auto it = std::lower_bound(
@@ -328,7 +328,7 @@ Vector2i TextArea::positionToBlock(const Vector2i &pos) const
     NVGglyphPosition glyphs[max_glyphs];
     int selection = 0;
 
-    if (it == m_blocks.end()) 
+    if (it == m_blocks.end())
     {
         if (m_blocks.empty())
             return Vector2i(-1, 1);
@@ -336,8 +336,8 @@ Vector2i TextArea::positionToBlock(const Vector2i &pos) const
         const Block &block = *it;
         selection = nvgTextGlyphPositions(ctx, block.offset.x(), block.offset.y(),
                               block.text.c_str(), nullptr, glyphs, max_glyphs);
-    } 
-    else 
+    }
+    else
     {
         for (auto it2 = it; it2 != m_blocks.end() && it2->offset.y() == it->offset.y(); ++it2) {
             const Block &block = *it2;
@@ -357,7 +357,7 @@ Vector2i TextArea::positionToBlock(const Vector2i &pos) const
     return Vector2i( it - m_blocks.begin(), selection );
 }
 
-Vector2i TextArea::blockToPosition(const Vector2i &pos) const 
+Vector2i TextArea::blockToPosition(const Vector2i &pos) const
 {
     if (pos.x() < 0 || pos.x() >= (int) m_blocks.size())
         return Vector2i(-1, -1);

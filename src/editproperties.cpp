@@ -119,7 +119,7 @@ void PropertiesEditor::parse(Widget* w)
       else if (typevalue == "boolean")
       {
         /*auto& ch = */grid.checkbox(Caption{ "" },
-                                 CheckboxCallback{ [&](bool v) { jval.set_bool("value", v); updateAttribs(); } }, 
+                                 CheckboxCallback{ [&](bool v) { jval.set_bool("value", v); updateAttribs(); } },
                                  CheckboxState{ jval.get_bool("value") },
                                  valueSize);
         //(void)ch;

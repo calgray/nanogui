@@ -19,7 +19,7 @@ NAMESPACE_BEGIN(nanogui)
 RTTI_IMPLEMENT_INFO(PopupButton, Button)
 
 PopupButton::PopupButton(Widget *parent)
-    : Button(parent) 
+    : Button(parent)
 {
   mChevronIcon = mTheme ? mTheme->mPopupChevronRightIcon : -1;
 
@@ -78,7 +78,7 @@ void PopupButton::setPopup(Popup* pp)
   }
 }
 
-void PopupButton::draw(NVGcontext* ctx) 
+void PopupButton::draw(NVGcontext* ctx)
 {
     if (!mEnabled && mPushed)
         mPushed = false;
@@ -134,7 +134,7 @@ void PopupButton::setSide(Popup::Side side) {
     mPopup->setSide(side);
 }
 
-void PopupButton::save(Json::value &save) const 
+void PopupButton::save(Json::value &save) const
 {
   Button::save(save);
   Json::object obj = save.get_obj();
@@ -143,7 +143,7 @@ void PopupButton::save(Json::value &save) const
   save = Json::value(obj);
 }
 
-bool PopupButton::load(Json::value &save) 
+bool PopupButton::load(Json::value &save)
 {
   Button::load(save);
   json s{ save.get_obj() };

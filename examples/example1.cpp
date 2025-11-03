@@ -119,9 +119,9 @@ void createButtonDemoWindow()
                               "fact, that the shown text will span several lines." } };
 
     elm::Label{ Caption{ "Toggle buttons" }, CaptionFont{ "sans-bold" } };
-    elm::Button { 
+    elm::Button {
         Caption{ "Toggle me" }, ButtonFlags{ Button::ToggleButton },
-        ButtonChangeCallback{ [](Button* b) { cout << "Toggle button state: " << b->pushed() << endl; } } 
+        ButtonChangeCallback{ [](Button* b) { cout << "Toggle button state: " << b->pushed() << endl; } }
     };
 
     elm::Label{ Caption{ "Radio buttons" }, CaptionFont{ "sans-bold" } };
@@ -139,7 +139,7 @@ void createButtonDemoWindow()
 
     elm::Label{ Caption{ "Popup buttons" }, CaptionFont{ "sans-bold" } };
 
-    elm::PopupButton { 
+    elm::PopupButton {
       Caption{ "Popup" }, Icon{ ENTYPO_ICON_EXPORT },
       PopupWidget<> { WidgetGroupLayout{},
         elm::Label{ "Arbitrary widgets can be placed here" },
@@ -147,18 +147,18 @@ void createButtonDemoWindow()
         // popup right
         elm::PopupButton {
           Caption{ "Recursive popup" }, Icon{ ENTYPO_ICON_FLASH },
-          PopupWidget<> { WidgetGroupLayout{}, 
+          PopupWidget<> { WidgetGroupLayout{},
             elm::CheckBox{ Caption{ "Another check box" } }
           }
         },
         // popup left
         elm::PopupButton {
           Caption{ "Recursive popup" }, Icon{ ENTYPO_ICON_FLASH }, PopupSide{ Popup::Side::Left },
-          PopupWidget<> { WidgetGroupLayout{}, 
+          PopupWidget<> { WidgetGroupLayout{},
             elm::CheckBox{ Caption{ "Another check box" } }
           }
         }
-      } 
+      }
     };
 
     elm::Label{ Caption{ "A switch boxes" }, CaptionFont{ "sans-bold" } };
@@ -254,7 +254,7 @@ void createBasicWidgets()
     static int currentImage = 0;
 
     elm::Label{ Caption{"Image panel & scroll panel"}, CaptionFont{"sans-bold"} };
-    elm::PopupButton{ 
+    elm::PopupButton{
       Caption{ "Image Panel" }, Icon{ENTYPO_ICON_FOLDER},
       PopupWidget<>{ FixedSize{ 245, 150 },
         elm::VScrollPanel{
@@ -299,7 +299,7 @@ void createBasicWidgets()
     elm::Label{ Caption{ "Check box" }, CaptionFont{ "sans-bold" } };
     elm::CheckBox{ Caption{ "Flag 1" }, CheckboxState{ true },
       CheckboxCallback{ [](bool state) { cout << "Check box 1 state: " << state << endl; } },
-      UncheckedColor{ 0xC00000ff }, CheckedColor{ 0x00c000ff }, PushedColor{ 0xc0c000ff } 
+      UncheckedColor{ 0xC00000ff }, CheckedColor{ 0x00c000ff }, PushedColor{ 0xc0c000ff }
     };
 
     elm::CheckBox{ Caption{ "Flag 2" }, CheckboxCallback{ [](bool state) { cout << "Check box 2 state: " << state << endl; }} };
@@ -355,7 +355,7 @@ void createBasicWidgets()
           cout << "Final dial value: " << value << endl;
         }}
       };
-        
+
       elm::Textbox{ FixedSize{ 60, 25 }, TextValue{ "0.01" },  WidgetId{ "#dial_textbox" }, TextAlignment::Right };
 
     elm::EndWidget{};
@@ -405,7 +405,7 @@ void createPicflowWindow()
 
     // Load all of the images by creating a GLTexture object and saving the pixel data.
      Element<Picflow>{ PicflowImageSize{ 0.35f, 0.35f },
-                       PicflowFill { 
+                       PicflowFill {
                         [&] (Widget* w) {
                           if (auto flow = Picflow::cast(w))
                             for (auto& icon : icons) {
@@ -413,7 +413,7 @@ void createPicflowWindow()
                               auto data = nvgCreateImage(elm::active_screen()->nvgContext(), fullpath.c_str(), 0);
                               picflowImagesData.emplace_back(data, fullpath);
                               flow->addItem(data);
-                            }                              
+                            }
                         }
                       }
     };
@@ -513,7 +513,7 @@ void createGridSmallObjects(Screen* screen)
 {
   auto& w = screen->window(Caption{ "Grid of small widgets" },
                            Position{ 425, 300 },
-                           WidgetGridLayout{ LayoutMargin { 15 }, 
+                           WidgetGridLayout{ LayoutMargin { 15 },
                                              LayoutHorSpacing { 5 },
                                              ColumnsAligment { Alignment::Maximum, Alignment::Fill }  });
 
@@ -839,16 +839,16 @@ void createAllWidgetsDemo(Screen* screen)
   stcfg.add(elm::Label{ "Frame padding left" }, Element<Slider>{ SliderObservable{ gs()->framePaddingLeft }, SliderRange{ 0.f, 20.f }, screenPerform });
   stcfg.add(elm::Label{ "Frame padding top" },  Element<Slider>{ SliderObservable{ gs()->framePaddingTop }, SliderRange{ 0.f, 20.f }, screenPerform });
   stcfg.add(elm::Label{ "Inner spacing left" }, Element<Slider>{ SliderObservable{ gs()->innerSpacingCommon }, SliderRange{ 0.f, 20.f }, screenPerform});
-  stcfg.add(elm::Label{ "Tool button side" },   
-            Element<Slider>{ 
-                 SliderObservable{ [=] { return (float)gs()->toolButtonSide; }, [=](float v) { gs()->toolButtonSide = (int)v; }}, 
-                 SliderRange{ 15.f, 50.f }, screenPerform 
+  stcfg.add(elm::Label{ "Tool button side" },
+            Element<Slider>{
+                 SliderObservable{ [=] { return (float)gs()->toolButtonSide; }, [=](float v) { gs()->toolButtonSide = (int)v; }},
+                 SliderRange{ 15.f, 50.f }, screenPerform
             });
 
   auto& wopt = iocfg.hgrid2(0.5f, Caption{ "Window options" }, WindowCollapsed{ true });
-  auto dwf = [screen, w = &dw](int f, int v = -1) { 
+  auto dwf = [screen, w = &dw](int f, int v = -1) {
     if (v < 0) return w->haveDrawFlag(f);
-    w->setDrawFlag(f, v>0); 
+    w->setDrawFlag(f, v>0);
     screen->needPerformLayout(screen);
     return false;
   };
@@ -865,30 +865,30 @@ void createAllWidgetsDemo(Screen* screen)
 
   auto& wwidgets = pw.panel(Caption{ "Widgets" }, WindowCollapsed{ true });
   auto& wbasic = wwidgets.panel(Caption{ "Basic" }, WindowCollapsed{ true }, PanelHighlightHeader{ false });
-  wbasic.hstack(5, 2, 
+  wbasic.hstack(5, 2,
                 elm::Button{
                       Caption{"Button"}, FixedHeight{17},
                       ButtonCallback{ [w = &dw] { if (auto l = Label::find("#btn_action", w)) l->setCaption("Thanks for cliking me!!!"); }}
                 },
                 elm::Label{ WidgetId{ "#btn_action" }});
   wbasic.checkbox(Caption{ "checkbox" });
-  auto radio_action = ButtonChangeCallback{ [w = &dw](Button* b) { 
+  auto radio_action = ButtonChangeCallback{ [w = &dw](Button* b) {
     if (b && !b->pushed())
       return;
-    if (auto l = Label::find("#radio_action", w)) 
-      l->setCaption("Clicked " + b->caption()); 
+    if (auto l = Label::find("#radio_action", w))
+      l->setCaption("Clicked " + b->caption());
   }};
   auto makerbtn = [=](std::string text) { return elm::RadioBtn{ Caption{text}, radio_action, FixedHeight{17} }; };
-  wbasic.hstack(5, 2, 
+  wbasic.hstack(5, 2,
                 makerbtn("radio a"), makerbtn("radio b"), makerbtn("radio c"),
                 elm::Label{ WidgetId{ "#radio_action" }});
-                
+
   auto makecbtn = [=](Color c) { return elm::Button{ Caption{ "Click" }, FixedHeight{ 17 }, BackgroundColor{c}}; };
   wbasic.hstack(5, 2, makecbtn(Color::red), makecbtn(Color::yellow), makecbtn(Color::green),
                       makecbtn(Color::blue), makecbtn(Color::purple), makecbtn(Color::pink));
 
-  wbasic.hstack(5, 2, 
-                elm::Label{"Hold to repeat:"}, 
+  wbasic.hstack(5, 2,
+                elm::Label{"Hold to repeat:"},
                 elm::UpDownButton{UpDownCallback{ [w = &dw] (bool v) {
                     static int value = 0;
                     value += (v ? 1 : -1);
@@ -901,8 +901,8 @@ void createAllWidgetsDemo(Screen* screen)
   wbasic.hstack(5, 2,
                 elm::Label{Caption{"Hover over me"}, TooltipText{"I am tooltip"}},
                 elm::Label{" - "},
-                elm::Label{Caption{"or me"},                           
-                           TooltipWidget<Window>{ 
+                elm::Label{Caption{"or me"},
+                           TooltipWidget<Window>{
                               IsVisible{ false },
                               WidgetStretchLayout{ Orientation::Vertical },
                               Caption{ "And I am tooltip too" },
@@ -912,19 +912,19 @@ void createAllWidgetsDemo(Screen* screen)
                           });
   wbasic.widget(FixedHeight{2}, elm::SplitLine{});
   wbasic.frame(WidgetGridLayout{ GridLayoutSplit{ 0.7f, 0.3f }, GridLayoutColAlignment{ Alignment::Fill } },
-               elm::Label{"Value"}, 
+               elm::Label{"Value"},
                     elm::Label{"Caption"},
-               elm::DropdownBox{ 
+               elm::DropdownBox{
                  DropdownBoxFill{ [](string& r) { static char i = 'a'; r = std::string(5, i); return i++ < 'z';  }},
                  ItemHeight{ 20 }
-               }, 
+               },
                     elm::Label{ Caption{"combo (?)"}, TooltipText{ "Combo section fill function example" }},
                elm::Textbox{
                  TextValue{"Input text here!"}, IsEditable{true}, FixedHeight{20},
                  TextBoxEditCallback{ [](const std::string& s, bool) { if (auto l = Label::find("#inp_txt_smp")) l->setCaption(s); }}
-               }, 
+               },
                     elm::Label{ Caption{"Input text"}, WidgetId{"#inp_txt_smp"}},
-               elm::Textbox{ TextPlaceholder{"input text here"}, IsEditable{ true }, FixedHeight{ 20 }}, 
+               elm::Textbox{ TextPlaceholder{"input text here"}, IsEditable{ true }, FixedHeight{ 20 }},
                     elm::Label{ Caption{ "Input text (w/ hint)" }}
 
     );
@@ -1016,7 +1016,7 @@ void makeCustomThemeWindow(Screen* screen, const std::string &title)
 
     // popup button
     auto& popup = layer.popupbutton(Caption{ "Popup" }, Icon{ ENTYPO_ICON_EXPORT })
-                          .popupset(WidgetGroupLayout{}, 
+                          .popupset(WidgetGroupLayout{},
                                     elm::Label{ "Arbitrary widgets can be placed here" },
                                     elm::CheckBox{ Caption{ "A check box" }});
     // popup right
@@ -1155,7 +1155,7 @@ public:
 
         if (auto editor = findWidget<PropertiesEditor>("#prop_editor"))
         {
-          if (lastSelected != mSelectedWidget 
+          if (lastSelected != mSelectedWidget
               && !editor->isMyChildRecursive(mSelectedWidget))
           {
             lastSelected = mSelectedWidget;
@@ -1249,7 +1249,7 @@ private:
     Widget* lastSelected = nullptr;
 };
 
-int main(int /* argc */, char ** /* argv */) 
+int main(int /* argc */, char ** /* argv */)
 {
   nanogui::init();
   Vector2i size{ 1600, 900 };

@@ -196,7 +196,7 @@ public:
 
   Vector2 operator*(const Vector2& o) const { return Vector2(x() * o.x(), y() * o.y()); }
   Vector2& operator*=(const Vector2& o) { x() *= o.x(); y() *= o.y(); return *this; }
-  
+
   template<typename Scalar> Vector2 operator*(Scalar v) const { return Vector2(x() * v, y() * v); }
   template<typename Scalar> Vector2& operator*=(Scalar v) { x() *= v; y() *= v; return *this; }
 
@@ -214,7 +214,7 @@ public:
   inline bool lessOrEq(const Vector2& o) const
   { return (math::lessOrEqual(x(), o.x()) && math::lessOrEqual(y(), o.y())); }
 
-  inline bool lessOrEq(T _x, T _y) const 
+  inline bool lessOrEq(T _x, T _y) const
   { return (math::lessOrEqual(x(), _x) && math::lessOrEqual(y(), _y)); }
 
   //! sort in order X, Y. Equality with rounding tolerance.

@@ -18,7 +18,7 @@ SearchBox::SearchBox(Widget* parent)
   setEditable(true);
   mAlignment = TextAlignment::Left;
 
-  /*auto& btn = */ button(Caption{ "" }, 
+  /*auto& btn = */ button(Caption{ "" },
                      WidgetId{ "#cancel_btn"},
                      Icon{ ENTYPO_ICON_CANCEL_CIRCLED },
                      HoveredTextColor{ Color(0xff0000ff) },
@@ -27,9 +27,9 @@ SearchBox::SearchBox(Widget* parent)
 }
 
 int SearchBox::getCornerRadius() const { return mSize.y() / 2 - 1; }
-void SearchBox::clearText() 
-{ 
-  setValue("");  
+void SearchBox::clearText()
+{
+  setValue("");
   mValueTemp.clear();
   mCursorPos = -1;
   mSelectionPos = -1;

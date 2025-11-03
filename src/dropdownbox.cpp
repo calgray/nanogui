@@ -28,7 +28,7 @@ public:
   bool mInlist = true;
 
   DropdownListItem(Widget* parent, const std::string& str, bool inlist=true)
-    : Button(parent), mInlist(inlist) 
+    : Button(parent), mInlist(inlist)
   {
     setCaption(str);
   }
@@ -320,14 +320,14 @@ DropdownBox::DropdownBox(Widget *parent)
 }
 
 DropdownBox::DropdownBox(Widget *parent, const std::vector<std::string> &items)
-    : DropdownBox(parent) 
+    : DropdownBox(parent)
 {
   setItems(items);
 }
 
-void DropdownBox::setItemHeight(int h) 
-{ 
-  mItemHeight = h; 
+void DropdownBox::setItemHeight(int h)
+{
+  mItemHeight = h;
   setFixedHeight(h > 0 ? h : 0);
 }
 
@@ -349,12 +349,12 @@ void DropdownBox::updatePopup()
 }
 
 DropdownBox::DropdownBox(Widget *parent, const std::vector<std::string> &items, const std::vector<std::string> &itemsShort)
-    : DropdownBox(parent) 
+    : DropdownBox(parent)
 {
   setItems(items, itemsShort);
 }
 
-void DropdownBox::performLayout(NVGcontext *ctx) 
+void DropdownBox::performLayout(NVGcontext *ctx)
 {
   PopupButton::performLayout(ctx);
   if (auto dpopup = DropdownPopup::cast(mPopup))
@@ -367,7 +367,7 @@ void DropdownBox::performLayout(NVGcontext *ctx)
   }
 }
 
-void DropdownBox::setSelectedIndex(int idx) 
+void DropdownBox::setSelectedIndex(int idx)
 {
   if (mItemsShort.empty())
     return;
@@ -398,7 +398,7 @@ void DropdownBox::resolveItemClick(int index)
     mStrCallback(mItems[index]);
 }
 
-void DropdownBox::setItems(const std::vector<std::string> &items, const std::vector<std::string> &itemsShort) 
+void DropdownBox::setItems(const std::vector<std::string> &items, const std::vector<std::string> &itemsShort)
 {
     assert(items.size() == itemsShort.size());
     mItems = items;
@@ -425,7 +425,7 @@ void DropdownBox::setItems(const std::vector<std::string> &items, const std::vec
       }
 
       int index = 0;
-      for (const auto &str : items) 
+      for (const auto &str : items)
       {
         auto& button = mStack->wdg<DropdownListItem>(str);
         button.setFlags(Button::RadioButton);
@@ -440,7 +440,7 @@ void DropdownBox::setItems(const std::vector<std::string> &items, const std::vec
 
 bool DropdownBox::mouseButtonEvent(const Vector2i &p, int button, bool down, int modifiers)
 {
-  if (isMouseButtonLeft(button) && mEnabled) 
+  if (isMouseButtonLeft(button) && mEnabled)
   {
     if (!mItems.empty())
     {
@@ -452,9 +452,9 @@ bool DropdownBox::mouseButtonEvent(const Vector2i &p, int button, bool down, int
   return PopupButton::mouseButtonEvent(p, button, down, modifiers);
 }
 
-bool DropdownBox::scrollEvent(const Vector2i &p, const Vector2f &rel) 
+bool DropdownBox::scrollEvent(const Vector2i &p, const Vector2f &rel)
 {
-    if (rel.y() < 0) 
+    if (rel.y() < 0)
     {
         setSelectedIndex(std::min(mSelectedIndex+1, (int)(items().size()-1)));
         if (mCallback)
@@ -462,8 +462,8 @@ bool DropdownBox::scrollEvent(const Vector2i &p, const Vector2f &rel)
         if (mStrCallback)
           mStrCallback(mItems[mSelectedIndex]);
         return true;
-    } 
-    else if (rel.y() > 0) 
+    }
+    else if (rel.y() > 0)
     {
         setSelectedIndex(std::max(mSelectedIndex-1, 0));
         if (mCallback)
@@ -475,7 +475,7 @@ bool DropdownBox::scrollEvent(const Vector2i &p, const Vector2f &rel)
     return PopupButton::scrollEvent(p, rel);
 }
 
-void DropdownBox::draw(NVGcontext* ctx) 
+void DropdownBox::draw(NVGcontext* ctx)
 {
   if (!mEnabled && mPushed)
     mPushed = false;
@@ -485,13 +485,13 @@ void DropdownBox::draw(NVGcontext* ctx)
 
   Button::draw(ctx);
 
-  if (mChevronIcon) 
+  if (mChevronIcon)
   {
     auto icon = utf8(mChevronIcon);
 
     nvgFontSize(ctx, (mFontSize < 0 ? mTheme->mButtonFontSize : mFontSize) * icon_scale());
     nvgFontFace(ctx, "icons");
-    nvgFillColor(ctx, mEnabled 
+    nvgFillColor(ctx, mEnabled
                           ? mTextColor.notW(mTheme->mTextColor)
                           : mTheme->mDisabledTextColor);
     nvgTextAlign(ctx, NVG_ALIGN_LEFT | NVG_ALIGN_MIDDLE);
@@ -508,7 +508,7 @@ void DropdownBox::draw(NVGcontext* ctx)
   }
 }
 
-void DropdownBox::save(Json::value &s) const 
+void DropdownBox::save(Json::value &s) const
 {
     Widget::save(s);
     auto obj = s.get_obj();
@@ -520,7 +520,7 @@ void DropdownBox::save(Json::value &s) const
     s = Json::value(obj);
 }
 
-bool DropdownBox::load(Json::value &save) 
+bool DropdownBox::load(Json::value &save)
 {
   Widget::load(save);
   json s{ save.get_obj() };

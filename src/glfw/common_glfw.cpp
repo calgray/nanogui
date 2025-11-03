@@ -121,7 +121,7 @@ uint32_t key2fourcc(int key)
   }
 }
 
-namespace sample 
+namespace sample
 {
 
 void create_context()
@@ -333,7 +333,7 @@ void set_window_topmost(WindowHandle w, bool top, bool always)
 {
 #if WIN32
   HWND realw = glfwGetWin32Window((GLFWwindow*)w);
-  
+
   ShowWindow(realw, TRUE);
   SetForegroundWindow(realw);
   RECT rect;
@@ -355,7 +355,7 @@ void set_window_topmost(WindowHandle w, bool top, bool always)
 #endif
 }
 
-Vector2i get_window_pos(WindowHandle w) 
+Vector2i get_window_pos(WindowHandle w)
 {
   Vector2i pos;
   glfwGetWindowPos((GLFWwindow*)w, &pos.x(), &pos.y());
@@ -373,7 +373,7 @@ WindowHandle create_window(int& w, int& h, const std::string& caption, bool resi
   unsigned int glMinor = 3;
 
   int colorBits = 8;
-  int alphaBits = 8; 
+  int alphaBits = 8;
   int depthBits = 24;
   int stencilBits = 8;
   int nSamples = 0;

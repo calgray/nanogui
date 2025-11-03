@@ -34,7 +34,7 @@ DECLSETTER(SeparatorLine, std::string)
 DECLSETTER(IndentWidth, int)
 DECLSETTER(UnindentWidth, int)
 
-class NANOGUI_EXPORT TextArea : public Widget 
+class NANOGUI_EXPORT TextArea : public Widget
 {
 public:
     RTTI_CLASS_UID(TextArea)
@@ -64,7 +64,7 @@ public:
 
     /// Return the widget's background color (a global property)
     const Color &backgroundColor() const { return m_background_color; }
-    
+
     /// Set the widget's selection color (a global property)
     void setSelectionColor(const Color &selection_color) { m_selection_color = selection_color; }
 

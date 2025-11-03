@@ -19,8 +19,8 @@ NAMESPACE_BEGIN(nanogui)
 
 RTTI_IMPLEMENT_INFO(ColorPicker, PopupButton)
 
-ColorPicker::ColorPicker(Widget *parent, const Color& color) 
-  : PopupButton(parent) 
+ColorPicker::ColorPicker(Widget *parent, const Color& color)
+  : PopupButton(parent)
 {
     setBackgroundColor(color);
     Popup *popup = this->popup();

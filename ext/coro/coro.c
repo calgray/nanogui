@@ -800,4 +800,3 @@ coro_stack_free (struct coro_stack *stack)
 }
 
 #endif
-

@@ -85,4 +85,3 @@ using namespace nanogui;
 PYBIND11_DECLARE_HOLDER_TYPE(T, ref<T>);
 
 #endif /* __PYTHON_H */
-

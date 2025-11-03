@@ -21,10 +21,10 @@ RTTI_IMPLEMENT_INFO(CheckBox, Widget)
 CheckBox::CheckBox(Widget *parent, const std::string &caption,
                    std::function<void(bool)> callback,
                    bool initial)
-    : Widget(parent), 
-      mCaption(caption), 
+    : Widget(parent),
+      mCaption(caption),
       mPushed(false),
-      mCallback(callback) 
+      mCallback(callback)
 {
   mIconExtraScale = 1.2f;// widget override
   mChecked = initial;
@@ -39,11 +39,11 @@ bool CheckBox::mouseButtonEvent(const Vector2i &p, int button, bool down,
     if (isMouseButtonLeft(button)) {
         if (down) {
             mPushed = true;
-        } 
-        else if (mPushed) 
+        }
+        else if (mPushed)
         {
             if (contains(p))
-              toggleCheck();           
+              toggleCheck();
             mPushed = false;
         }
         return true;
@@ -58,7 +58,7 @@ void CheckBox::toggleCheck()
     mCallback(mChecked);
 }
 
-Vector2i CheckBox::preferredSize(NVGcontext *ctx) const 
+Vector2i CheckBox::preferredSize(NVGcontext *ctx) const
 {
     nvgFontFaceSize(ctx, "sans", fontSize());
     Vector2i prefSize( nvgTextBounds(ctx, 0, 0, mCaption.c_str(), nullptr, nullptr) + 1.8f * fontSize(),
@@ -88,15 +88,15 @@ bool CheckBox::keyboardEvent(int key, int scancode, int action, int mods)
   return Widget::keyboardEvent(key, scancode, action, mods);
 }
 
-void CheckBox::draw(NVGcontext *ctx) 
+void CheckBox::draw(NVGcontext *ctx)
 {
     Widget::draw(ctx);
 
     nvgFontFaceSize(ctx, "sans", fontSize());
     nvgFillColor(ctx, mEnabled ? mTheme->mTextColor : mTheme->mDisabledTextColor);
     nvgTextAlign(ctx, NVG_ALIGN_LEFT | NVG_ALIGN_MIDDLE);
-    nvgText(ctx, mPos + Vector2i( 0.6f * fontSize() + height() + *theme()->innerSpacingCommon, 
-                                  height() / 2 ), 
+    nvgText(ctx, mPos + Vector2i( 0.6f * fontSize() + height() + *theme()->innerSpacingCommon,
+                                  height() / 2 ),
             mCaption);
 
     const Color& pushedColor = mPushedColor.notW(mTheme->mCheckboxPushedColor);
@@ -136,7 +136,7 @@ bool CheckBox::load(Json::value &save) {
   Widget::load(save);
   json s{ save.get_obj() };
 
-  mCaption = s.get<std::string>("caption");  
+  mCaption = s.get<std::string>("caption");
   mPushed = s.get<bool>("pushed");
   mChecked = s.get<bool>("checked");
 

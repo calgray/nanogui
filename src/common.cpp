@@ -378,4 +378,3 @@ float nvgTextHeight(NVGcontext* ctx, float x, float y, const char* string, const
 }
 
 NAMESPACE_END(nanogui)
-

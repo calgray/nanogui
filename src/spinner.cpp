@@ -41,8 +41,8 @@ void Spinner::draw(NVGcontext* ctx)
   nvgBeginPath(ctx);
   nvgRoundedRect(ctx, mPos.x() + 1, mPos.y() + 1.0f, mSize.x() - 2,
                       mSize.y() - 2, mTheme->mButtonCornerRadius - 1);
-  NVGpaint bg = nvgLinearGradient(ctx, mPos.x(), mPos.y(), 
-                                  mPos.x(), mPos.y() + mSize.y(), 
+  NVGpaint bg = nvgLinearGradient(ctx, mPos.x(), mPos.y(),
+                                  mPos.x(), mPos.y() + mSize.y(),
                                   gradTop.mul_a(mBackgroundW), gradBot.mul_a(mBackgroundW));
 
   nvgFillPaint(ctx, bg);

@@ -164,7 +164,7 @@ struct Url
     for (char c : data)
       if (c == ' ') r.append("%20");
       else r.push_back(c);
-    
+
     return r;
   }
 
@@ -299,7 +299,7 @@ struct AccountData
   IssueInfo::Ptr getActiveIssue()
   {
     std::lock_guard<std::mutex> guard(issuesGuard);
-    for (auto& i : issues) 
+    for (auto& i : issues)
       if (i->rec) return i;
     return nullptr;
   }
@@ -518,7 +518,7 @@ public:
         },
         elm::Label {
           Caption{ issue->summary }, FontSize{ 18 }, TextColor{ Color::white }, TextWrapped{ true }
-        } 
+        }
       };
 
       elm::Label{ Caption{ issue->sprints.empty() ? "Not found projects" : issue->sprints.front() }, FontSize{ 14 }};
@@ -621,7 +621,7 @@ struct RecordsWindow : public UniqueWindow
           hbutton("Records", Color::red, Color::grey, [] {});
         }}
       };
-  
+
       WidgetId wId{ "#rec_vstack" };
       elm::VScrollPanel{ RelativeSize{ 1.f, 0.f },
         elm::VStack{ 5, 0, wId,
@@ -629,7 +629,7 @@ struct RecordsWindow : public UniqueWindow
         }
       };
     elm::EndChildren{};
-    std::string body = AllOf{ youytrack.filter_my_issues, 
+    std::string body = AllOf{ youytrack.filter_my_issues,
                               "%20Board%20", Url::encodeQueryData(account.activeAgile), ":%7BCurrent%20sprint%7D" };
     SSLGet{ body, sslHeaders }
       .onResponse([wId](int status, std::string body) {
@@ -702,7 +702,7 @@ void stopIssueRecord(IssueInfo::Ptr issue)
 void startIssueRecord(IssueInfo::Ptr issue)
 {
   showRecPanelWait(true);
-    
+
   SSLGet{ issue->getWorktimeUrl(), sslHeaders }
     .onResponse([issue](int status, std::string body) {
       showRecPanelWait(false);
@@ -717,7 +717,7 @@ void startIssueRecord(IssueInfo::Ptr issue)
       std::tm* tmt = std::localtime(&timet);
       std::tm tm_day_start = *tmt, tm_day_end = *tmt;
       makeDayInterval(tm_day_start, tm_day_end);
-    
+
       //mktime convert tm to secs from epoch
       std::time_t current_time = mktime(tmt) * 1000;
       std::time_t day_start = mktime(&tm_day_start) * 1000;
@@ -758,7 +758,7 @@ public:
   {
     getIssue = _get;
     forceShow = _watch;
-    setCallback( [this] { 
+    setCallback( [this] {
       if (getIssue())
       {
         if (getIssue()->rec)
@@ -826,7 +826,7 @@ struct ActivityWithNoTaskWarning : public Window
         elm::Label{ Caption{ "Long activity without task" },
           FontSize{ 42 }, TextColor{ Color::white }, CaptionHAlign{ TextHAlign::hCenter }
         },
-        elm::Label{ Caption{ "Are you read to work?" }, 
+        elm::Label{ Caption{ "Are you read to work?" },
           FontSize{ 32 }, TextColor{ Color::yellow }, CaptionHAlign{ TextHAlign::hCenter }
         }
       };
@@ -916,14 +916,14 @@ struct InactiveWarning : public Window
           showAppExclusive(false, false);
         }}
       };
-      elm::Line{ 
-        LineWidth{ 4 }, BackgroundColor{ Color::red }, DrawFlags{ Line::Horizontal | Line::Top | Line::CenterH } 
+      elm::Line{
+        LineWidth{ 4 }, BackgroundColor{ Color::red }, DrawFlags{ Line::Horizontal | Line::Top | Line::CenterH }
       };
     elm::EndChildren{};
     performLayoutLater();
   }
 
-  static void update() 
+  static void update()
   {
     if (account.inactiveTimeSec < (5 * 60))
       return;
@@ -943,7 +943,7 @@ public:
     : Frame(nullptr, IsSubElement{ true }, WidgetBoxLayout{ Orientation::Vertical, Alignment::Fill, 10, 10 })
   {
     elm::BeginChildren{ this };
-      elm::Line{ 
+      elm::Line{
         LineWidth{ 4 }, IsSubElement{ true }, BackgroundColor{ Color::red }, DrawFlags{ Line::Horizontal | Line::Top | Line::Left }
       };
 
@@ -951,7 +951,7 @@ public:
         elm::Label{ WidgetId{"#txt"}, Caption{ "No task recording" }, FontSize{ 28 } },
         Element<TaskRecordButton>{ [] { return account.getActiveIssue(); } }
       };
-  
+
       elm::HLayer{ 2, 2,
         elm::Label{
           WidgetId{ "#time" }, Caption{ "00:00:00" }, TextOffset{ 5, 0 },
@@ -1000,7 +1000,7 @@ public:
 
     if (issue) mPos.y() = parent()->height() - height();
     else mPos.y() = parent()->height() - 4;
-  
+
     setCaptionSafe("#time", sec2str(issue ? issue->recordTimeSec : 0));
     setCaptionSafe("#dtime", "TODAY:" + sec2str(issue ? issue->recordTimeTodaySec : 0));
     setCaptionSafe("#txt", issue ? issue->summary : "No task recording");
@@ -1012,16 +1012,16 @@ public:
   }
 };
 
-class TaskPanel : public Frame 
+class TaskPanel : public Frame
 {
 public:
   IssueInfo::Ptr issue;
 
   TaskPanel(IssueInfo::Ptr _issue)
-    : Frame(nullptr, 
-            BorderColor{ Color::ligthDarkGrey }, BorderSize{ 2.f }, CornerRadius{ 6.f }, 
+    : Frame(nullptr,
+            BorderColor{ Color::ligthDarkGrey }, BorderSize{ 2.f }, CornerRadius{ 6.f },
             BackgroundColor{ Color::heavyDarkGrey },
-            WidgetBoxLayout{ Orientation::Vertical, Alignment::Fill, 10, 10}) 
+            WidgetBoxLayout{ Orientation::Vertical, Alignment::Fill, 10, 10})
   {
     issue = _issue;
     elm::BeginChildren{ this };
@@ -1094,7 +1094,7 @@ struct TasksWindow : public UniqueWindow
     };
 
     elm::BeginChildren{ this };
-      elm::HLayer{ 5, 2, FixedHeight{ 40 }, 
+      elm::HLayer{ 5, 2, FixedHeight{ 40 },
                    FillChildren{ [&] {
                      hbutton("Boards", Color::red, Color::grey, [] {});
                      hbutton("Records", Color::grey, Color::red, [=] { elm::create<RecordsWindow>(); });
@@ -1205,7 +1205,7 @@ void requestAgiles(std::function<void (std::string)> onSuccess, std::function<vo
 }
 
 #define CA_CERT_FILE "./ca-bundle.crt"
-void createSSLClient() 
+void createSSLClient()
 {
   if (sslClient)
     return;
@@ -1344,7 +1344,7 @@ void requestAdminData()
 
       requestAgiles(
         //success
-        [](std::string body) { if (parseAgilesData(body)) elm::create<AgilesWindow>(); }, 
+        [](std::string body) { if (parseAgilesData(body)) elm::create<AgilesWindow>(); },
         //failed
         [](int status) { account.agiles.clear(); elm::create<LoginWindow>(); }
       );
@@ -1354,7 +1354,7 @@ void requestAdminData()
 
 class HonsuScreen : public Screen {
 public:
-    HonsuScreen(sample::WindowHandle hw, const Vector2i& size, const std::string& caption) : Screen(size, caption, false) 
+    HonsuScreen(sample::WindowHandle hw, const Vector2i& size, const std::string& caption) : Screen(size, caption, false)
     {
       hwindow = hw;
       initGPUTimer(&gpuTimer);
@@ -1400,7 +1400,7 @@ public:
         return false;
     }
 
-    virtual void draw(NVGcontext *ctx) 
+    virtual void draw(NVGcontext *ctx)
     {
       using namespace nanogui;
       float value = std::fmod((float)getTimeFromStart() / 10, 1.0f);
@@ -1431,7 +1431,7 @@ private:
     double previousFrameTime = 0, cpuTime = 0;
 };
 
-int main(int /* argc */, char ** /* argv */) 
+int main(int /* argc */, char ** /* argv */)
 {
   nanogui::init();
   Vector2i size{ 400, 600 };
@@ -1444,7 +1444,7 @@ int main(int /* argc */, char ** /* argv */)
     nanogui::sample::setup_window_params(window, &screen);
     screen.setVisible(true);
     screen.performLayout();
-    
+
     bool requests_thread_active = true;
     auto requests_thread = std::thread([&] {
       while (requests_thread_active)
@@ -1491,7 +1491,7 @@ int main(int /* argc */, char ** /* argv */)
         std::this_thread::sleep_for(0.5s);
       }
     });
-  
+
     nanogui::sample::run([&] {
         nanogui::sample::clear_frame(screen.background());
 

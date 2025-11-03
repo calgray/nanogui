@@ -80,7 +80,7 @@ public:
 
     int separatorWidth;
     Color separatorColor;
-    
+
     /// Rounding radius for Button (and derived types) widgets (default: ``2``).
     int mButtonCornerRadius;
     /// The border width for TabHeader widgets (default: ``0.75f``).
@@ -108,7 +108,7 @@ public:
     Color textBoxUnfocusedColorOut;
     int mTextBoxCornerRadius;
     int mTextBoxUpIcon;      /// Icon to use when a TextBox has an up toggle (e.g. IntBox) (default: ``ENTYPO_ICON_CHEVRON_UP``).
-    int mTextBoxDownIcon;    /// Icon to use when a TextBox has a down toggle (e.g. IntBox) (default: ``ENTYPO_ICON_CHEVRON_DOWN``).                            
+    int mTextBoxDownIcon;    /// Icon to use when a TextBox has a down toggle (e.g. IntBox) (default: ``ENTYPO_ICON_CHEVRON_DOWN``).
     int mTextBoxFontSize;    /// The font size for text boxes (default: ``20``).
 
     int mPanelCornerRadius;

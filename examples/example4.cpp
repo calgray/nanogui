@@ -240,7 +240,7 @@ int main(int /* argc */, char ** /* argv */) {
 
         screen.drawAll();
         screen.setVisible(true);
-        
+
         nanogui::sample::run([&] {
           nanogui::sample::clear_frame(screen.background());
 

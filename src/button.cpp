@@ -29,13 +29,13 @@ UpDownButton::UpDownButton(Widget* parent)
 {
   mDown = &toolbutton(Icon{ ENTYPO_ICON_LEFT_1 }, ButtonFlags{ Button::NormalButton },
     ButtonCallback{ [&] {
-      if (mCallback) mCallback(false); 
+      if (mCallback) mCallback(false);
       mActivateTime = getTimeFromStart() + mActivateInterval;
     }
   });
   mUp = &toolbutton(Icon{ ENTYPO_ICON_RIGHT_1 }, ButtonFlags{ Button::NormalButton },
     ButtonCallback{ [&] {
-      if (mCallback) mCallback(true); 
+      if (mCallback) mCallback(true);
       mActivateTime = getTimeFromStart() + mActivateInterval;
     }
   });
@@ -48,8 +48,8 @@ void UpDownButton::afterDraw(NVGcontext* ctx)
 {
   Widget::afterDraw(ctx);
 
-  int curState = mDown->pushed() ? -1 : 
-                 mUp->pushed() ? 1 : 
+  int curState = mDown->pushed() ? -1 :
+                 mUp->pushed() ? 1 :
                  0;
   if (curState != 0 && mLastState == curState)
   {
@@ -65,7 +65,7 @@ void UpDownButton::afterDraw(NVGcontext* ctx)
 
 Button::Button(Widget *parent)
     : Widget(parent), mCaption("Untitled"), mIcon(0),
-      mIconAlign(IconAlign::LeftCentered), 
+      mIconAlign(IconAlign::LeftCentered),
       mBackgroundColor(Color(0, 0)),
       mTextColor(Color(0, 0))
 {
@@ -81,26 +81,26 @@ Vector2f Button::getCaptionSize(NVGcontext *ctx)
 {
   if (mCaptionSize.x() < 0)
     mCaptionSize = nvgTextBounds(ctx, 0, 0, mCaption.c_str(), nullptr);
- 
+
   return mCaptionSize;
 }
 
-Vector2i Button::preferredSize(NVGcontext *ctx) const 
+Vector2i Button::preferredSize(NVGcontext *ctx) const
 {
     int fontSize = mFontSize == -1 ? mTheme->mButtonFontSize : mFontSize;
     nvgFontFaceSize(ctx, "sans-bold", fontSize);
     auto capsize = const_cast<Button*>(this)->getCaptionSize(ctx);
     float iw = 0.0f, ih = (float)fontSize;
 
-    if (mIcon) 
+    if (mIcon)
     {
-        if (nvgIsFontIcon(mIcon)) 
+        if (nvgIsFontIcon(mIcon))
         {
             ih *= icon_scale();
             nvgFontFaceSize(ctx, "icons", ih);
             iw = nvgTextBounds(ctx, 0, 0, utf8(mIcon).data(), nullptr, nullptr) + mSize.y() * 0.15f;
         }
-        else 
+        else
         {
             int w, h;
             ih *= 0.9f;
@@ -177,7 +177,7 @@ bool Button::mouseButtonEvent(const Vector2i &p, int button, bool down, int modi
     return false;
 }
 
-Color Button::getTextColor() const 
+Color Button::getTextColor() const
 {
   if (!mEnabled)
     return mTheme->mDisabledTextColor;
@@ -191,16 +191,16 @@ Color Button::getTextColor() const
   }
 }
 
-Color Button::getIconColor() const 
-{ 
+Color Button::getIconColor() const
+{
   if (mPushed && mPushedIconColor.w() > 0)
     return mPushedIconColor;
   if (mMouseFocus && mIconHoveredColor.w() > 0)
     return mIconHoveredColor;
-  return mIconColor.notW(getTextColor()); 
+  return mIconColor.notW(getTextColor());
 }
 
-void Button::draw(NVGcontext *ctx) 
+void Button::draw(NVGcontext *ctx)
 {
   float cr = mCornerRadius < 0.f ? mTheme->mButtonCornerRadius : mCornerRadius;
     if (haveDrawFlag(DrawBody))
@@ -215,7 +215,7 @@ void Button::draw(NVGcontext *ctx)
       {
         gradTop = Color::transparent;
         gradBot = Color::transparent;
-        
+
         if (mPushed || (mMouseFocus && mEnabled))
         {
           gradTop = mBackgroundHoverColor;
@@ -254,8 +254,8 @@ void Button::draw(NVGcontext *ctx)
         }
       }
 
-      NVGpaint bg = nvgLinearGradient(ctx, mPos.x(), mPos.y(), 
-                                           mPos.x(), mPos.y() + mSize.y(), 
+      NVGpaint bg = nvgLinearGradient(ctx, mPos.x(), mPos.y(),
+                                           mPos.x(), mPos.y() + mSize.y(),
                                            gradTop, gradBot);
 
       nvgFillPaint(ctx, bg);
@@ -268,16 +268,16 @@ void Button::draw(NVGcontext *ctx)
 
       nvgBeginPath(ctx);
       nvgStrokeWidth(ctx, bs);
-      nvgRoundedRect(ctx, mPos + Vector2f{ bs - 0.5f, bs + (mPushed ? -.5f : .5f) }, 
+      nvgRoundedRect(ctx, mPos + Vector2f{ bs - 0.5f, bs + (mPushed ? -.5f : .5f) },
                           mSize - Vector2f{ bs, bs + (mPushed ? 0.0f : 1.0f)}, cr);
       nvgStrokeColor(ctx, mBorderColor.notW(theme()->mBorderLight));
       nvgStroke(ctx);
 
       nvgBeginPath(ctx);
-      nvgRoundedRect(ctx, mPos + Vector2f{ bs - 0.5f, bs - 0.5f }, 
+      nvgRoundedRect(ctx, mPos + Vector2f{ bs - 0.5f, bs - 0.5f },
                           mSize - Vector2f{ bs, bs + 1 }, cr);
       nvgStrokeColor(ctx, mBorderColor.notW(theme()->mBorderDark));
-     
+
       nvgStroke(ctx);
     }
 
@@ -302,7 +302,7 @@ void Button::draw(NVGcontext *ctx)
     }
     NVGcolor textColor = getTextColor();
 
-    if (mIcon && haveDrawFlag(DrawIcon)) 
+    if (mIcon && haveDrawFlag(DrawIcon))
     {
         auto icon = utf8(mIcon);
         Color iconColor = getIconColor();
@@ -325,32 +325,32 @@ void Button::draw(NVGcontext *ctx)
         Vector2f iconPos = (mPos + mSize / 2).cast<float>();;
         iconPos.y() -= 1;
 
-        if (mIconAlign == IconAlign::LeftCentered) 
+        if (mIconAlign == IconAlign::LeftCentered)
         {
             iconPos.x() -= (capsize.x() + iw) * 0.5f;
             textPos.x() += iw * 0.5f;
-        } 
-        else if (mIconAlign == IconAlign::RightCentered) 
+        }
+        else if (mIconAlign == IconAlign::RightCentered)
         {
             textPos.x() -= iw * 0.5f;
             iconPos.x() += capsize.x() * 0.5f;
-        } 
-        else if (mIconAlign == IconAlign::Left) 
+        }
+        else if (mIconAlign == IconAlign::Left)
         {
             iconPos.x() = mPos.x() + 8;
-        } 
-        else if (mIconAlign == IconAlign::Right) 
+        }
+        else if (mIconAlign == IconAlign::Right)
         {
             iconPos.x() = mPos.x() + mSize.x() - iw - 8;
         }
 
-        if (nvgIsFontIcon(mIcon)) 
+        if (nvgIsFontIcon(mIcon))
         {
           nvgText(ctx, iconPos + Vector2f{ 0, 1 }, icon.data());
-        } 
-        else 
+        }
+        else
         {
-            NVGpaint imgPaint = nvgImagePattern(ctx, iconPos.x(), iconPos.y() - ih/2, 
+            NVGpaint imgPaint = nvgImagePattern(ctx, iconPos.x(), iconPos.y() - ih/2,
                                                 iw, ih, 0, mIcon, mEnabled ? 0.5f : 0.25f);
             nvgFillPaint(ctx, imgPaint);
             nvgFill(ctx);
@@ -385,7 +385,7 @@ void Button::draw(NVGcontext *ctx)
     Widget::draw(ctx);
 }
 
-void Button::save(Json::value &save) const 
+void Button::save(Json::value &save) const
 {
   Widget::save(save);
   auto obj = save.get_obj();
@@ -399,7 +399,7 @@ void Button::save(Json::value &save) const
   save = Json::value(obj);
 }
 
-bool Button::load(Json::value &save) 
+bool Button::load(Json::value &save)
 {
   Widget::load(save);
   json s{ save.get_obj() };

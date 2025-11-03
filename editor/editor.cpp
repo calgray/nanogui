@@ -98,7 +98,7 @@ class EditorScreen : public Screen {
 public:
     EditorScreen(const Vector2i& s) : Screen(s, "Editor", false)
     {
-      //auto& mmenu = 
+      //auto& mmenu =
       createMainMenu();
 
       auto& area = hlayer(2, 2, ID.editor);
@@ -118,7 +118,7 @@ public:
       auto& mmenu = wdg<WindowMenu>();
       mmenu.setId(ID.mainmenu.value);
       mmenu.activate({ 0, 0 });
-      auto dlg = [this](const std::string& title) { msgdialog(DialogType{ (int)MessageDialog::Type::Information }, 
+      auto dlg = [this](const std::string& title) { msgdialog(DialogType{ (int)MessageDialog::Type::Information },
                                                               DialogTitle{ title },
                                                               DialogMessage{ "New Clicked!" }); };
       mmenu.submenu("File")
@@ -237,7 +237,7 @@ public:
         editor->setHoveredElement((Widget*)w->data());
       });
 
-      waheader.link(Caption{ "Assets" }, ButtonFlags{ Button::ToggleButton|Button::RadioButton }, 
+      waheader.link(Caption{ "Assets" }, ButtonFlags{ Button::ToggleButton|Button::RadioButton },
                     ButtonCallback{ [&] { view.hide(); factoryview.show(); } });
       waheader.link(Caption{ "Layers" }, ButtonFlags{ Button::ToggleButton|Button::RadioButton },
                     ButtonCallback{ [&] { view.show(); factoryview.hide(); } });
@@ -290,7 +290,7 @@ public:
         return;
 
       auto& eb = editor->button(Caption{ "Editor button" }, TooltipText{ "short tooltip" });
-      eb.setCallback([] { cout << "pushed!" << endl; });   
+      eb.setCallback([] { cout << "pushed!" << endl; });
 
       auto& ew = editor->wdg<Window>(Caption{ "Editor window" });
       ew.setSize(100, 200);
@@ -356,7 +356,7 @@ int main(int /* argc */, char ** /* argv */) {
       screen.drawAll();
       screen.setVisible(true);
       screen.performLayout();
-      
+
       nanogui::sample::run([&] {
         nanogui::sample::clear_frame(screen.background());
 

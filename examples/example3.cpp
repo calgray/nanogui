@@ -134,7 +134,7 @@ int main(int /* argc */, char ** /* argv */) {
     nscreen.performLayout();
 
     nscreen.drawAll();
-    
+
     nanogui::sample::run([&] {
       nanogui::sample::clear_frame(nscreen.background());
 

@@ -28,7 +28,7 @@ Widget::Widget(Widget *p)
       mPos(Vector2i::Zero()), mSize(Vector2i::Zero()),
       mFixedSize(Vector2i::Zero()), mRelSize(Vector2f::Zero()), mEnabled(true),
       mFocused(false), mMouseFocus(false), mTooltip(""), mFontSize(-1.0f),
-      mIconExtraScale(1.0f), mCursor(Cursor::Arrow) 
+      mIconExtraScale(1.0f), mCursor(Cursor::Arrow)
 {
     if (parent())
       parent()->addChild(this);
@@ -48,11 +48,11 @@ void Widget::setThemeFrom(const std::string& widgetId)
     setTheme(w->theme());
 }
 
-void Widget::setTheme(Theme *theme) 
+void Widget::setTheme(Theme *theme)
 {
   if (!theme)
     return;
-  
+
   if (mTheme.get() == theme)
       return;
   mTheme = theme;
@@ -123,7 +123,7 @@ void Widget::sortChildren(std::function<bool(Widget*, Widget*)> f)
     std::sort(mChildren.begin(), mChildren.end(), f);
 }
 
-Widget *Widget::findWidget(const Vector2i &p) 
+Widget *Widget::findWidget(const Vector2i &p)
 {
   for (int i=(int)mChildren.size()-1; i >= 0; i--) {
       Widget *child = mChildren[i];
@@ -173,7 +173,7 @@ bool Widget::mouseMotionEvent(const Vector2i &p, const Vector2i &rel, int button
     return false;
 }
 
-bool Widget::scrollEvent(const Vector2i &p, const Vector2f &rel) 
+bool Widget::scrollEvent(const Vector2i &p, const Vector2f &rel)
 {
     for (auto it = mChildren.rbegin(); it != mChildren.rend(); ++it) {
         Widget *child = *it;
@@ -255,7 +255,7 @@ Widget *Widget::findWidgetGlobal(std::function<bool(Widget*)> cond)
   return screen()->findWidget(cond);
 }
 
-void Widget::addChild(int index, Widget * widget) 
+void Widget::addChild(int index, Widget * widget)
 {
   if (!widget)
     return;
@@ -323,7 +323,7 @@ bool Widget::bringChildToFront(Widget* widget)
 
 void Widget::setParent(Widget* parent)
 {
-  mParent = parent; 
+  mParent = parent;
   parentChanged();
 }
 
@@ -371,12 +371,12 @@ int Widget::childIndex(Widget *widget) const {
     return (int) (it - mChildren.begin());
 }
 
-bool Widget::tabstop(CanTabStop mode) const 
-{ 
+bool Widget::tabstop(CanTabStop mode) const
+{
   return mode == TabStopSelf ? false : true;
 }
 
-Window *Widget::window() 
+Window *Widget::window()
 {
   Widget *w = this;
   while (w) {
@@ -397,7 +397,7 @@ void Widget::requestFocus() {
     ((Screen *) widget)->updateFocus(this);
 }
 
-void Widget::draw(NVGcontext *ctx) 
+void Widget::draw(NVGcontext *ctx)
 {
   if (!mChildren.empty())
   {
@@ -498,7 +498,7 @@ void Widget::afterDraw(NVGcontext *ctx) {
     child->afterDraw(ctx);
 }
 
-void Widget::save(Json::value &save) const 
+void Widget::save(Json::value &save) const
 {
   Json::object obj;
 
@@ -515,18 +515,18 @@ void Widget::save(Json::value &save) const
   save = Json::value(obj);
 }
 
-bool Widget::load(Json::value &save) 
+bool Widget::load(Json::value &save)
 {
   json s{ save.get_obj() };
 
-  mPos = s.get<Vector2i>("position"); 
+  mPos = s.get<Vector2i>("position");
   mSize = s.get<Vector2i>("size");
   mFixedSize = s.get<Vector2i>("fixedSize");
   mVisible = s.get<bool>("visible");
   mEnabled = s.get<bool>("enabled");
-  mFocused = s.get<bool>("focused"); 
-  mTooltip = s.get<std::string>("tooltip");  
-  mFontSize = s.get<int>("fontSize"); 
+  mFocused = s.get<bool>("focused");
+  mTooltip = s.get<std::string>("tooltip");
+  mFontSize = s.get<int>("fontSize");
   mCursor = (Cursor)s.get<int>("cursor");
   return true;
 }

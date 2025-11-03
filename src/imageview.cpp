@@ -23,13 +23,13 @@ NAMESPACE_BEGIN(nanogui)
 RTTI_IMPLEMENT_INFO(ImageView, Widget)
 
 ImageView::ImageView(Widget* parent)
-    : Widget(parent), 
-      mImageID(-1), 
-      mScale(1.0f), 
+    : Widget(parent),
+      mImageID(-1),
+      mScale(1.0f),
       mOffset(Vector2f::Zero()),
-      mFixedScale(false), 
-      mFixedOffset(false), 
-      mPixelInfoCallback(nullptr) 
+      mFixedScale(false),
+      mFixedOffset(false),
+      mPixelInfoCallback(nullptr)
 {}
 
 ImageView::~ImageView() {}
@@ -158,7 +158,7 @@ bool ImageView::scrollEvent(const Vector2i& p, const Vector2f& rel) {
     return true;
 }
 
-bool ImageView::keyboardEvent(int key, int scancode, int action, int modifiers) 
+bool ImageView::keyboardEvent(int key, int scancode, int action, int modifiers)
 {
   if (!focused())
     return false;
@@ -205,7 +205,7 @@ bool ImageView::keyboardEvent(int key, int scancode, int action, int modifiers)
             break;
         }
     }
-  
+
   return Widget::keyboardEvent(key, scancode, action, modifiers);
 }
 
@@ -257,7 +257,7 @@ void ImageView::performLayout(NVGcontext* ctx) {
     center();
 }
 
-void ImageView::draw(NVGcontext* ctx) 
+void ImageView::draw(NVGcontext* ctx)
 {
     Widget::draw(ctx);
 

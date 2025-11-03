@@ -182,7 +182,7 @@ void WindowMenu::draw(NVGcontext* ctx)
   if (mHighlightedItem)
   {
     nvgBeginPath(ctx);
-    nvgRect(ctx, mHighlightedItem->position(), 
+    nvgRect(ctx, mHighlightedItem->position(),
                  mHighlightedItem->size() + Vector2i(0, mItemMargin *2));
     nvgFillColor(ctx, mHighlightColor);
     nvgFill(ctx);

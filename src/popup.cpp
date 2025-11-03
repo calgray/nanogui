@@ -22,9 +22,9 @@ RTTI_IMPLEMENT_INFO(Popup, Window)
 Popup::Popup(Widget *parent, Window *parentWindow)
     : Window(parent, ""),
       mParentWindow(parentWindow),
-      mAnchorPos(Vector2i::Zero()), 
-      mAnchorHeight(30), 
-      mSide(Side::Right) 
+      mAnchorPos(Vector2i::Zero()),
+      mAnchorHeight(30),
+      mSide(Side::Right)
 {
 }
 
@@ -40,7 +40,7 @@ void Popup::performLayout(NVGcontext *ctx) {
         mAnchorPos[0] -= size()[0];
 }
 
-void Popup::refreshRelativePlacement() 
+void Popup::refreshRelativePlacement()
 {
   if (mParentWindow)
   {
@@ -50,14 +50,14 @@ void Popup::refreshRelativePlacement()
   }
 }
 
-int Popup::getHeaderHeight() const 
+int Popup::getHeaderHeight() const
 {
   if (auto layt = GroupLayout::cast(layout()))
     return layt->margin();
   return 0;
 }
 
-void Popup::draw(NVGcontext* ctx) 
+void Popup::draw(NVGcontext* ctx)
 {
     refreshRelativePlacement();
 
@@ -103,7 +103,7 @@ void Popup::draw(NVGcontext* ctx)
     Widget::draw(ctx);
 }
 
-void Popup::save(Json::value &s) const 
+void Popup::save(Json::value &s) const
 {
     Window::save(s);
     auto obj = s.get_obj();
@@ -115,7 +115,7 @@ void Popup::save(Json::value &s) const
     s = Json::value(obj);
 }
 
-bool Popup::load(Json::value &save) 
+bool Popup::load(Json::value &save)
 {
     Window::load(save);
     json s{ save.get_obj() };

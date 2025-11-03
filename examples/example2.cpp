@@ -87,7 +87,7 @@ int main(int /* argc */, char ** /* argv */) {
 
         bool enabled = true;
         FormHelper *gui = new FormHelper(screen);
-        //ref<Window> window = 
+        //ref<Window> window =
         gui->addWindow(Vector2i(10, 10), "Form helper example");
         gui->addGroup("Basic types");
         gui->addVariable("bool", bvar);

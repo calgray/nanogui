@@ -11,36 +11,36 @@ matrix:
       before_install:
         - choco install python3
         - export PATH="/c/Python38:/c/Python38/Scripts:$PATH"
-      script:     
+      script:
         - mkdir -p build
         - cd build
-        - cmake --version 
+        - cmake --version
         - cmake -G "Visual Studio 15 2017 Win64" -DNANOGUI_BUILD_SHARED=ON -DNANOGUI_GL_BACKEND=ON -DNANOGUI_PYTHON_VERSION=3.8 -DPYTHON_INCLUDE_DIRS:PATH="C:/Python38/include" -DPYTHON_LIBRARY:FILEPATH="C:/Python38/libs/python38.lib" ..
         - cmake --build . --config Release
-    # build vulkan render windows x64   
+    # build vulkan render windows x64
     - os: windows
       name: Windows Vulkan Samples VS17
       before_install:
         - cmake --version
-      script:     
+      script:
         - mkdir -p build
         - cd build
         - mkdir blob
         - curl -L --progress-bar --show-error --output blob/vulkan-1.lib http://github.com/dalerank/nanogui-stuff-libs/raw/master/vulkan/x64/vulkan-1.lib
-        - cmake --version 
+        - cmake --version
         - cmake -G "Visual Studio 15 2017 Win64" -DNANOGUI_VULKAN_BACKEND=ON -DNANOGUI_VULKAN_NOSDK=ON -DNANOGUI_BUILD_PYTHON=OFF ..
-        - cmake --build .  
-    # build opengl render windows x64 honsu app   
+        - cmake --build .
+    # build opengl render windows x64 honsu app
     - os: windows
       name: Windows OpenGL Samples Honsu VS17
       before_install:
         - cmake --version
         - choco install openssl
-      script:     
+      script:
         - mkdir -p build
         - cd build
         - mkdir blob
-        - cmake --version 
+        - cmake --version
         - cmake -G "Visual Studio 15 2017 Win64" -DNANOGUI_BUILD_HONSU=ON -DNANOGUI_BUILD_SHARED=OFF -DNANOGUI_GL_BACKEND=ON -DNANOGUI_BUILD_PYTHON=OFF ..
         - cmake --build . --config Release
       deploy:
@@ -51,7 +51,7 @@ matrix:
           - Release/honsu.exe
         skip_cleanup: true # dont remove artifacts
         on:
-          tags: true     # do deploy only for tagged-commit    
+          tags: true     # do deploy only for tagged-commit
     # build opengl render linux  gcc-4.9
     - os: linux
       name: Linux opengl Samples gcc4.9
@@ -82,7 +82,7 @@ matrix:
     # build opengl render linux gcc-5
     - os: linux
       name: Linux opengl Samples gcc4.5
-      compiler: gcc-5     
+      compiler: gcc-5
       addons:
         apt:
           sources:
@@ -105,11 +105,11 @@ matrix:
       script:
         - cmake --version
         - cmake -DNANOGUI_GL_BACKEND=ON -DNANOGUI_USE_GLAD=ON -DNANOGUI_PYTHON_VERSION=3.5 -DPYTHON_INCLUDE_DIRS:PATH=/usr/include/python3.5m -DPYTHON_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libpython3.5m.so -DCMAKE_CXX_COMPILER=g++-5 -DCMAKE_C_COMPILER=gcc-5
-        - make -j 2       
+        - make -j 2
     # build opengl render linux gcc-6
     - os: linux
       name: Linux opengl Samples gcc6
-      compiler: gcc-6     
+      compiler: gcc-6
       addons:
         apt:
           sources:
@@ -132,11 +132,11 @@ matrix:
       script:
         - cmake --version
         - cmake -DNANOGUI_GL_BACKEND=ON -DNANOGUI_USE_GLAD=ON -DNANOGUI_PYTHON_VERSION=3.5 -DPYTHON_INCLUDE_DIRS:PATH=/usr/include/python3.5m -DPYTHON_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libpython3.5m.so -DCMAKE_CXX_COMPILER=g++-6 -DCMAKE_C_COMPILER=gcc-6
-        - make -j 2   
+        - make -j 2
     # build opengl render linux gcc-7
     - os: linux
       name: Linux opengl Samples gcc7
-      compiler: gcc-7     
+      compiler: gcc-7
       addons:
         apt:
           sources:
@@ -159,11 +159,11 @@ matrix:
       script:
         - cmake --version
         - cmake -DNANOGUI_GL_BACKEND=ON -DNANOGUI_USE_GLAD=ON -DNANOGUI_PYTHON_VERSION=3.5 -DPYTHON_INCLUDE_DIRS:PATH=/usr/include/python3.5m -DPYTHON_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libpython3.5m.so -DCMAKE_CXX_COMPILER=g++-7 -DCMAKE_C_COMPILER=gcc-7
-        - make -j 2      
+        - make -j 2
     # build opengl render linux clang-3.6
     - os: linux
       name: Linux opengl Samples clang3.6
-      compiler: clang-3.6    
+      compiler: clang-3.6
       addons:
         apt:
           sources:
@@ -187,11 +187,11 @@ matrix:
       script:
         - cmake --version
         - cmake -DNANOGUI_GL_BACKEND=ON -DNANOGUI_USE_GLAD=ON -DNANOGUI_PYTHON_VERSION=3.5 -DPYTHON_INCLUDE_DIRS:PATH=/usr/include/python3.5m -DPYTHON_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libpython3.5m.so -DCMAKE_CXX_COMPILER=clang++-3.6 -DCMAKE_C_COMPILER=clang-3.6
-        - make -j 2              
+        - make -j 2
     # build opengl render linux clang-3.7
     - os: linux
       name: Linux opengl Samples clang3.7
-      compiler: clang-3.7    
+      compiler: clang-3.7
       addons:
         apt:
           sources:
@@ -215,11 +215,11 @@ matrix:
       script:
         - cmake --version
         - cmake -DNANOGUI_GL_BACKEND=ON -DNANOGUI_USE_GLAD=ON -DNANOGUI_PYTHON_VERSION=3.5 -DPYTHON_INCLUDE_DIRS:PATH=/usr/include/python3.5m -DPYTHON_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libpython3.5m.so -DCMAKE_CXX_COMPILER=clang++-3.7 -DCMAKE_C_COMPILER=clang-3.7
-        - make -j 2                    
+        - make -j 2
     # build opengl render linux clang-3.9
     - os: linux
       name: Linux opengl Samples clang3.9
-      compiler: clang-3.9  
+      compiler: clang-3.9
       before_install:
         - sudo apt-get --purge remove gcc-4.8
       addons:
@@ -247,7 +247,7 @@ matrix:
       script:
         - cmake --version
         - cmake -DNANOGUI_GL_BACKEND=ON -DNANOGUI_USE_GLAD=ON -DNANOGUI_PYTHON_VERSION=3.5 -DPYTHON_INCLUDE_DIRS:PATH=/usr/include/python3.5m -DPYTHON_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libpython3.5m.so -DCMAKE_CXX_COMPILER=clang++-3.9 -DCMAKE_C_COMPILER=clang-3.9
-        - make -j 2          
+        - make -j 2
     - os: linux
       name: Linux opengl Samples clang4.0
       compiler: clang-4.0
@@ -278,11 +278,11 @@ matrix:
       script:
         - cmake --version
         - cmake -DNANOGUI_GL_BACKEND=ON -DNANOGUI_USE_GLAD=ON -DNANOGUI_PYTHON_VERSION=3.5 -DPYTHON_INCLUDE_DIRS:PATH=/usr/include/python3.5m -DPYTHON_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libpython3.5m.so -DCMAKE_CXX_COMPILER=clang++-4.0 -DCMAKE_C_COMPILER=clang-4.0
-        - make -j 2                 
+        - make -j 2
     # build vulkan render linux clang-3.9 honsu
     #- os: linux
     #  name: Linux Vulkan Honsu Samples clang3.9
-    #  compiler: clang-3.9  
+    #  compiler: clang-3.9
     #  before_install:
     #    - sudo apt-get --purge remove gcc-4.8
     #  addons:
@@ -310,8 +310,8 @@ matrix:
     #  script:
     #    - cmake --version
     #    - cmake -DNANOGUI_BUILD_HONSU=ON -DNANOGUI_VULKAN_BACKEND=ON -DNANOGUI_BUILD_PYTHON=OFF -DCMAKE_CXX_COMPILER=clang++-3.9 -DCMAKE_C_COMPILER=clang-3.9
-    #    - make -j 2                    
-    # build opengl render osx       
+    #    - make -j 2
+    # build opengl render osx
     - os: osx
       name: MacOSX opengl Samples clang
       compiler: clang
