@@ -437,10 +437,10 @@ sample::WindowHandle sample::create_window(int& w, int& h, const std::string& ca
   if (fullscreen) {
     GLFWmonitor *monitor = glfwGetPrimaryMonitor();
     const GLFWvidmode *mode = glfwGetVideoMode(monitor);
-    hw_window = glfwCreateWindow(mode->width, mode->height, (caption + "(Vulkan)").c_str(), monitor, nullptr);
+    hw_window = glfwCreateWindow(mode->width, mode->height, (caption + " (Vulkan GLFW)").c_str(), monitor, nullptr);
   }
   else {
-    hw_window = glfwCreateWindow(w, h, (caption + "(Vulkan)").c_str(), nullptr, nullptr);
+    hw_window = glfwCreateWindow(w, h, (caption + " (Vulkan GLFW)").c_str(), nullptr, nullptr);
   }
 
   if (!header)

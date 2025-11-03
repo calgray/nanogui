@@ -17,16 +17,20 @@ else()
   set(NANOGUI_USE_GLAD_DEFAULT OFF)
 endif()
 
-option(NANOGUI_BUILD_EXAMPLE "Build NanoGUI glfw example application?" ON)
 option(NANOGUI_VULKAN_BACKEND  "Use Vulkan backend?" OFF)
 option(NANOGUI_GL_BACKEND  "Use OpenGL backend?" OFF)
 option(NANOGUI_DX11_BACKEND  "Use DX11 backend?" OFF)
 option(NANOGUI_DX12_BACKEND  "Use DX12 backend?" OFF)
-OPTION(NANOGUI_BGFX_BACKEND  "Use BGFX backend?" OFF)
+
+option(NANOGUI_GLFW_BACKEND  "Use GLFW backend?" OFF)
+option(NANOGUI_SDL2_BACKEND  "Use SDL2 backend?" OFF)
+option(NANOGUI_BGFX_BACKEND  "Use BGFX backend?" OFF)
+
+option(NANOGUI_BUILD_EXAMPLE "Build NanoGUI example application? (requires glfw)" ON)
 option(NANOGUI_BUILD_EDITOR  "Build NanoGUI editor application?" ON)
 option(NANOGUI_BUILD_HONSU   "Build NanoGUI timetracker application?" OFF)
 option(NANOGUI_BUILD_SHARED  "Build NanoGUI as a shared library?" ON)
-option(NANOGUI_BUILD_PYTHON  "Build a Python plugin for NanoGUI?" ON)
+option(NANOGUI_BUILD_PYTHON  "Build a Python plugin for NanoGUI?" OFF)
 option(NANOGUI_USE_GLAD      "Use Glad OpenGL loader library?" ${NANOGUI_USE_GLAD_DEFAULT})
 option(NANOGUI_INSTALL       "Install NanoGUI on `make install`?" ON)
 option(NANOGUI_VULKAN_NOSDK  "Build vulkan with headers from ext folder. Travis-ci builds only" OFF)
@@ -69,14 +73,6 @@ else()
   )	  
 endif()
 
-if (NANOGUI_GL_BACKEND OR NANOGUI_VULKAN_BACKEND)  
-  if (NOT IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/ext/glfw/src")
-    message(FATAL_ERROR "The NanoGUI dependency repositories (GLFW, etc.) are missing! "
-      "You probably did not clone the project with --recursive. It is possible to recover "
-      "by calling \"git submodule update --init --recursive\"")
-  endif()
-endif()
-
 # Required libraries, flags, and include files for compiling and linking against nanogui (all targets)
 set(NANOGUI_EXTRA_LIBS "")
 set(NANOGUI_EXTRA_DEFS "") 
@@ -109,28 +105,6 @@ macro(CHECK_CXX_COMPILER_AND_LINKER_FLAGS _RESULT _CXX_FLAGS _LINKER_FLAGS)
   set(CMAKE_REQUIRED_FLAGS "")
   set(CMAKE_REQUIRED_LIBRARIES "")
 endmacro()
-
-# Compile GLFW
-if (NANOGUI_GL_BACKEND OR NANOGUI_VULKAN_BACKEND)
-  set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL " " FORCE)
-  set(GLFW_BUILD_TESTS OFF CACHE BOOL " " FORCE)
-  set(GLFW_BUILD_DOCS OFF CACHE BOOL " " FORCE)
-  set(GLFW_BUILD_INSTALL OFF CACHE BOOL " " FORCE)
-  set(GLFW_INSTALL OFF CACHE BOOL " " FORCE)
-  set(GLFW_USE_CHDIR OFF CACHE BOOL " " FORCE)
-  set(BUILD_SHARED_LIBS ${NANOGUI_BUILD_SHARED} CACHE BOOL " " FORCE)
-
-  add_subdirectory(ext/glfw)
-  set_target_properties(glfw PROPERTIES EXCLUDE_FROM_ALL 1 EXCLUDE_FROM_DEFAULT_BUILD 1)
-elseif (NANOGUI_DX11_BACKEND)
-
-endif()
-
-if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  # Quench annoying deprecation warnings when compiling GLFW on OSX
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-deprecated-declarations")
-endif()
-
 
 # Python support: add NANOGUI_PYTHON flag to all targets
 if (NANOGUI_BUILD_PYTHON)
@@ -256,9 +230,10 @@ endif()
 if (NANOGUI_USE_GLAD)
   # Build and include GLAD on Windows
   list(APPEND LIBNANOGUI_EXTRA_SOURCE
-     "${CMAKE_CURRENT_SOURCE_DIR}/ext/glad/src/glad.c"
-	 "${CMAKE_CURRENT_SOURCE_DIR}/ext/glad/include/glad/glad.h"
-	 "${CMAKE_CURRENT_SOURCE_DIR}/ext/glad/include/KHR/khrplatform.h")
+    "${CMAKE_CURRENT_SOURCE_DIR}/ext/glad/src/glad.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/ext/glad/include/glad/glad.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/ext/glad/include/KHR/khrplatform.h"
+  )
   if (MSVC)
     set_source_files_properties("${CMAKE_CURRENT_SOURCE_DIR}/ext/glad/src/glad.c"
       PROPERTIES COMPILE_FLAGS "/wd4055 ")
@@ -278,7 +253,7 @@ else()
 endif()
 
 if (NANOGUI_GL_BACKEND OR NANOGUI_VULKAN_BACKEND)
-  list(APPEND NANOGUI_EXTRA_INCS "${CMAKE_CURRENT_SOURCE_DIR}/ext/glfw/include")
+  list(APPEND NANOGUI_EXTRA_INCS "${CMAKE_CURRENT_SOURCE_DIR}/ext/glfw/include")  # TODO
 elseif (NANOGUI_DX11_BACKEND)
   add_definitions(-DNANOVG_D3D11)
 elseif (NANOGUI_DX11_BACKEND)
@@ -344,9 +319,45 @@ endif()
 
 include_directories(include ${CMAKE_CURRENT_BINARY_DIR})
 
+## Presentation backends
+
+set (NANOGUI_GLFW_NOSDK OFF)
 if (NANOGUI_GL_BACKEND OR NANOGUI_VULKAN_BACKEND)
-  include_directories(ext/glfw/include)
+  if(NANOGUI_GLFW_NOSDK)
+    if (NOT IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/ext/glfw/src")
+      message(FATAL_ERROR "The NanoGUI dependency repositories (GLFW, etc.) are missing! "
+        "You probably did not clone the project with --recursive. It is possible to recover "
+        "by calling \"git submodule update --init --recursive\"")
+    endif()
+
+    set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL " " FORCE)
+    set(GLFW_BUILD_TESTS OFF CACHE BOOL " " FORCE)
+    set(GLFW_BUILD_DOCS OFF CACHE BOOL " " FORCE)
+    set(GLFW_BUILD_INSTALL OFF CACHE BOOL " " FORCE)
+    set(GLFW_INSTALL OFF CACHE BOOL " " FORCE)
+    set(GLFW_USE_CHDIR OFF CACHE BOOL " " FORCE)
+    set(BUILD_SHARED_LIBS ${NANOGUI_BUILD_SHARED} CACHE BOOL " " FORCE)
+
+    add_subdirectory(ext/glfw)
+    set_target_properties(glfw PROPERTIES EXCLUDE_FROM_ALL 1 EXCLUDE_FROM_DEFAULT_BUILD 1)
+    include_directories(ext/glfw/include)
+  else()
+    find_package(glfw3 REQUIRED)
+    set_target_properties(glfw PROPERTIES EXCLUDE_FROM_ALL 1 EXCLUDE_FROM_DEFAULT_BUILD 1)
+    get_target_property(GLFW_INCLUDE_DIR glfw INCLUDE_DIRECTORIES)
+    # include_directories(${GLFW_INCLUDE_DIR})
+    list(APPEND NANOGUI_EXTRA_LIBS glfw)
+    list(APPEND NANOGUI_EXTRA_INCS ${GLFW_INCLUDE_DIR})
+  endif()
+elseif (NANOGUI_DX11_BACKEND)
+
 endif()
+
+if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  # Quench annoying deprecation warnings when compiling GLFW on OSX
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-deprecated-declarations")
+endif()
+
 
 # Run simple cmake converter to put font files into the data segment
 
@@ -518,10 +529,10 @@ if (CMAKE_GENERATOR STREQUAL Xcode)
   add_library(nanogui ${NANOGUI_LIBRARY_TYPE}
     ${XCODE_DUMMY}
     $<TARGET_OBJECTS:nanogui-obj>
-    $<TARGET_OBJECTS:glfw_objects>
+    # $<TARGET_OBJECTS:glfw_objects>
   )
 else()
-  if (NANOGUI_GL_BACKEND OR NANOGUI_VULKAN_BACKEND)
+  if (NANOGUI_GL_BACKEND OR NANOGUI_VULKAN_BACKEND AND NANOGUI_GLFW_NOSDK)
     add_library(nanogui ${NANOGUI_LIBRARY_TYPE}
       $<TARGET_OBJECTS:nanogui-obj>
       $<TARGET_OBJECTS:glfw_objects>
@@ -532,6 +543,8 @@ else()
     )
   endif()
 endif()
+target_include_directories(nanogui PUBLIC include)
+target_link_libraries(nanogui nanovg)
 
 if (NANOGUI_BUILD_SHARED)
   set_property(TARGET nanogui-obj PROPERTY POSITION_INDEPENDENT_CODE ON)
@@ -672,11 +685,11 @@ if (NANOGUI_BUILD_PYTHON)
   set_target_properties(nanogui-obj PROPERTIES POSITION_INDEPENDENT_CODE ON)
   
   set(PYTHON_BACKEND_SOURCES "")  
-  if (NANOGUI_VULKAN_BACKEND)
+  if (NANOGUI_VULKAN_BACKEND AND NANOGUI_GLFW_NOSDK)
     set_target_properties(glfw_objects PROPERTIES POSITION_INDEPENDENT_CODE ON)
   endif()  
 
-  if (NANOGUI_GL_BACKEND)  
+  if (NANOGUI_GL_BACKEND AND NANOGUI_GLFW_NOSDK)
     set_target_properties(glfw_objects PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
     list(APPEND PYTHON_BACKEND_SOURCES 

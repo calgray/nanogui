@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string.h>
 #include "nanovg.h"
 
 enum NVGcreateFlags {
@@ -13,16 +12,8 @@ enum NVGcreateFlags {
   NVG_DEBUG = 1 << 2,
 };
 
-typedef struct VKNVGCreateInfo {
-  VkPhysicalDevice gpu;
-  VkDevice device;
-  VkRenderPass renderpass;
-  VkCommandBuffer cmdBuffer;
-  VkQueue graphicsQueue;
-  VkCommandPool cmdPool;
+typedef struct VKNVGCreateInfo VKNVGCreateInfo;
 
-  const VkAllocationCallbacks *allocator; //Allocator for vulkan. can be null
-} VKNVGCreateInfo;
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -35,6 +26,7 @@ void nvgDeleteVk(NVGcontext *ctx);
 
 #ifdef NANOVG_VULKAN_IMPLEMENTATION
 
+#include <vulkan/vulkan.hpp>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
@@ -51,6 +43,17 @@ void nvgDeleteVk(NVGcontext *ctx);
       assert(res == VK_SUCCESS); \
     }                            \
   }
+
+struct VKNVGCreateInfo {
+  VkPhysicalDevice gpu;
+  VkDevice device;
+  VkRenderPass renderpass;
+  VkCommandBuffer cmdBuffer;
+  VkQueue graphicsQueue;
+  VkCommandPool cmdPool;
+
+  const VkAllocationCallbacks *allocator; //Allocator for vulkan. can be null
+};
 
 enum VKNVGshaderType {
   NSVG_SHADER_FILLGRAD,
