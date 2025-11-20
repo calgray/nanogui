@@ -11,6 +11,8 @@
     BSD-style license that can be found in the LICENSE.txt file.
 */
 
+#include <eigen3/Eigen/Dense>
+
 #include <nanovg.h>
 #include <nanogui/glutil.h>
 #include <nanogui/screen.h>
@@ -68,10 +70,14 @@ using std::vector;
 using std::pair;
 using std::to_string;
 
-#ifdef NANOGUI_GL_BACKEND
+namespace Eigen {
+    using MatrixXu = Eigen::MatrixX<unsigned int>;
+}
+
+#ifdef NANOGUI_OPENGL_BACKEND
 class MyGLCanvas : public nanogui::GLCanvas {
 public:
-    MyGLCanvas(Widget *parent) : nanogui::GLCanvas(parent), mRotation(nanogui::Vector3f(0.25f, 0.5f, 0.33f)) {
+    MyGLCanvas(Widget *parent) : nanogui::GLCanvas(parent), mRotation(Eigen::Vector3f(0.25f, 0.5f, 0.33f)) {
         using namespace nanogui;
 
         mShader.init(
@@ -98,7 +104,7 @@ public:
             "}"
         );
 
-        MatrixXu indices(3, 12); /* Draw a cube */
+        Eigen::MatrixXu indices(3, 12); /* Draw a cube */
         indices.col( 0) << 0, 1, 3;
         indices.col( 1) << 3, 2, 1;
         indices.col( 2) << 3, 2, 6;
@@ -112,7 +118,7 @@ public:
         indices.col(10) << 5, 6, 2;
         indices.col(11) << 2, 1, 5;
 
-        MatrixXf positions(3, 8);
+        Eigen::MatrixXf positions(3, 8);
         positions.col(0) << -1,  1,  1;
         positions.col(1) << -1,  1, -1;
         positions.col(2) <<  1,  1, -1;
@@ -122,7 +128,7 @@ public:
         positions.col(6) <<  1, -1, -1;
         positions.col(7) <<  1, -1,  1;
 
-        MatrixXf colors(3, 12);
+        Eigen::MatrixXf colors(3, 12);
         colors.col( 0) << 1, 0, 0;
         colors.col( 1) << 0, 1, 0;
         colors.col( 2) << 1, 1, 0;
@@ -147,7 +153,7 @@ public:
         mShader.free();
     }
 
-    void setRotation(nanogui::Vector3f vRotation) {
+    void setRotation(Eigen::Vector3f vRotation) {
         mRotation = vRotation;
     }
 
@@ -156,12 +162,12 @@ public:
 
         mShader.bind();
 
-        Matrix4f mvp;
+        Eigen::Matrix4f mvp;
         mvp.setIdentity();
         float fTime = (float)glfwGetTime();
-        mvp.topLeftCorner<3,3>() = Eigen::Matrix3f(Eigen::AngleAxisf(mRotation[0]*fTime, Vector3f::UnitX()) *
-                                                   Eigen::AngleAxisf(mRotation[1]*fTime,  Vector3f::UnitY()) *
-                                                   Eigen::AngleAxisf(mRotation[2]*fTime, Vector3f::UnitZ())) * 0.25f;
+        mvp.topLeftCorner<3,3>() = Eigen::Matrix3f(Eigen::AngleAxisf(mRotation[0]*fTime, Eigen::Vector3f::UnitX()) *
+                                                   Eigen::AngleAxisf(mRotation[1]*fTime,  Eigen::Vector3f::UnitY()) *
+                                                   Eigen::AngleAxisf(mRotation[2]*fTime, Eigen::Vector3f::UnitZ())) * 0.25f;
 
         mShader.setUniform("modelViewProj", mvp);
 
@@ -181,7 +187,7 @@ using namespace nanogui;
 class ExampleScreen : public Screen {
 public:
   ExampleScreen() : Screen(Vector2i(1600, 900), "NanoGUI Test", false) {
-#ifdef NANOGUI_GL_BACKEND
+#ifdef NANOGUI_OPENGL_BACKEND
         Window *window = new Window(this, "GLCanvas Demo");
 #else
         Window *window = new Window(this, "GLCanvas Demo (Wrong backend!!!!!)");
@@ -189,7 +195,7 @@ public:
         window->setPosition(Vector2i(15, 15));
         window->setLayout(new GroupLayout());
 
-#ifdef NANOGUI_GL_BACKEND
+#ifdef NANOGUI_OPENGL_BACKEND
         mCanvas = new MyGLCanvas(window);
         mCanvas->setBackgroundColor({100, 100, 100, 255});
         mCanvas->setSize({400, 400});
@@ -198,11 +204,13 @@ public:
         tools->setLayout(new BoxLayout(Orientation::Horizontal,
                                        Alignment::Middle, 0, 5));
 
-        Button *b0 = new Button(tools, "Random Color");
-        b0->setCallback([this]() { mCanvas->setBackgroundColor(Vector4i(rand() % 256, rand() % 256, rand() % 256, 255)); });
+        Button *b0 = new Button(tools);
+        b0->setCaption("Random Color");
+        b0->setCallback([this]() { mCanvas->setBackgroundColor(nanogui::Color(rand() % 256, rand() % 256, rand() % 256, 255)); });
 
-        Button *b1 = new Button(tools, "Random Rotation");
-        b1->setCallback([this]() { mCanvas->setRotation(nanogui::Vector3f((rand() % 100) / 100.0f, (rand() % 100) / 100.0f, (rand() % 100) / 100.0f)); });
+        Button *b1 = new Button(tools);
+        b1->setCaption("Random Rotation");
+        b1->setCallback([this]() { mCanvas->setRotation(Eigen::Vector3f((rand() % 100) / 100.0f, (rand() % 100) / 100.0f, (rand() % 100) / 100.0f)); });
 #endif
         performLayout();
     }
@@ -222,7 +230,7 @@ public:
         Screen::draw(ctx);
     }
 private:
-#ifdef NANOGUI_GL_BACKEND
+#ifdef NANOGUI_OPENGL_BACKEND
     MyGLCanvas *mCanvas;
 #endif
 };

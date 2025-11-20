@@ -57,7 +57,7 @@ void register_widget(py::module &m) {
         .def("setFocused", &Widget::setFocused, D(Widget, setFocused))
         .def("requestFocus", &Widget::requestFocus, D(Widget, requestFocus))
         .def("tooltip", &Widget::tooltip, D(Widget, tooltip))
-        .def("setTooltip", &Widget::setTooltip, D(Widget, setTooltip))
+        .def("setTooltip", (void(Widget::*)(const std::string&))&Widget::setTooltip, D(Widget, setTooltip))
         .def("fontSize", &Widget::fontSize, D(Widget, fontSize))
         .def("setFontSize", &Widget::setFontSize, D(Widget, setFontSize))
         .def("hasFontSize", &Widget::hasFontSize, D(Widget, hasFontSize))

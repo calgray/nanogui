@@ -52,9 +52,10 @@ void register_button(py::module &m) {
 
     py::class_<PopupButton, Button, ref<PopupButton>, PyPopupButton> popupBtn(m, "PopupButton", D(PopupButton));
     popupBtn
-        .def(py::init<Widget *, const std::string&, int>(),
-                py::arg("parent"), py::arg("caption") = std::string("Untitled"),
-                py::arg("buttonIcon") = 0, D(PopupButton, PopupButton))
+        .def(py::init<Widget *>(), D(PopupButton, PopupButton))
+        // .def(py::init<Widget *, const std::string&, int>(),
+        //         py::arg("parent"), py::arg("caption") = std::string("Untitled"),
+        //         py::arg("buttonIcon") = 0, D(PopupButton, PopupButton))
         .def("popup", (Popup*(PopupButton::*)(void)) &PopupButton::popup, D(PopupButton, popup))
         .def("chevronIcon", &PopupButton::chevronIcon, D(PopupButton, chevronIcon))
         .def("setChevronIcon", &PopupButton::setChevronIcon, D(PopupButton, setChevronIcon))

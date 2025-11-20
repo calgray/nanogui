@@ -287,6 +287,11 @@ void setup_window_params(WindowHandle hw_window, Screen* s)
       screen->focusEvent(focused != 0);
   });
 
+  glfwSetWindowCloseCallback((GLFWwindow*)hw_window,
+    [](GLFWwindow *) {
+      exit(0);
+  });
+
   screen->initClipboardSetHandler([hw_window](std::string text) { glfwSetClipboardString((GLFWwindow*)hw_window, text.c_str()); });
   screen->initClipboardGetHandler([hw_window]() { return glfwGetClipboardString((GLFWwindow*)hw_window); });
 

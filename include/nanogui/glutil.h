@@ -15,8 +15,11 @@
 #if NANOGUI_OPENGL_BACKEND
 
 #include <nanogui/opengl.h>
+
+#include <eigen3/Eigen/Dense>
 #include <string>
 #include <map>
+#include <stdexcept>
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 namespace half_float { class half; }
@@ -223,7 +226,7 @@ public:
     void drawIndexed(int type, uint32_t offset, uint32_t count);
 
     /// Initialize a uniform parameter with a 4x4 matrix (float)
-    /*template <typename T>
+    template <typename T>
     void setUniform(const std::string &name, const Eigen::Matrix<T, 4, 4> &mat, bool warn = true) {
         glUniformMatrix4fv(uniform(name, warn), 1, GL_FALSE, mat.template cast<float>().data());
     }
@@ -244,7 +247,7 @@ public:
     template <typename T>
     void setUniform(const std::string &name, const Eigen::Transform<T, 2, 2> &affine, bool warn = true) {
         glUniformMatrix3fv(uniform(name, warn), 1, GL_FALSE, affine.template cast<float>().data());
-    }*/
+    }
 
     /// Initialize a uniform parameter with a boolean value
     void setUniform(const std::string &name, bool value, bool warn = true) {
