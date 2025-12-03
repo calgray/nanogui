@@ -1,17 +1,8 @@
 # NanoGUI<!-- omit from toc -->
 
-[![Docs](https://readthedocs.org/projects/nanogui/badge/?version=latest)](http://nanogui.readthedocs.org/en/latest/?badge=latest)
-[![Travis Build Status](https://travis-ci.org/dalerank/nanogui.svg?branch=master)](https://travis-ci.org/dalerank/nanogui)
-[![Appveyor Build Status](https://ci.appveyor.com/api/projects/status/m8h3uyvdb4ej2i02/branch/master?svg=true)](https://ci.appveyor.com/project/dalerank/nanogui/branch/master)
-[![Discord channel](https://img.shields.io/discord/645931749360009216.svg?color=7389D8&label=%20&logo=discord&logoColor=ffffff)](https://discordapp.com/channels/645931749360009216/645931749360009219)
+[![Docs](https://readthedocs.org/projects/nanogui/badge/?version=latest)](http://nanogui.readthedocs.org/en/latest/?badge=latest) [![Travis Build Status](https://travis-ci.org/dalerank/nanogui.svg?branch=master)](https://travis-ci.org/dalerank/nanogui) [![Appveyor Build Status](https://ci.appveyor.com/api/projects/status/m8h3uyvdb4ej2i02/branch/master?svg=true)](https://ci.appveyor.com/project/dalerank/nanogui/branch/master) [![Discord channel](https://img.shields.io/discord/645931749360009216.svg?color=7389D8&label=%20&logo=discord&logoColor=ffffff)](https://discordapp.com/channels/645931749360009216/645931749360009219)
 
-NanoGUI is a minimalistic cross-platform widget library for OpenGL
-3.x/DirectX11\[12\]/Vulkan. It supports automatic layout generation,
-stateful C++11 lambdas callbacks, a variety of useful widget types and
-Retina-capable rendering on Apple devices thanks to
-[NanoVG](https://github.com/memononen/NanoVG) by Mikko Mononen. Python
-bindings of all functionality are provided using
-[pybind11](https://github.com/wjakob/pybind11).
+NanoGUI is a minimalistic cross-platform widget library for OpenGL 3.x/DirectX11[12]/Vulkan. It supports automatic layout generation, stateful C++11 lambdas callbacks, a variety of useful widget types and Retina-capable rendering on Apple devices thanks to [NanoVG](https://github.com/memononen/NanoVG) by Mikko Mononen. Python bindings of all functionality are provided using [pybind11](https://github.com/wjakob/pybind11).
 
 - [Documentation](https://nanogui.readthedocs.io)
 
@@ -46,29 +37,17 @@ DropdownBox
 
 ## Description
 
-NanoGUI builds on [GLFW](http://www.glfw.org/)/Win32 native (dx11/12)
-for cross-platform context creation and event handling, and
-[NanoVG](https://github.com/memononen/NanoVG) to draw 2D primitives.
+NanoGUI builds on [GLFW](http://www.glfw.org/)/Win32 native (dx11/12) for cross-platform context creation and event handling, and [NanoVG](https://github.com/memononen/NanoVG) to draw 2D primitives.
 
-Note that the dependency library NanoVG already includes some basic
-example code to draw good-looking static widgets; what NanoGUI does is
-to flesh it out into a complete GUI toolkit with event handling, layout
-generation, etc.
+Note that the dependency library NanoVG already includes some basic example code to draw good-looking static widgets; what NanoGUI does is to flesh it out into a complete GUI toolkit with event handling, layout generation, etc.
 
-NanoGUI currently works on Mac OS X (Clang) Linux (GCC or Clang) and
-Windows (Visual Studio ≥ 2015); it requires a recent C++11 capable
-compiler. All dependencies are jointly built using a CMake-based build
-system.
+NanoGUI currently works on Mac OS X (Clang) Linux (GCC or Clang) and Windows (Visual Studio ≥ 2015); it requires a recent C++11 capable compiler. All dependencies are jointly built using a CMake-based build system.
 
 ## Creating widgets
 
-NanoGUI makes it easy to instantiate widgets, set layout constraints,
-and register event callbacks using high-level C++11 code. For instance,
-the following two lines from the included example application add a new
-button to an existing window [window]{.title-ref} and register an event
-callback.
+NanoGUI makes it easy to instantiate widgets, set layout constraints, and register event callbacks using high-level C++11 code. For instance, the following two lines from the included example application add a new button to an existing window [window]{.title-ref} and register an event callback.
 
-``` cpp
+```cpp
 Button *b = new Button(window, "Plain button");
 b->setCallback([] { cout << "pushed!" << endl; });
 
@@ -79,11 +58,9 @@ elm::Button{ Caption{ "Plain button"},
 };
 ```
 
-The following lines from the example application create the coupled
-slider and text box on the bottom of the second window (see the
-screenshot).
+The following lines from the example application create the coupled slider and text box on the bottom of the second window (see the screenshot).
 
-``` cpp
+```cpp
 /* Create an empty panel with a horizontal layout */
 Widget *panel = new Widget(window);
 panel->setLayout(new BoxLayout(BoxLayout::Horizontal, BoxLayout::Middle, 0, 20));
@@ -125,7 +102,7 @@ elm::Widget{
 
 The Python version of this same piece of code looks like this:
 
-``` py
+```py
 # Create an empty panel with a horizontal layout
 panel = Widget(window)
 panel.setLayout(BoxLayout(BoxLayout.Horizontal, BoxLayout.Middle, 0, 20))
@@ -147,16 +124,13 @@ def cb(value):
 slider.setCallback(cb)
 ```
 
-## \"Simple mode\"
+## "Simple mode"
 
-Christian Schüller contributed a convenience class that makes it
-possible to create AntTweakBar-style variable manipulators using just a
-few lines of code. For instance, the source code below was used to
-create the following example application.
+Christian Schüller contributed a convenience class that makes it possible to create AntTweakBar-style variable manipulators using just a few lines of code. For instance, the source code below was used to create the following example application.
 
 <span style="display:block;text-align:center">![Screenshot](https://github.com/wjakob/nanogui/raw/master/resources/screenshot2.png)
 
-``` cpp
+```cpp
 /// dvar, bar, strvar, etc. are double/bool/string/.. variables
 
 FormHelper *gui = new FormHelper(screen);
@@ -185,52 +159,40 @@ window->center();
 
 ## Compiling
 
-Clone the repository and all dependencies (with
-`git clone --recursive`), run CMake to generate Makefiles or
-CMake/Visual Studio project files, and the rest should just work
-automatically.
+Clone the repository and all dependencies (with `git clone --recursive`), run CMake to generate Makefiles or CMake/Visual Studio project files, and the rest should just work automatically.
 
-On Debian/Ubuntu, make sure that you have installed the following
-packages
+On Debian/Ubuntu, make sure that you have installed the following packages
 
-``` bash
-$ apt-get install cmake xorg-dev libglu1-mesa-dev
+```bash
+apt-get install cmake xorg-dev libglu1-mesa-dev
 ```
 
-To also get the Python bindings, you\'ll need to run
+To also get the Python bindings, you'll need to run
 
-``` bash
-$ apt-get install python-dev
+```bash
+apt-get install python-dev
 ```
 
-On RedHat/Fedora, make sure that you have installed the following
-packages
+On RedHat/Fedora, make sure that you have installed the following packages
 
-``` bash
-$ sudo dnf install cmake mesa-libGLU-devel libXi-devel libXcursor-devel libXinerama-devel libXrandr-devel xorg-x11-server-devel
+```bash
+sudo dnf install cmake mesa-libGLU-devel libXi-devel libXcursor-devel libXinerama-devel libXrandr-devel xorg-x11-server-devel
 ```
 
-To also get the Python bindings, you\'ll need to run
+To also get the Python bindings, you'll need to run
 
-``` bash
-$ sudo dnf install python3-devel
+```bash
+sudo dnf install python3-devel
 ```
 
 To build editor, you will need to run
 
-``` bash
-$ mkdir build && cd build && cmake -DNANOGUI_USE_GLAD=ON .. && make editor
+```bash
+mkdir build && cd build && cmake -DNANOGUI_USE_GLAD=ON .. && make editor
 ```
 
 ## License
 
-NanoGUI is provided under a BSD-style license that can be found in the
-[LICENSE](https://github.com/wjakob/nanogui/blob/master/LICENSE.txt)
-file. By using, distributing, or contributing to this project, you agree
-to the terms and conditions of this license.
+NanoGUI is provided under a BSD-style license that can be found in the [LICENSE](https://github.com/wjakob/nanogui/blob/master/LICENSE.txt) file. By using, distributing, or contributing to this project, you agree to the terms and conditions of this license.
 
-NanoGUI uses Daniel Bruce\'s [Entypo+](http://www.entypo.com/) font for
-the icons used on various widgets. This work is licensed under a [CC
-BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) license.
-Commercial entities using NanoGUI should consult the proper legal
-counsel for how to best adhere to the attribution clause of the license.
+NanoGUI uses Daniel Bruce's [Entypo+](http://www.entypo.com/) font for the icons used on various widgets. This work is licensed under a [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) license. Commercial entities using NanoGUI should consult the proper legal counsel for how to best adhere to the attribution clause of the license.

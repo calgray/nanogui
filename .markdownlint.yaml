@@ -1,0 +1,26 @@
+# Default state for all rules
+default: true
+
+# MD004/ul-style - Unordered list style
+ul-style:
+  style: dash
+
+# MD013/line-length - Line length
+line-length:
+  line_length: 99999
+  code_block_line_length: 99999
+  tables: false
+
+# MD024/no-duplicate-heading - Multiple headers with same content
+no-duplicate-heading:
+  siblings_only: true
+
+# MD028/no-blanks-blockquote - Blank line inside blockquote
+no-blanks-blockquote: false
+
+# MD033/no-inline-html - Inline HTML
+no-inline-html: false
+
+# MD035/hr-style - Horizontal rule style
+hr-style:
+  style: "---"
